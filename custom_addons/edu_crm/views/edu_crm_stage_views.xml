@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_edu_crm_stage_list" model="ir.ui.view">
+        <field name="name">edu.crm.stage.list</field>
+        <field name="model">edu.crm.stage</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="fold"/>
+                <field name="is_won"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_crm_stage" model="ir.actions.act_window">
+        <field name="name">Pipeline Stages</field>
+        <field name="res_model">edu.crm.stage</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_edu_lead_lost_reason_list" model="ir.ui.view">
+        <field name="name">edu.lead.lost.reason.list</field>
+        <field name="model">edu.lead.lost.reason</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_lead_lost_reason" model="ir.actions.act_window">
+        <field name="name">Lost Reasons</field>
+        <field name="res_model">edu.lead.lost.reason</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

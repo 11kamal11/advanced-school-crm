@@ -1,0 +1,13 @@
+[options]
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/home/emizen/Desktop/odoo-school-crm/custom_addons
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = CHANGE_ME
+db_name = school_crm
+http_port = 8071
+data_dir = /home/emizen/Desktop/odoo-school-crm/data
+logfile = /home/emizen/Desktop/odoo-school-crm/logs/odoo.log
+log_level = info
+admin_passwd = CHANGE_ME_TO_A_LONG_RANDOM_PASSWORD
+list_db = True

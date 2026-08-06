@@ -1,0 +1,77 @@
+<odoo>
+    <record id="view_edu_teacher_list" model="ir.ui.view">
+        <field name="name">edu.teacher.list</field>
+        <field name="model">edu.teacher</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_code"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_teacher_form" model="ir.ui.view">
+        <field name="name">edu.teacher.form</field>
+        <field name="model">edu.teacher</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_set_active" string="Set Active" type="object"
+                            invisible="state == 'active'"/>
+                    <button name="action_set_on_leave" string="Set On Leave" type="object"
+                            invisible="state == 'on_leave'"/>
+                    <button name="action_set_resigned" string="Set Resigned" type="object"
+                            invisible="state == 'resigned'"/>
+                    <field name="is_published" widget="website_redirect_button"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_code"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                        </group>
+                        <group>
+                            <field name="qualification"/>
+                            <field name="experience_years"/>
+                            <field name="specialization"/>
+                            <field name="date_of_joining"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Subjects &amp; Classes">
+                            <field name="subject_ids" widget="many2many_tags"/>
+                            <field name="class_ids"/>
+                        </page>
+                        <page string="Address">
+                            <field name="address"/>
+                        </page>
+                        <page string="Public Profile">
+                            <field name="bio"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_teacher" model="ir.actions.act_window">
+        <field name="name">Teachers</field>
+        <field name="res_model">edu.teacher</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

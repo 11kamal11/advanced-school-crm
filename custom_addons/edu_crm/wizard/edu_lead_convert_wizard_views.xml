@@ -1,0 +1,29 @@
+<odoo>
+    <record id="view_edu_lead_convert_wizard_form" model="ir.ui.view">
+        <field name="name">edu.lead.convert.wizard.form</field>
+        <field name="model">edu.lead.convert.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="lead_id" invisible="1"/>
+                <group string="Student">
+                    <field name="student_name"/>
+                    <field name="student_dob"/>
+                    <field name="gender"/>
+                    <field name="previous_school"/>
+                    <field name="class_applying_id"/>
+                    <field name="address"/>
+                </group>
+                <group string="Guardian">
+                    <field name="guardian_name"/>
+                    <field name="guardian_phone"/>
+                    <field name="guardian_email"/>
+                    <field name="relationship"/>
+                </group>
+                <footer>
+                    <button name="action_convert" string="Create Application" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

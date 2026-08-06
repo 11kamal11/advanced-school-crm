@@ -1,0 +1,159 @@
+:root {
+    --edu-primary: #163B5C;
+    --edu-primary-dark: #0E2740;
+    --edu-accent: #2E86C1;
+    --edu-accent-light: #EAF2F8;
+    --edu-ink: #1C2B36;
+    --edu-muted: #5B6B79;
+}
+
+.edu-navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.edu-hero {
+    background: linear-gradient(135deg, var(--edu-primary) 0%, var(--edu-primary-dark) 100%);
+    color: #fff;
+    padding: 6rem 0 5rem;
+}
+
+.edu-hero h1 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 2.75rem;
+}
+
+.edu-hero p.lead {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.15rem;
+    max-width: 42rem;
+}
+
+.edu-hero .btn-edu-primary {
+    background-color: #fff;
+    color: var(--edu-primary);
+    font-weight: 600;
+    border: none;
+    padding: 0.7rem 1.6rem;
+}
+
+.edu-hero .btn-edu-primary:hover {
+    background-color: var(--edu-accent-light);
+    color: var(--edu-primary-dark);
+}
+
+.edu-hero .btn-edu-outline {
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.7rem 1.6rem;
+}
+
+.edu-hero .btn-edu-outline:hover {
+    border-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.edu-section {
+    padding: 4.5rem 0;
+}
+
+.edu-section-alt {
+    background-color: #F7F9FB;
+}
+
+.edu-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--edu-accent);
+}
+
+.edu-section-title {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--edu-ink);
+}
+
+.edu-section-subtitle {
+    color: var(--edu-muted);
+    max-width: 40rem;
+}
+
+.edu-card {
+    border: 1px solid #E7ECF1;
+    border-radius: 0.75rem;
+    background: #fff;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    height: 100%;
+}
+
+.edu-card:hover {
+    box-shadow: 0 12px 28px rgba(22, 59, 92, 0.12);
+    transform: translateY(-3px);
+}
+
+.edu-card-body {
+    padding: 1.75rem;
+}
+
+.edu-card-img {
+    height: 160px;
+    background-color: var(--edu-accent-light);
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.edu-badge {
+    display: inline-block;
+    background-color: var(--edu-accent-light);
+    color: var(--edu-primary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+}
+
+.edu-faculty-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--edu-accent-light);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 10px rgba(22, 59, 92, 0.15);
+}
+
+.edu-cta-banner {
+    background-color: var(--edu-primary);
+    color: #fff;
+    border-radius: 1rem;
+    padding: 3rem;
+}
+
+.edu-cta-banner h3 {
+    font-weight: 700;
+}
+
+.edu-form-card {
+    border: 1px solid #E7ECF1;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    background: #fff;
+}
+
+.edu-stat-number {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--edu-primary);
+}
+
+.edu-stat-label {
+    color: var(--edu-muted);
+    font-size: 0.9rem;
+}

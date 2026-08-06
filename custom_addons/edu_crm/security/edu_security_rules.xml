@@ -1,0 +1,191 @@
+<odoo>
+    <!-- Teachers only see classes they are the class teacher of, or where they teach a subject -->
+    <record id="rule_edu_class_teacher" model="ir.rule">
+        <field name="name">Teacher: own classes only</field>
+        <field name="model_id" ref="model_edu_class"/>
+        <field name="domain_force">['|', ('class_teacher_id.user_id', '=', user.id), ('subject_ids.teacher_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <record id="rule_edu_student_teacher" model="ir.rule">
+        <field name="name">Teacher: own class students only</field>
+        <field name="model_id" ref="model_edu_student"/>
+        <field name="domain_force">['|', ('class_id.class_teacher_id.user_id', '=', user.id), ('class_id.subject_ids.teacher_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <record id="rule_edu_attendance_teacher" model="ir.rule">
+        <field name="name">Teacher: own class attendance only</field>
+        <field name="model_id" ref="model_edu_attendance"/>
+        <field name="domain_force">['|', ('class_id.class_teacher_id.user_id', '=', user.id), ('teacher_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <!-- The parent session/exam rules above don't cascade to these child line/result
+         models; each needs its own row-level rule or a teacher could read/edit every
+         other class's attendance and exam marks directly. -->
+    <record id="rule_edu_attendance_line_teacher" model="ir.rule">
+        <field name="name">Teacher: own class attendance lines only</field>
+        <field name="model_id" ref="model_edu_attendance_line"/>
+        <field name="domain_force">['|', ('attendance_id.class_id.class_teacher_id.user_id', '=', user.id), ('attendance_id.teacher_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <record id="rule_edu_exam_teacher" model="ir.rule">
+        <field name="name">Teacher: own class exams only</field>
+        <field name="model_id" ref="model_edu_exam"/>
+        <field name="domain_force">['|', ('class_id.class_teacher_id.user_id', '=', user.id), ('subject_id.teacher_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <record id="rule_edu_exam_result_teacher" model="ir.rule">
+        <field name="name">Teacher: own class exam results only</field>
+        <field name="model_id" ref="model_edu_exam_result"/>
+        <field name="domain_force">['|', ('exam_id.class_id.class_teacher_id.user_id', '=', user.id), ('exam_id.subject_id.teacher_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <record id="rule_edu_timetable_teacher" model="ir.rule">
+        <field name="name">Teacher: own timetable only</field>
+        <field name="model_id" ref="model_edu_timetable"/>
+        <field name="domain_force">['|', ('class_id.class_teacher_id.user_id', '=', user.id), ('teacher_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <!-- Teachers may only see leave requests for students in their own class, or their own
+         personal leave requests; not every colleague's or every other class's requests. -->
+    <record id="rule_edu_leave_request_teacher" model="ir.rule">
+        <field name="name">Teacher: own class students' or own leave requests only</field>
+        <field name="model_id" ref="model_edu_leave_request"/>
+        <field name="domain_force">['|', '|', ('student_id.class_id.class_teacher_id.user_id', '=', user.id), ('student_id.class_id.subject_ids.teacher_ids.user_id', '=', user.id), ('teacher_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_teacher'))]"/>
+    </record>
+
+    <!-- Admins and Principals both imply Teacher (via Front Desk), so without an explicit
+         override rule the Teacher-scoped rules above would also restrict them. Grant both
+         unrestricted access on every model that carries a Teacher-scoped rule. Principal is
+         a sibling of Admin (not implied by it), so this is the only place their oversight
+         access is granted; they still cannot reach the admin-only Configuration menu. -->
+    <record id="rule_edu_student_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all students</field>
+        <field name="model_id" ref="model_edu_student"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_class_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all classes</field>
+        <field name="model_id" ref="model_edu_class"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_attendance_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all attendance</field>
+        <field name="model_id" ref="model_edu_attendance"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_attendance_line_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all attendance lines</field>
+        <field name="model_id" ref="model_edu_attendance_line"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_exam_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all exams</field>
+        <field name="model_id" ref="model_edu_exam"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_exam_result_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all exam results</field>
+        <field name="model_id" ref="model_edu_exam_result"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_timetable_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all timetable slots</field>
+        <field name="model_id" ref="model_edu_timetable"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_leave_request_admin" model="ir.rule">
+        <field name="name">Admin/Principal: all leave requests</field>
+        <field name="model_id" ref="model_edu_leave_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_admin')), (4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <!-- Front Desk also implies Teacher; they need to see the full class/student list to
+         enroll and manage anyone, even though they aren't a class/subject teacher themselves. -->
+    <record id="rule_edu_class_frontdesk" model="ir.rule">
+        <field name="name">Front Desk: all classes</field>
+        <field name="model_id" ref="model_edu_class"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_frontdesk'))]"/>
+    </record>
+
+    <record id="rule_edu_student_frontdesk" model="ir.rule">
+        <field name="name">Front Desk: all students</field>
+        <field name="model_id" ref="model_edu_student"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_frontdesk'))]"/>
+    </record>
+
+    <record id="rule_edu_leave_request_frontdesk" model="ir.rule">
+        <field name="name">Front Desk: all leave requests</field>
+        <field name="model_id" ref="model_edu_leave_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_frontdesk'))]"/>
+    </record>
+
+    <!-- Portal (parent/guardian) access: strictly scoped to one's own children,
+         via edu.guardian.partner_id = the logged-in portal user's partner. -->
+    <record id="rule_edu_student_portal" model="ir.rule">
+        <field name="name">Portal: own children only</field>
+        <field name="model_id" ref="model_edu_student"/>
+        <field name="domain_force">[('guardian_ids.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="rule_edu_fee_portal" model="ir.rule">
+        <field name="name">Portal: fees for own children only</field>
+        <field name="model_id" ref="model_edu_fee"/>
+        <field name="domain_force">[('student_id.guardian_ids.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="rule_edu_exam_result_portal" model="ir.rule">
+        <field name="name">Portal: exam results for own children only</field>
+        <field name="model_id" ref="model_edu_exam_result"/>
+        <field name="domain_force">[('student_id.guardian_ids.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="rule_edu_attendance_line_portal" model="ir.rule">
+        <field name="name">Portal: attendance for own children only</field>
+        <field name="model_id" ref="model_edu_attendance_line"/>
+        <field name="domain_force">[('student_id.guardian_ids.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="rule_edu_leave_request_portal" model="ir.rule">
+        <field name="name">Portal: leave requests for own children only</field>
+        <field name="model_id" ref="model_edu_leave_request"/>
+        <field name="domain_force">[('student_id.guardian_ids.partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="rule_edu_announcement_portal" model="ir.rule">
+        <field name="name">Portal: portal-visible announcements only</field>
+        <field name="model_id" ref="model_edu_announcement"/>
+        <field name="domain_force">[('is_portal_visible', '=', True)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+</odoo>

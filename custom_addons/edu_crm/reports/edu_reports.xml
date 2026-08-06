@@ -1,0 +1,203 @@
+<odoo>
+
+    <!-- ============================= Student Report Card ============================= -->
+    <template id="report_student_card_document">
+        <t t-call="web.external_layout" o="doc">
+            <div class="page">
+                <h2>Student Report Card</h2>
+                <div class="row mb-4">
+                    <div class="col-8">
+                        <strong t-field="doc.name"/><br/>
+                        Student Code: <span t-field="doc.student_code"/><br/>
+                        Class: <span t-field="doc.class_id.display_name"/>
+                        <span t-if="doc.roll_number"> - Roll No. <span t-field="doc.roll_number"/></span><br/>
+                        Academic Year: <span t-field="doc.academic_year_id.name"/>
+                    </div>
+                    <div class="col-4 text-end">
+                        <img t-if="doc.image" t-att-src="image_data_uri(doc.image)"
+                             style="max-height: 100px; border-radius: 4px;"/>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4">
+                        <strong>Attendance:</strong>
+                        <span t-field="doc.attendance_percentage"/>%
+                    </div>
+                    <div class="col-4">
+                        <strong>Total Exams:</strong>
+                        <span t-out="len(doc.exam_result_ids)"/>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-sm" t-if="doc.exam_result_ids">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>Exam</th>
+                            <th>Subject</th>
+                            <th class="text-end">Marks</th>
+                            <th class="text-end">Max Marks</th>
+                            <th class="text-end">Percentage</th>
+                            <th>Grade</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.exam_result_ids" t-as="result">
+                            <td><span t-field="result.exam_id.name"/></td>
+                            <td><span t-field="result.exam_id.subject_id.name"/></td>
+                            <td class="text-end"><span t-field="result.marks_obtained"/></td>
+                            <td class="text-end"><span t-field="result.exam_id.max_marks"/></td>
+                            <td class="text-end"><span t-field="result.percentage"/>%</td>
+                            <td><span t-field="result.grade"/></td>
+                            <td>
+                                <span t-if="result.is_passed" class="badge text-bg-success">Pass</span>
+                                <span t-else="" class="badge text-bg-danger">Fail</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-else="" class="text-muted">No exam results recorded yet.</p>
+
+                <div class="mt-5 pt-5 row">
+                    <div class="col-6 border-top pt-2">Class Teacher Signature</div>
+                    <div class="col-6 border-top pt-2 text-end">Principal Signature</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_student_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="edu_crm.report_student_card_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_student_card" model="ir.actions.report">
+        <field name="name">Report Card</field>
+        <field name="model">edu.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_student_card</field>
+        <field name="report_file">edu_crm.report_student_card</field>
+        <field name="print_report_name">'Report Card - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_edu_student"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ============================= Fee Receipt ============================= -->
+    <template id="report_fee_receipt_document">
+        <t t-call="web.external_layout" o="doc">
+            <div class="page">
+                <h2>Fee Receipt</h2>
+                <div class="row mb-4">
+                    <div class="col-6">
+                        Receipt Ref: <strong t-field="doc.reference"/><br/>
+                        Payment Date: <span t-field="doc.payment_date"/><br/>
+                        Payment Method: <span t-field="doc.payment_method"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        Student: <strong t-field="doc.student_id.name"/><br/>
+                        Class: <span t-field="doc.student_id.class_id.display_name"/><br/>
+                        Fee Reference: <span t-field="doc.fee_id.name"/>
+                    </div>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>Description</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span t-field="doc.fee_id.fee_type"/> Fee</td>
+                            <td class="text-end"><span t-field="doc.amount"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Balance remaining on this fee</strong></td>
+                            <td class="text-end"><strong t-field="doc.fee_id.balance"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p t-if="doc.notes" class="text-muted">Notes: <span t-field="doc.notes"/></p>
+
+                <div class="mt-5 pt-5 row">
+                    <div class="col-6 border-top pt-2">Received By</div>
+                    <div class="col-6 border-top pt-2 text-end">Authorized Signature</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_fee_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="edu_crm.report_fee_receipt_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_fee_receipt" model="ir.actions.report">
+        <field name="name">Fee Receipt</field>
+        <field name="model">edu.fee.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_fee_receipt</field>
+        <field name="report_file">edu_crm.report_fee_receipt</field>
+        <field name="print_report_name">'Fee Receipt - %s' % (object.reference or object.id)</field>
+        <field name="binding_model_id" ref="model_edu_fee_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ============================= Admission Acceptance Letter ============================= -->
+    <template id="report_admission_letter_document">
+        <t t-call="web.external_layout" o="doc">
+            <div class="page">
+                <h2>Admission Acceptance Letter</h2>
+                <p class="text-end">Date: <span t-field="doc.create_date" t-options="{'widget': 'date'}"/></p>
+                <p>
+                    Dear <span t-field="doc.guardian_name"/>,
+                </p>
+                <p>
+                    We are pleased to inform you that the application for
+                    <strong t-field="doc.student_name"/> (Application Ref: <span t-field="doc.name"/>)
+                    has been <strong>approved</strong> for admission to
+                    <strong t-field="doc.class_applying_id.display_name"/>.
+                </p>
+                <p>
+                    Please contact the school office to complete the enrollment formalities and
+                    fee payment at your earliest convenience.
+                </p>
+                <p>We look forward to welcoming your family to our school.</p>
+
+                <div class="mt-5 pt-5 row">
+                    <div class="col-6 border-top pt-2">Admissions Officer</div>
+                    <div class="col-6 border-top pt-2 text-end">Principal Signature</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_admission_letter">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="edu_crm.report_admission_letter_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_admission_letter" model="ir.actions.report">
+        <field name="name">Acceptance Letter</field>
+        <field name="model">edu.applicant</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_admission_letter</field>
+        <field name="report_file">edu_crm.report_admission_letter</field>
+        <field name="print_report_name">'Acceptance Letter - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_edu_applicant"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

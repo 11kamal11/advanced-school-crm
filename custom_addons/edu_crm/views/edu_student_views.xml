@@ -1,0 +1,154 @@
+<odoo>
+    <record id="view_edu_student_list" model="ir.ui.view">
+        <field name="name">edu.student.list</field>
+        <field name="model">edu.student</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="student_code"/>
+                <field name="name"/>
+                <field name="class_id"/>
+                <field name="roll_number"/>
+                <field name="attendance_percentage" widget="percentage"/>
+                <field name="total_fees_due"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_student_form" model="ir.ui.view">
+        <field name="name">edu.student.form</field>
+        <field name="model">edu.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" string="Activate" type="object"
+                            invisible="state == 'active'"/>
+                    <button name="action_suspend" string="Suspend" type="object"
+                            invisible="state in ('suspended', 'graduated', 'alumni')"/>
+                    <button name="action_graduate" string="Graduate" type="object"
+                            invisible="state in ('graduated', 'alumni', 'draft')"/>
+                    <button name="action_alumni" string="Mark Alumni" type="object"
+                            invisible="state == 'alumni'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,graduated"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_code"/>
+                            <field name="class_id"/>
+                            <field name="roll_number"/>
+                            <field name="academic_year_id"/>
+                            <field name="admission_date"/>
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                            <field name="blood_group"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="attendance_percentage" widget="percentage"/>
+                        <field name="total_fees_due"/>
+                    </group>
+                    <notebook>
+                        <page string="Guardians">
+                            <field name="guardian_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="relationship"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Address">
+                            <field name="address"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="country_id"/>
+                        </page>
+                        <page string="Attendance">
+                            <field name="attendance_line_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="status"/>
+                                    <field name="remarks"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Exam Results">
+                            <field name="exam_result_ids" readonly="1">
+                                <list>
+                                    <field name="exam_id"/>
+                                    <field name="marks_obtained"/>
+                                    <field name="percentage"/>
+                                    <field name="grade"/>
+                                    <field name="is_passed"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Fees">
+                            <field name="fee_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="fee_type"/>
+                                    <field name="net_amount"/>
+                                    <field name="paid_amount"/>
+                                    <field name="balance"/>
+                                    <field name="due_date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Leave Requests">
+                            <field name="leave_request_ids" readonly="1">
+                                <list>
+                                    <field name="leave_type"/>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_student_search" model="ir.ui.view">
+        <field name="name">edu.student.search</field>
+        <field name="model">edu.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_code"/>
+                <field name="class_id"/>
+                <filter name="active_students" string="Active" domain="[('state', '=', 'active')]"/>
+                <group>
+                    <filter name="group_by_class" string="Class" context="{'group_by': 'class_id'}"/>
+                    <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">edu.student</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_student_search"/>
+        <field name="context">{'search_default_active_students': 1}</field>
+    </record>
+</odoo>

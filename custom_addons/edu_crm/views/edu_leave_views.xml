@@ -1,0 +1,65 @@
+<odoo>
+    <record id="view_edu_leave_request_list" model="ir.ui.view">
+        <field name="name">edu.leave.request.list</field>
+        <field name="model">edu.leave.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="applicant_type"/>
+                <field name="student_id"/>
+                <field name="teacher_id"/>
+                <field name="leave_type"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="days"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_leave_request_form" model="ir.ui.view">
+        <field name="name">edu.leave.request.form</field>
+        <field name="model">edu.leave.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                            invisible="state != 'submitted'" class="oe_highlight"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="applicant_type"/>
+                            <field name="student_id" invisible="applicant_type != 'student'"/>
+                            <field name="teacher_id" invisible="applicant_type != 'teacher'"/>
+                            <field name="leave_type"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="days"/>
+                        </group>
+                    </group>
+                    <field name="reason"/>
+                    <group invisible="state not in ('approved', 'rejected')">
+                        <field name="approver_id"/>
+                        <field name="review_date"/>
+                        <field name="rejection_reason" invisible="state != 'rejected'"/>
+                    </group>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_leave_request" model="ir.actions.act_window">
+        <field name="name">Leave Requests</field>
+        <field name="res_model">edu.leave.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

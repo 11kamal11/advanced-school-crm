@@ -1,0 +1,155 @@
+<odoo>
+    <record id="view_edu_asset_category_list" model="ir.ui.view">
+        <field name="name">edu.asset.category.list</field>
+        <field name="model">edu.asset.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_asset_category" model="ir.actions.act_window">
+        <field name="name">Asset Categories</field>
+        <field name="res_model">edu.asset.category</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_edu_asset_checkout_list" model="ir.ui.view">
+        <field name="name">edu.asset.checkout.list</field>
+        <field name="model">edu.asset.checkout</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'returned'">
+                <field name="asset_id"/>
+                <field name="teacher_id"/>
+                <field name="checkout_date"/>
+                <field name="expected_return_date"/>
+                <field name="return_date"/>
+                <field name="state"/>
+                <button name="action_return" string="Mark Returned" type="object"
+                        invisible="state != 'checked_out'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_edu_asset_checkout" model="ir.actions.act_window">
+        <field name="name">Checkout Log</field>
+        <field name="res_model">edu.asset.checkout</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_edu_asset_list" model="ir.ui.view">
+        <field name="name">edu.asset.list</field>
+        <field name="model">edu.asset</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="status in ('retired', 'lost')" decoration-info="status == 'assigned'"
+                  decoration-warning="status == 'under_maintenance'">
+                <field name="asset_code"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="condition"/>
+                <field name="status"/>
+                <field name="assigned_teacher_id"/>
+                <field name="default_location"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_asset_form" model="ir.ui.view">
+        <field name="name">edu.asset.form</field>
+        <field name="model">edu.asset</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_checkout" string="Check Out" type="object"
+                            invisible="status != 'available'" class="oe_highlight"/>
+                    <button name="action_set_maintenance" string="Send for Maintenance" type="object"
+                            invisible="status in ('under_maintenance', 'retired', 'lost')"/>
+                    <button name="action_set_available" string="Mark Available" type="object"
+                            invisible="status == 'available'"/>
+                    <button name="action_set_retired" string="Retire" type="object"
+                            invisible="status in ('retired', 'assigned')"/>
+                    <button name="action_set_lost" string="Mark Lost" type="object"
+                            invisible="status in ('lost', 'assigned')"/>
+                    <field name="status" widget="statusbar" statusbar_visible="available,assigned"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_edu_asset_checkout)d" type="action"
+                                class="oe_stat_button" icon="fa-history"
+                                context="{'search_default_asset_id': id}">
+                            <field name="checkout_count" widget="statinfo" string="Checkouts"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_code"/>
+                            <field name="category_id"/>
+                            <field name="serial_number"/>
+                            <field name="condition"/>
+                            <field name="default_location"/>
+                        </group>
+                        <group>
+                            <field name="purchase_date"/>
+                            <field name="purchase_cost"/>
+                            <field name="warranty_expiry"/>
+                            <field name="assigned_teacher_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Checkout History">
+                            <field name="checkout_ids">
+                                <list editable="bottom" decoration-muted="state == 'returned'">
+                                    <field name="teacher_id"/>
+                                    <field name="checkout_date"/>
+                                    <field name="expected_return_date"/>
+                                    <field name="condition_on_checkout"/>
+                                    <field name="return_date"/>
+                                    <field name="condition_on_return"/>
+                                    <field name="state"/>
+                                    <button name="action_return" string="Mark Returned" type="object"
+                                            invisible="state != 'checked_out'" icon="fa-check"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edu_asset_search" model="ir.ui.view">
+        <field name="name">edu.asset.search</field>
+        <field name="model">edu.asset</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="asset_code"/>
+                <field name="category_id"/>
+                <field name="assigned_teacher_id"/>
+                <filter name="available" string="Available" domain="[('status', '=', 'available')]"/>
+                <filter name="assigned" string="Assigned" domain="[('status', '=', 'assigned')]"/>
+                <group>
+                    <filter name="group_by_category" string="Category" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edu_asset" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">edu.asset</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_asset_search"/>
+    </record>
+</odoo>

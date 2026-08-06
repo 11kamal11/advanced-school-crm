@@ -1,0 +1,94 @@
+<odoo>
+
+    <!-- ============================= Attendance Analysis ============================= -->
+    <record id="view_edu_attendance_line_graph" model="ir.ui.view">
+        <field name="name">edu.attendance.line.graph</field>
+        <field name="model">edu.attendance.line</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance Analysis" type="bar">
+                <field name="date" interval="week"/>
+                <field name="status"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_edu_attendance_line_pivot" model="ir.ui.view">
+        <field name="name">edu.attendance.line.pivot</field>
+        <field name="model">edu.attendance.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Analysis">
+                <field name="class_id" type="row"/>
+                <field name="status" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_edu_attendance_analysis" model="ir.actions.act_window">
+        <field name="name">Attendance Analysis</field>
+        <field name="res_model">edu.attendance.line</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <!-- ============================= Fee Collection Analysis ============================= -->
+    <record id="view_edu_fee_analysis_graph" model="ir.ui.view">
+        <field name="name">edu.fee.analysis.graph</field>
+        <field name="model">edu.fee</field>
+        <field name="arch" type="xml">
+            <graph string="Fee Collection" type="bar">
+                <field name="fee_type"/>
+                <field name="net_amount" type="measure"/>
+                <field name="paid_amount" type="measure"/>
+                <field name="balance" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_edu_fee_analysis_pivot" model="ir.ui.view">
+        <field name="name">edu.fee.analysis.pivot</field>
+        <field name="model">edu.fee</field>
+        <field name="arch" type="xml">
+            <pivot string="Fee Collection">
+                <field name="state" type="row"/>
+                <field name="fee_type" type="col"/>
+                <field name="net_amount" type="measure"/>
+                <field name="paid_amount" type="measure"/>
+                <field name="balance" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_edu_fee_analysis" model="ir.actions.act_window">
+        <field name="name">Fee Collection</field>
+        <field name="res_model">edu.fee</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <!-- ============================= Admissions Funnel ============================= -->
+    <record id="view_edu_lead_analysis_graph" model="ir.ui.view">
+        <field name="name">edu.lead.analysis.graph</field>
+        <field name="model">edu.lead</field>
+        <field name="arch" type="xml">
+            <graph string="Admissions Funnel" type="bar">
+                <field name="stage_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_edu_lead_analysis_pivot" model="ir.ui.view">
+        <field name="name">edu.lead.analysis.pivot</field>
+        <field name="model">edu.lead</field>
+        <field name="arch" type="xml">
+            <pivot string="Admissions Funnel">
+                <field name="stage_id" type="row"/>
+                <field name="source_id" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_edu_lead_analysis" model="ir.actions.act_window">
+        <field name="name">Admissions Funnel</field>
+        <field name="res_model">edu.lead</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+</odoo>

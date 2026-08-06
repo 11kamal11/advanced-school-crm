@@ -1,0 +1,191 @@
+.o_edu_dashboard .o_form_sheet_bg {
+    background: #f8fafc;
+}
+
+.o_edu_dashboard .o_form_sheet {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 24px 32px;
+}
+
+.o_edu_dashboard .edu-dash-header {
+    padding: 8px 4px 20px;
+}
+
+.o_edu_dashboard .edu-dash-header h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.o_edu_dashboard .edu-dash-header p {
+    color: #64748b;
+    font-size: 0.92rem;
+}
+
+/* ---- Hero strip: the headline numbers ---- */
+.o_edu_dashboard .edu-hero-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.o_edu_dashboard .edu-hero-card {
+    border: none;
+    border-radius: 14px;
+    padding: 18px 20px;
+    text-align: left;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.o_edu_dashboard .edu-hero-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.o_edu_dashboard .edu-hero-icon {
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+.o_edu_dashboard .edu-hero-value {
+    font-size: 1.65rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.o_edu_dashboard .edu-hero-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.edu-hero-blue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+.edu-hero-emerald { background: linear-gradient(135deg, #10b981, #059669); }
+.edu-hero-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.edu-hero-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+/* ---- Section headers ---- */
+.o_edu_dashboard .edu-section {
+    margin-bottom: 26px;
+}
+
+.o_edu_dashboard .edu-section-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #475569;
+    margin-bottom: 12px;
+}
+
+.o_edu_dashboard .edu-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.edu-dot-blue { background: #2563eb; }
+.edu-dot-teal { background: #06b6d4; }
+.edu-dot-amber { background: #f59e0b; }
+.edu-dot-emerald { background: #10b981; }
+.edu-dot-purple { background: #8b5cf6; }
+.edu-dot-indigo { background: #6366f1; }
+.edu-dot-slate { background: #64748b; }
+
+/* ---- KPI card grid ---- */
+.o_edu_dashboard .edu-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+}
+
+.o_edu_dashboard .edu-kpi-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    width: 100%;
+}
+
+.o_edu_dashboard .edu-kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.09);
+    border-color: transparent;
+}
+
+.o_edu_dashboard .edu-kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.edu-bg-blue { background: #2563eb; }
+.edu-bg-teal { background: #06b6d4; }
+.edu-bg-amber { background: #f59e0b; }
+.edu-bg-emerald { background: #10b981; }
+.edu-bg-purple { background: #8b5cf6; }
+.edu-bg-indigo { background: #6366f1; }
+.edu-bg-slate { background: #64748b; }
+
+.o_edu_dashboard .edu-kpi-body {
+    min-width: 0;
+}
+
+.o_edu_dashboard .edu-kpi-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.o_edu_dashboard .edu-kpi-label {
+    font-size: 0.76rem;
+    color: #64748b;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_edu_dashboard .edu-kpi-sub {
+    font-size: 0.68rem;
+    color: #94a3b8;
+}
+
+@media (max-width: 992px) {
+    .o_edu_dashboard .edu-hero-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_edu_demo_data_wizard_form" model="ir.ui.view">
+        <field name="name">edu.demo.data.wizard.form</field>
+        <field name="model">edu.demo.data.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <p class="text-muted">
+                    <field name="note" readonly="1"/>
+                </p>
+                <footer>
+                    <button name="action_generate" string="Generate Sample Data"
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_demo_data_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Sample Data</field>
+        <field name="res_model">edu.demo.data.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

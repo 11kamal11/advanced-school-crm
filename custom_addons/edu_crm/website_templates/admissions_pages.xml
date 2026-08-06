@@ -1,0 +1,248 @@
+<odoo>
+
+<template id="admissions_home" name="Admissions Home">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-hero">
+                <div class="container">
+                    <div class="edu-eyebrow text-white-50">Admissions Open</div>
+                    <h1 class="mt-2">A school built on academics, character, and community.</h1>
+                    <p class="lead mb-4">
+                        From early years to graduation, we combine strong academics with
+                        dedicated teachers and a curriculum that prepares every student for
+                        what's next.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="/admissions/inquiry" class="btn btn-edu-primary btn-lg">Start an Application</a>
+                        <a href="/admissions/programs" class="btn btn-edu-outline btn-lg">Explore Programs</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="edu-section">
+                <div class="container">
+                    <div class="row text-center g-4">
+                        <div class="col-md-4">
+                            <div class="edu-stat-number" t-out="stats['students']"/>
+                            <div class="edu-stat-label">Enrolled Students</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="edu-stat-number" t-out="stats['teachers']"/>
+                            <div class="edu-stat-label">Faculty Members</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="edu-stat-number" t-out="stats['programs']"/>
+                            <div class="edu-stat-label">Academic Programs</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="edu-section edu-section-alt" t-if="programs">
+                <div class="container">
+                    <div class="edu-eyebrow">Programs</div>
+                    <h2 class="edu-section-title mt-1">Explore what we offer</h2>
+                    <p class="edu-section-subtitle mb-5">
+                        Purposeful, age-appropriate programs from early years through senior grades.
+                    </p>
+                    <div class="row g-4">
+                        <div class="col-md-4" t-foreach="programs" t-as="program">
+                            <div class="edu-card">
+                                <a t-attf-href="/admissions/programs/#{program.id}" class="text-decoration-none">
+                                    <div t-if="program.image" class="edu-card-img"
+                                         t-attf-style="background-image:url(/web/image/edu.program/#{program.id}/image)"/>
+                                    <div t-else="" class="edu-card-img"/>
+                                    <div class="edu-card-body">
+                                        <span class="edu-badge" t-if="program.code" t-out="program.code"/>
+                                        <h5 class="mt-3 mb-1 text-dark" t-out="program.name"/>
+                                        <p class="text-muted small mb-0" t-out="program.tagline"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/admissions/programs" class="btn btn-outline-primary">View All Programs</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="edu-section" t-if="faculty">
+                <div class="container">
+                    <div class="edu-eyebrow">Faculty</div>
+                    <h2 class="edu-section-title mt-1">Learn from experienced educators</h2>
+                    <p class="edu-section-subtitle mb-5">
+                        Our teachers bring years of classroom experience and genuine care for every student.
+                    </p>
+                    <div class="row g-4">
+                        <div class="col-md-4 text-center" t-foreach="faculty" t-as="teacher">
+                            <a t-attf-href="/admissions/faculty/#{teacher.id}" class="text-decoration-none">
+                                <img t-if="teacher.image" class="edu-faculty-avatar mb-3"
+                                     t-attf-src="/web/image/edu.teacher/#{teacher.id}/image"/>
+                                <div t-else="" class="edu-faculty-avatar mb-3 mx-auto"/>
+                                <h6 class="mb-0 text-dark" t-out="teacher.name"/>
+                                <p class="text-muted small" t-out="teacher.specialization"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/admissions/faculty" class="btn btn-outline-primary">Meet Our Faculty</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="edu-section edu-section-alt">
+                <div class="container">
+                    <div class="edu-cta-banner d-flex flex-wrap align-items-center justify-content-between gap-4">
+                        <div>
+                            <h3 class="mb-1">Ready to join our school family?</h3>
+                            <p class="mb-0 text-white-50">Applications are reviewed on a rolling basis.</p>
+                        </div>
+                        <a href="/admissions/inquiry" class="btn btn-edu-primary btn-lg">Start an Application</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+<template id="admissions_programs" name="Programs Listing">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-section">
+                <div class="container">
+                    <div class="edu-eyebrow">Programs</div>
+                    <h1 class="edu-section-title mt-1">Our Academic Programs</h1>
+                    <p class="edu-section-subtitle mb-5">
+                        Every program is designed around a clear academic path and measurable outcomes.
+                    </p>
+                    <div class="row g-4" t-if="programs">
+                        <div class="col-md-4" t-foreach="programs" t-as="program">
+                            <div class="edu-card">
+                                <a t-attf-href="/admissions/programs/#{program.id}" class="text-decoration-none">
+                                    <div t-if="program.image" class="edu-card-img"
+                                         t-attf-style="background-image:url(/web/image/edu.program/#{program.id}/image)"/>
+                                    <div t-else="" class="edu-card-img"/>
+                                    <div class="edu-card-body">
+                                        <span class="edu-badge" t-if="program.code" t-out="program.code"/>
+                                        <h5 class="mt-3 mb-1 text-dark" t-out="program.name"/>
+                                        <p class="text-muted small mb-0" t-out="program.tagline"/>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <p t-else="" class="text-muted">Program details are being updated. Please check back soon.</p>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+<template id="admissions_program_detail" name="Program Detail">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-hero py-5">
+                <div class="container">
+                    <a href="/admissions/programs" class="text-white-50 small">&#8592; All Programs</a>
+                    <h1 class="mt-2 mb-1" t-out="program.name"/>
+                    <p class="lead mb-0" t-out="program.tagline"/>
+                </div>
+            </section>
+            <section class="edu-section">
+                <div class="container">
+                    <div class="row g-5">
+                        <div class="col-lg-8">
+                            <div t-field="program.description"/>
+                            <div t-if="program.class_ids" class="mt-5">
+                                <h5 class="edu-section-title">Grades / Sections under this program</h5>
+                                <ul class="list-unstyled">
+                                    <li t-foreach="program.class_ids" t-as="klass" class="py-2 border-bottom">
+                                        <span t-out="klass.name"/> - <span t-out="klass.section"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="edu-form-card text-center">
+                                <h5 class="mb-2">Interested in this program?</h5>
+                                <p class="text-muted small">Start your child's application today.</p>
+                                <a href="/admissions/inquiry" class="btn btn-primary w-100">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+<template id="admissions_faculty" name="Faculty Listing">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-section">
+                <div class="container">
+                    <div class="edu-eyebrow">Faculty</div>
+                    <h1 class="edu-section-title mt-1">Meet Our Faculty</h1>
+                    <p class="edu-section-subtitle mb-5">
+                        Experienced educators dedicated to helping every student succeed.
+                    </p>
+                    <div class="row g-4" t-if="faculty">
+                        <div class="col-md-3 col-sm-6 text-center" t-foreach="faculty" t-as="teacher">
+                            <a t-attf-href="/admissions/faculty/#{teacher.id}" class="text-decoration-none">
+                                <img t-if="teacher.image" class="edu-faculty-avatar mb-3"
+                                     t-attf-src="/web/image/edu.teacher/#{teacher.id}/image"/>
+                                <div t-else="" class="edu-faculty-avatar mb-3 mx-auto"/>
+                                <h6 class="mb-0 text-dark" t-out="teacher.name"/>
+                                <p class="text-muted small" t-out="teacher.specialization"/>
+                            </a>
+                        </div>
+                    </div>
+                    <p t-else="" class="text-muted">Faculty profiles are being updated. Please check back soon.</p>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+<template id="admissions_faculty_detail" name="Faculty Detail">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-section">
+                <div class="container">
+                    <a href="/admissions/faculty" class="text-muted small">&#8592; All Faculty</a>
+                    <div class="row align-items-center mt-4 mb-5 g-4">
+                        <div class="col-auto">
+                            <img t-if="teacher.image" class="edu-faculty-avatar" style="width:120px;height:120px;"
+                                 t-attf-src="/web/image/edu.teacher/#{teacher.id}/image"/>
+                            <div t-else="" class="edu-faculty-avatar" style="width:120px;height:120px;"/>
+                        </div>
+                        <div class="col">
+                            <h1 class="edu-section-title mb-1" t-out="teacher.name"/>
+                            <p class="text-muted mb-0" t-out="teacher.specialization"/>
+                            <p class="text-muted small" t-if="teacher.qualification">
+                                <t t-out="teacher.qualification"/>
+                                <t t-if="teacher.experience_years">
+                                    &#183; <t t-out="teacher.experience_years"/> years experience
+                                </t>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row g-5">
+                        <div class="col-lg-8">
+                            <div t-field="teacher.bio"/>
+                        </div>
+                        <div class="col-lg-4" t-if="teacher.subject_ids">
+                            <h6 class="edu-section-title">Subjects Taught</h6>
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <span class="edu-badge" t-foreach="teacher.subject_ids" t-as="subject" t-out="subject.name"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+</odoo>

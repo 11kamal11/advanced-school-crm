@@ -1,0 +1,78 @@
+<odoo>
+    <menuitem id="menu_edu_root" name="School CRM" sequence="5" web_icon="edu_crm,static/description/icon.png"
+              action="action_edu_dashboard"/>
+
+    <menuitem id="menu_edu_dashboard" name="Dashboard" parent="menu_edu_root" sequence="1"
+              action="action_edu_dashboard"/>
+
+    <menuitem id="menu_edu_admissions" name="Admissions" parent="menu_edu_root" sequence="6"/>
+    <menuitem id="menu_edu_leads" name="Inquiries" parent="menu_edu_admissions" sequence="10"
+              action="action_edu_lead"/>
+    <menuitem id="menu_edu_applicants" name="Applications" parent="menu_edu_admissions" sequence="20"
+              action="action_edu_applicant"/>
+
+    <menuitem id="menu_edu_students" name="Students" parent="menu_edu_root" sequence="10"
+              action="action_edu_student"/>
+    <menuitem id="menu_edu_guardians" name="Guardians" parent="menu_edu_root" sequence="15"
+              action="action_edu_guardian"/>
+    <menuitem id="menu_edu_teachers" name="Teachers" parent="menu_edu_root" sequence="20"
+              action="action_edu_teacher"/>
+
+    <menuitem id="menu_edu_academics" name="Academics" parent="menu_edu_root" sequence="30"/>
+    <menuitem id="menu_edu_classes" name="Classes" parent="menu_edu_academics" sequence="10"
+              action="action_edu_class"/>
+    <menuitem id="menu_edu_subjects" name="Subjects" parent="menu_edu_academics" sequence="20"
+              action="action_edu_subject"/>
+    <menuitem id="menu_edu_timetable" name="Timetable" parent="menu_edu_academics" sequence="30"
+              action="action_edu_timetable"/>
+
+    <menuitem id="menu_edu_exams_root" name="Exams" parent="menu_edu_root" sequence="40"
+              action="action_edu_exam"/>
+
+    <menuitem id="menu_edu_finance" name="Finance" parent="menu_edu_root" sequence="50"/>
+    <menuitem id="menu_edu_fees" name="Fees" parent="menu_edu_finance" sequence="10"
+              action="action_edu_fee"/>
+    <menuitem id="menu_edu_fee_structures" name="Fee Structures" parent="menu_edu_finance" sequence="20"
+              action="action_edu_fee_structure"/>
+
+    <menuitem id="menu_edu_assets" name="Assets" parent="menu_edu_root" sequence="55"/>
+    <menuitem id="menu_edu_asset_register" name="Assets" parent="menu_edu_assets" sequence="10"
+              action="action_edu_asset"/>
+    <menuitem id="menu_edu_asset_checkout_log" name="Checkout Log" parent="menu_edu_assets" sequence="20"
+              action="action_edu_asset_checkout"/>
+    <menuitem id="menu_edu_asset_categories" name="Asset Categories" parent="menu_edu_assets" sequence="30"
+              action="action_edu_asset_category" groups="edu_crm.group_edu_admin,edu_crm.group_edu_principal"/>
+
+    <menuitem id="menu_edu_attendance" name="Attendance" parent="menu_edu_root" sequence="60"
+              action="action_edu_attendance"/>
+    <menuitem id="menu_edu_attendance_wizard" name="Take Attendance" parent="menu_edu_root" sequence="65"
+              action="action_edu_attendance_wizard"/>
+
+    <menuitem id="menu_edu_leaves" name="Leave Requests" parent="menu_edu_root" sequence="70"
+              action="action_edu_leave_request"/>
+    <menuitem id="menu_edu_announcements" name="Announcements" parent="menu_edu_root" sequence="80"
+              action="action_edu_announcement"/>
+
+    <menuitem id="menu_edu_website" name="Website" parent="menu_edu_root" sequence="90"/>
+    <menuitem id="menu_edu_programs" name="Programs" parent="menu_edu_website" sequence="10"
+              action="action_edu_program"/>
+
+    <menuitem id="menu_edu_reports" name="Reports" parent="menu_edu_root" sequence="95"/>
+    <menuitem id="menu_edu_attendance_analysis" name="Attendance Analysis" parent="menu_edu_reports" sequence="10"
+              action="action_edu_attendance_analysis" groups="edu_crm.group_edu_teacher"/>
+    <menuitem id="menu_edu_fee_analysis" name="Fee Collection" parent="menu_edu_reports" sequence="20"
+              action="action_edu_fee_analysis" groups="edu_crm.group_edu_frontdesk"/>
+    <menuitem id="menu_edu_lead_analysis" name="Admissions Funnel" parent="menu_edu_reports" sequence="30"
+              action="action_edu_lead_analysis" groups="edu_crm.group_edu_frontdesk"/>
+
+    <menuitem id="menu_edu_config" name="Configuration" parent="menu_edu_root" sequence="100"
+              groups="edu_crm.group_edu_admin"/>
+    <menuitem id="menu_edu_academic_years" name="Academic Years" parent="menu_edu_config" sequence="10"
+              action="action_edu_academic_year"/>
+    <menuitem id="menu_edu_crm_stages" name="Pipeline Stages" parent="menu_edu_config" sequence="20"
+              action="action_edu_crm_stage"/>
+    <menuitem id="menu_edu_lost_reasons" name="Lost Reasons" parent="menu_edu_config" sequence="30"
+              action="action_edu_lead_lost_reason"/>
+    <menuitem id="menu_edu_demo_data" name="Generate Sample Data" parent="menu_edu_config" sequence="40"
+              action="action_edu_demo_data_wizard"/>
+</odoo>

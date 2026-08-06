@@ -1,0 +1,283 @@
+<odoo>
+
+<template id="portal_my_children" name="My Children">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'children'"/>
+        <div class="o_portal_my_home">
+            <h3>My Children</h3>
+            <div t-if="not students" class="alert alert-info mt-3">
+                No children are linked to your account yet. Please contact the school office.
+            </div>
+            <div class="row g-3 mt-1" t-if="students">
+                <div class="col-md-4" t-foreach="students" t-as="student">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title" t-out="student.name"/>
+                            <p class="card-text text-muted mb-1" t-out="student.class_id.display_name"/>
+                            <p class="card-text small">
+                                Attendance: <t t-out="round(student.attendance_percentage, 1)"/>%
+                            </p>
+                            <a t-attf-href="/my/children/#{student.id}" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="portal_child_dashboard" name="Child Dashboard">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'child_dashboard'"/>
+        <div class="o_portal_my_home">
+            <a href="/my/children" class="small">&#8592; My Children</a>
+            <h3 class="mt-2" t-out="student.name"/>
+            <p class="text-muted" t-out="student.class_id.display_name"/>
+
+            <div class="row g-3 my-2">
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <div class="h3 mb-0" t-out="round(student.attendance_percentage, 1)"/>%
+                            <div class="text-muted small">Attendance</div>
+                            <a t-attf-href="/my/children/#{student.id}/attendance" class="stretched-link"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <div class="h3 mb-0" t-out="student.total_fees_due"/>
+                            <div class="text-muted small">Fees Due</div>
+                            <a t-attf-href="/my/children/#{student.id}/fees" class="stretched-link"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <div class="h3 mb-0" t-out="len(upcoming_exams)"/>
+                            <div class="text-muted small">Upcoming Exams</div>
+                            <a t-attf-href="/my/children/#{student.id}/exams" class="stretched-link"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="mt-4">Recent Announcements</h5>
+            <ul class="list-group" t-if="announcements">
+                <li class="list-group-item" t-foreach="announcements" t-as="announcement">
+                    <strong t-out="announcement.name"/>
+                    <span class="text-muted small float-end" t-out="announcement.publish_date"/>
+                </li>
+            </ul>
+            <p t-else="" class="text-muted">No announcements right now.</p>
+        </div>
+    </t>
+</template>
+
+<template id="portal_child_attendance" name="Child Attendance">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'child_attendance'"/>
+        <div class="o_portal_my_home">
+            <a t-attf-href="/my/children/#{student.id}" class="small">&#8592; <t t-out="student.name"/></a>
+            <h3 class="mt-2">Attendance</h3>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="lines" t-as="line">
+                        <td t-out="line.date"/>
+                        <td t-out="line.status"/>
+                        <td t-out="line.remarks"/>
+                    </tr>
+                </tbody>
+            </t>
+            <p t-if="not lines" class="text-muted">No attendance records yet.</p>
+        </div>
+    </t>
+</template>
+
+<template id="portal_child_exams" name="Child Exam Results">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'child_exams'"/>
+        <div class="o_portal_my_home">
+            <a t-attf-href="/my/children/#{student.id}" class="small">&#8592; <t t-out="student.name"/></a>
+            <h3 class="mt-2">Exam Results</h3>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Marks</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="results" t-as="result">
+                        <td t-out="result.exam_id.name"/>
+                        <td t-out="result.marks_obtained"/>
+                        <td><t t-out="round(result.percentage, 1)"/>%</td>
+                        <td t-out="result.grade"/>
+                        <td>
+                            <span t-if="result.is_passed" class="badge text-bg-success">Passed</span>
+                            <span t-else="" class="badge text-bg-danger">Failed</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+            <p t-if="not results" class="text-muted">No exam results published yet.</p>
+        </div>
+    </t>
+</template>
+
+<template id="portal_child_fees" name="Child Fees">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'child_fees'"/>
+        <div class="o_portal_my_home">
+            <a t-attf-href="/my/children/#{student.id}" class="small">&#8592; <t t-out="student.name"/></a>
+            <h3 class="mt-2">Fees</h3>
+            <p class="text-muted">
+                Total outstanding: <strong t-out="student.total_fees_due"/>.
+            </p>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Paid</th>
+                        <th>Balance</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th/>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="fees" t-as="fee">
+                        <td t-out="fee.name"/>
+                        <td t-out="fee.fee_type"/>
+                        <td t-out="fee.net_amount"/>
+                        <td t-out="fee.paid_amount"/>
+                        <td t-out="fee.balance"/>
+                        <td t-out="fee.due_date"/>
+                        <td t-out="fee.state"/>
+                        <td>
+                            <a t-if="fee.balance > 0 and fee.state not in ('paid', 'waived')"
+                               t-attf-href="/my/children/#{student.id}/fees/#{fee.id}/pay"
+                               class="btn btn-primary btn-sm">Pay Now</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+            <p t-if="not fees" class="text-muted">No fees recorded yet.</p>
+        </div>
+    </t>
+</template>
+
+<template id="portal_leave_requests" name="Leave Requests">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'leave_requests'"/>
+        <div class="o_portal_my_home">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3>Leave Requests</h3>
+                <a href="/my/leave-requests/new" class="btn btn-primary btn-sm">New Request</a>
+            </div>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Child</th>
+                        <th>Type</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="leaves" t-as="leave">
+                        <td t-out="leave.name"/>
+                        <td t-out="leave.student_id.name"/>
+                        <td t-out="leave.leave_type"/>
+                        <td t-out="leave.date_from"/>
+                        <td t-out="leave.date_to"/>
+                        <td t-out="leave.state"/>
+                    </tr>
+                </tbody>
+            </t>
+            <p t-if="not leaves" class="text-muted">No leave requests yet.</p>
+        </div>
+    </t>
+</template>
+
+<template id="portal_leave_request_form" name="New Leave Request">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'leave_request_new'"/>
+        <div class="o_portal_my_home" style="max-width: 640px;">
+            <a href="/my/leave-requests" class="small">&#8592; Leave Requests</a>
+            <h3 class="mt-2">New Leave Request</h3>
+            <div t-if="error" class="alert alert-danger">Please fill in all required fields correctly.</div>
+            <form action="/my/leave-requests/new/submit" method="post" class="mt-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="mb-3">
+                    <label class="form-label">Child *</label>
+                    <select name="student_id" class="form-select" required="required">
+                        <option t-foreach="students" t-as="student" t-att-value="student.id" t-out="student.name"/>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Leave Type</label>
+                    <select name="leave_type" class="form-select">
+                        <option value="sick">Sick</option>
+                        <option value="personal">Personal</option>
+                        <option value="family">Family</option>
+                        <option value="medical">Medical</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">From *</label>
+                        <input type="date" name="date_from" class="form-control" required="required"/>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">To *</label>
+                        <input type="date" name="date_to" class="form-control" required="required"/>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Reason *</label>
+                    <textarea name="reason" class="form-control" rows="3" required="required"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </t>
+</template>
+
+<template id="portal_announcements" name="Announcements">
+    <t t-call="portal.portal_layout">
+        <t t-set="page_name" t-value="'announcements'"/>
+        <div class="o_portal_my_home">
+            <h3>Announcements</h3>
+            <div class="list-group mt-3" t-if="announcements">
+                <div class="list-group-item" t-foreach="announcements" t-as="announcement">
+                    <div class="d-flex justify-content-between">
+                        <strong t-out="announcement.name"/>
+                        <span class="text-muted small" t-out="announcement.publish_date"/>
+                    </div>
+                    <div t-field="announcement.body"/>
+                </div>
+            </div>
+            <p t-else="" class="text-muted">No announcements right now.</p>
+        </div>
+    </t>
+</template>
+
+</odoo>

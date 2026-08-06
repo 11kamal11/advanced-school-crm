@@ -1,0 +1,74 @@
+<odoo>
+    <record id="view_edu_exam_list" model="ir.ui.view">
+        <field name="name">edu.exam.list</field>
+        <field name="model">edu.exam</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="class_id"/>
+                <field name="subject_id"/>
+                <field name="exam_date"/>
+                <field name="average_marks"/>
+                <field name="pass_percentage"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edu_exam_form" model="ir.ui.view">
+        <field name="name">edu.exam.form</field>
+        <field name="model">edu.exam</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="state != 'draft'"/>
+                    <button name="action_complete" string="Complete" type="object" invisible="state != 'ongoing'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('completed', 'cancelled')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="exam_type"/>
+                            <field name="class_id"/>
+                            <field name="subject_id"/>
+                            <field name="academic_year_id"/>
+                            <field name="exam_date"/>
+                        </group>
+                        <group>
+                            <field name="max_marks"/>
+                            <field name="passing_marks"/>
+                            <field name="average_marks"/>
+                            <field name="highest_marks"/>
+                            <field name="pass_percentage"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                    <field name="result_ids">
+                        <list editable="bottom">
+                            <field name="student_id"/>
+                            <field name="marks_obtained"/>
+                            <field name="percentage" readonly="1"/>
+                            <field name="grade" readonly="1"/>
+                            <field name="is_passed" readonly="1"/>
+                            <field name="remarks"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edu_exam" model="ir.actions.act_window">
+        <field name="name">Exams</field>
+        <field name="res_model">edu.exam</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

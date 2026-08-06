@@ -1,0 +1,83 @@
+<odoo>
+
+<template id="admissions_inquiry_form" name="Admissions Inquiry Form">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-hero py-5">
+                <div class="container">
+                    <div class="edu-eyebrow text-white-50">Admissions</div>
+                    <h1 class="mt-2 mb-0">Start Your Application</h1>
+                </div>
+            </section>
+            <section class="edu-section">
+                <div class="container" style="max-width: 720px;">
+                    <div class="edu-form-card">
+                        <div t-if="error" class="alert alert-danger" role="alert">
+                            Please fill in your name, phone number, and your child's name before submitting.
+                        </div>
+                        <form action="/admissions/inquiry/submit" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Your Name *</label>
+                                    <input type="text" name="contact_name" class="form-control"
+                                           t-att-value="form_data.get('contact_name')" required="required"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Phone *</label>
+                                    <input type="tel" name="phone" class="form-control"
+                                           t-att-value="form_data.get('phone')" required="required"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control"
+                                           t-att-value="form_data.get('email')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Child's Name *</label>
+                                    <input type="text" name="student_name" class="form-control"
+                                           t-att-value="form_data.get('student_name')" required="required"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Grade Applying For</label>
+                                    <select name="class_applying_id" class="form-select">
+                                        <option value="">Select a grade</option>
+                                        <option t-foreach="classes" t-as="klass" t-att-value="klass.id"
+                                                t-out="'%s - %s' % (klass.name, klass.section)"/>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Message</label>
+                                    <textarea name="message" class="form-control" rows="4"
+                                              placeholder="Anything you'd like us to know?"/>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg mt-4 w-100">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+<template id="admissions_inquiry_thank_you" name="Inquiry Thank You">
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure">
+            <section class="edu-section text-center" style="padding: 6rem 0;">
+                <div class="container" style="max-width: 560px;">
+                    <div class="edu-eyebrow">Application Received</div>
+                    <h1 class="edu-section-title mt-2">Thank you, <t t-out="lead.contact_name"/>!</h1>
+                    <p class="edu-section-subtitle mx-auto">
+                        We've received your inquiry for <strong t-out="lead.student_name"/> and our
+                        admissions team will reach out shortly. Your reference number is
+                        <strong t-out="lead.id"/>.
+                    </p>
+                    <a href="/admissions" class="btn btn-primary mt-3">Back to Admissions</a>
+                </div>
+            </section>
+        </div>
+    </t>
+</template>
+
+</odoo>

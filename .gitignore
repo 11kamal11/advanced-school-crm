@@ -1,0 +1,18 @@
+# Runtime data: filestore, sessions, downloaded addon caches -- never commit user data
+data/
+
+# Logs
+logs/
+
+# Contains real credentials (db password, master password) -- copy
+# conf/odoo-school-crm.conf.example to this filename and fill in your own.
+conf/odoo-school-crm.conf
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor / OS cruft
+.DS_Store
+*.swp
