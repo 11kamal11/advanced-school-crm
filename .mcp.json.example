@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "odoo-school-crm": {
+      "command": "/home/emizen/Desktop/odoo-school-crm/mcp_server/venv/bin/python3",
+      "args": ["/home/emizen/Desktop/odoo-school-crm/mcp_server/odoo_mcp_server.py"],
+      "env": {
+        "ODOO_URL": "http://localhost:8071",
+        "ODOO_DB": "school_crm",
+        "ODOO_LOGIN": "claude.mcp",
+        "ODOO_API_KEY": "CHANGE_ME_GENERATE_YOUR_OWN_API_KEY"
+      }
+    }
+  }
+}

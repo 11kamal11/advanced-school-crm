@@ -16,3 +16,9 @@ __pycache__/
 # Editor / OS cruft
 .DS_Store
 *.swp
+
+# Contains a live Odoo API key -- never commit. Copy .mcp.json.example instead.
+.mcp.json
+
+# Local virtualenv for the MCP server
+mcp_server/venv/
