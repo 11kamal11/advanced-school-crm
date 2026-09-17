@@ -1,0 +1,5 @@
+<odoo noupdate="1">
+    <record id="website.default_website" model="website">
+        <field name="homepage_url">/admissions</field>
+    </record>
+</odoo>

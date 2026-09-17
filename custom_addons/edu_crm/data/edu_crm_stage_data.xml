@@ -1,0 +1,24 @@
+<odoo noupdate="1">
+    <record id="crm_stage_new" model="edu.crm.stage">
+        <field name="name">New Inquiry</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="crm_stage_contacted" model="edu.crm.stage">
+        <field name="name">Contacted</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="crm_stage_qualified" model="edu.crm.stage">
+        <field name="name">Qualified</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="crm_stage_application" model="edu.crm.stage">
+        <field name="name">Application Requested</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="crm_stage_converted" model="edu.crm.stage">
+        <field name="name">Converted</field>
+        <field name="sequence">50</field>
+        <field name="fold">True</field>
+        <field name="is_won">True</field>
+    </record>
+</odoo>

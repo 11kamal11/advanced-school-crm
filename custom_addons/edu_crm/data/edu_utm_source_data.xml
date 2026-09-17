@@ -1,0 +1,5 @@
+<odoo noupdate="1">
+    <record id="utm_source_website" model="utm.source">
+        <field name="name">Website</field>
+    </record>
+</odoo>

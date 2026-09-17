@@ -1,0 +1,28 @@
+<odoo noupdate="1">
+    <record id="portal_entry_children" model="portal.entry">
+        <field name="name">My Children</field>
+        <field name="description">Attendance, exam results, fees and announcements for your children.</field>
+        <field name="url">/my/children</field>
+        <field name="placeholder_count">children_count</field>
+        <field name="category">service_category</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="portal_entry_leave_requests" model="portal.entry">
+        <field name="name">Leave Requests</field>
+        <field name="description">Submit and track leave requests for your children.</field>
+        <field name="url">/my/leave-requests</field>
+        <field name="category">service_category</field>
+        <field name="is_config_card" eval="True"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="portal_entry_announcements" model="portal.entry">
+        <field name="name">Announcements</field>
+        <field name="description">School-wide and class announcements.</field>
+        <field name="url">/my/announcements</field>
+        <field name="category">service_category</field>
+        <field name="is_config_card" eval="True"/>
+        <field name="sequence">30</field>
+    </record>
+</odoo>

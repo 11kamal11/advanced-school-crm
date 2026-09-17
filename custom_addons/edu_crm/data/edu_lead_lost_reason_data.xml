@@ -1,0 +1,14 @@
+<odoo noupdate="1">
+    <record id="lost_reason_competitor" model="edu.lead.lost.reason">
+        <field name="name">Chose another school</field>
+    </record>
+    <record id="lost_reason_budget" model="edu.lead.lost.reason">
+        <field name="name">Budget / fees too high</field>
+    </record>
+    <record id="lost_reason_location" model="edu.lead.lost.reason">
+        <field name="name">Location not convenient</field>
+    </record>
+    <record id="lost_reason_no_response" model="edu.lead.lost.reason">
+        <field name="name">No response from family</field>
+    </record>
+</odoo>

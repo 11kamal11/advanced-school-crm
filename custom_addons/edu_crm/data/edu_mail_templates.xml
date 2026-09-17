@@ -1,0 +1,102 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="mail_template_fee_reminder" model="mail.template">
+            <field name="name">Edu CRM: Fee Due Reminder</field>
+            <field name="model_id" ref="edu_crm.model_edu_fee"/>
+            <field name="subject">Fee Reminder: {{ object.name }} for {{ object.student_id.name }}</field>
+            <field name="use_default_to" eval="False"/>
+            <field name="email_to">{{ ','.join(filter(None, object.student_id.guardian_ids.mapped('email'))) }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="font-family: sans-serif; font-size: 14px; color: #1C2B36;">
+    <p>Dear Parent/Guardian,</p>
+    <p>
+        This is a reminder that a fee payment for <strong t-out="object.student_id.name or ''"/>
+        is <t t-if="object.state == 'overdue'">now <strong>overdue</strong></t><t t-else="">due soon</t>.
+    </p>
+    <table cellpadding="6" style="border-collapse: collapse; width: 100%; max-width: 480px;">
+        <tr><td style="color:#5B6B79;">Fee Reference</td><td><strong t-out="object.name or ''"/></td></tr>
+        <tr><td style="color:#5B6B79;">Fee Type</td><td t-out="object.fee_type or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Amount Due</td><td t-out="object.balance"/></tr>
+        <tr><td style="color:#5B6B79;">Due Date</td><td t-out="object.due_date"/></tr>
+    </table>
+    <p>Please arrange payment at your earliest convenience. Contact the school office if you have already paid.</p>
+    <p>Thank you,<br/>School Administration</p>
+</div>
+            </field>
+        </record>
+
+        <record id="mail_template_exam_result" model="mail.template">
+            <field name="name">Edu CRM: Exam Result Published</field>
+            <field name="model_id" ref="edu_crm.model_edu_exam_result"/>
+            <field name="subject">Exam Result: {{ object.exam_id.name }} for {{ object.student_id.name }}</field>
+            <field name="use_default_to" eval="False"/>
+            <field name="email_to">{{ ','.join(filter(None, object.student_id.guardian_ids.mapped('email'))) }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="font-family: sans-serif; font-size: 14px; color: #1C2B36;">
+    <p>Dear Parent/Guardian,</p>
+    <p>
+        The result for <strong t-out="object.exam_id.name or ''"/> has been published for
+        <strong t-out="object.student_id.name or ''"/>.
+    </p>
+    <table cellpadding="6" style="border-collapse: collapse; width: 100%; max-width: 480px;">
+        <tr><td style="color:#5B6B79;">Marks Obtained</td><td><span t-out="object.marks_obtained"/> / <span t-out="object.exam_id.max_marks"/></td></tr>
+        <tr><td style="color:#5B6B79;">Percentage</td><td><t t-out="round(object.percentage, 1)"/>%</td></tr>
+        <tr><td style="color:#5B6B79;">Grade</td><td t-out="object.grade or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Result</td><td t-out="'Passed' if object.is_passed else 'Failed'"/></tr>
+    </table>
+    <p>Log in to the parent portal for full details.</p>
+    <p>Thank you,<br/>School Administration</p>
+</div>
+            </field>
+        </record>
+
+        <record id="mail_template_leave_status" model="mail.template">
+            <field name="name">Edu CRM: Leave Request Status</field>
+            <field name="model_id" ref="edu_crm.model_edu_leave_request"/>
+            <field name="subject">Leave Request {{ object.state }}: {{ object.student_id.name or object.teacher_id.name }}</field>
+            <field name="use_default_to" eval="False"/>
+            <field name="email_to">{{ ','.join(filter(None, object.student_id.guardian_ids.mapped('email'))) }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="font-family: sans-serif; font-size: 14px; color: #1C2B36;">
+    <p>Dear Parent/Guardian,</p>
+    <p>
+        The leave request for <strong t-out="object.student_id.name or ''"/>
+        (<span t-out="object.date_from"/> to <span t-out="object.date_to"/>) has been
+        <strong t-out="object.state or ''"/>.
+    </p>
+    <p t-if="object.state == 'rejected' and object.rejection_reason">
+        Reason: <span t-out="object.rejection_reason"/>
+    </p>
+    <p>Thank you,<br/>School Administration</p>
+</div>
+            </field>
+        </record>
+
+        <record id="mail_template_new_lead_frontdesk" model="mail.template">
+            <field name="name">Edu CRM: New Admission Inquiry</field>
+            <field name="model_id" ref="edu_crm.model_edu_lead"/>
+            <field name="subject">New Admission Inquiry: {{ object.contact_name }}</field>
+            <field name="use_default_to" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="font-family: sans-serif; font-size: 14px; color: #1C2B36;">
+    <p>A new admission inquiry has been received:</p>
+    <table cellpadding="6" style="border-collapse: collapse; width: 100%; max-width: 480px;">
+        <tr><td style="color:#5B6B79;">Contact Name</td><td t-out="object.contact_name or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Phone</td><td t-out="object.phone or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Email</td><td t-out="object.email or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Student Name</td><td t-out="object.student_name or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Class Applying For</td><td t-out="object.class_applying_id.display_name or ''"/></tr>
+        <tr><td style="color:#5B6B79;">Source</td><td t-out="object.source_id.name or 'Manual entry'"/></tr>
+    </table>
+    <p>Please follow up in the Admissions pipeline.</p>
+</div>
+            </field>
+        </record>
+
+    </data>
+</odoo>
