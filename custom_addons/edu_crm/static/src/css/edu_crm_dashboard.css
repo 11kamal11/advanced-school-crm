@@ -2,17 +2,36 @@
    edu_crm Dashboard — Prussian + Saffron palette
    ============================================================ */
 
-.o_edu_dashboard .o_form_sheet_bg {
-  background: #F5F7FA;
+/* ── Full-width overrides ────────────────────────────────── */
+/* The form view root gets the o_edu_dashboard class in Odoo 19.
+   Strip every default max-width so the dashboard fills the viewport. */
+.o_edu_dashboard,
+.o_edu_dashboard .o_form_sheet_bg,
+.o_form_view.o_edu_dashboard {
+  background: #F5F7FA !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
 }
 .o_edu_dashboard .o_form_sheet {
-  max-width: 1600px;
-  width: 100%;
-  margin: 0 auto;
-  background: transparent;
-  box-shadow: none;
-  border: none;
-  padding: 28px 36px;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 28px 36px !important;
+  box-sizing: border-box !important;
+}
+
+/* ── Hide the meaningless 1/1 pager on the dashboard ─────── */
+/* :has() is supported in all modern browsers (Chrome 105+, FF 121+, Safari 15.4+) */
+.o_action_manager:has(.o_edu_dashboard) .o_pager,
+.o_content:has(.o_edu_dashboard) .o_pager {
+  display: none !important;
 }
 
 /* ── Header ─────────────────────────────────────────────── */
