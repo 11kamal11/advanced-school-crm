@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+        Website top-level menu item for the Admissions section.
+        Sub-pages (/admissions/programs, /admissions/faculty, /admissions/inquiry)
+        are served by the WebsiteAdmissions controller and linked from the
+        admissions home template; they do not need separate menu records.
+    -->
+    <record id="website_menu_admissions" model="website.menu">
+        <field name="name">Admissions</field>
+        <field name="url">/admissions</field>
+        <field name="sequence">50</field>
+        <field name="parent_id" ref="website.main_menu"/>
+    </record>
+
+</odoo>

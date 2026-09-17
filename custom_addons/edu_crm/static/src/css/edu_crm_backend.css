@@ -1,0 +1,227 @@
+/* ============================================================
+   edu_crm — Backend-wide design tokens & components
+   Palette: Prussian Blue #1B3F6E  |  Saffron #C8871A
+   ============================================================ */
+
+:root {
+  --edu-prussian:   #1B3F6E;
+  --edu-prussian-dk:#132E52;
+  --edu-saffron:    #C8871A;
+  --edu-saffron-lt: #FEF3E0;
+  --edu-forest:     #177A63;
+  --edu-forest-lt:  #E3F5F1;
+  --edu-slate:      #0C1A26;
+  --edu-muted:      #5A6B7A;
+  --edu-border:     #DDE3EA;
+  --edu-ground:     #F5F7FA;
+}
+
+/* ── Smart / stat buttons ─────────────────────────────────── */
+.oe_stat_button {
+  border: 1.5px solid var(--edu-border) !important;
+  border-radius: 10px !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+.oe_stat_button:hover {
+  border-color: var(--edu-saffron) !important;
+  box-shadow: 0 0 0 3px var(--edu-saffron-lt) !important;
+}
+.oe_button_box .oe_stat_button .o_stat_info .o_stat_value {
+  color: var(--edu-prussian);
+  font-weight: 700;
+}
+.oe_button_box .oe_stat_button .o_stat_info .o_stat_text {
+  color: var(--edu-muted);
+  font-size: 0.78rem;
+}
+
+/* ── Status badges ────────────────────────────────────────── */
+/* Generic base */
+.edu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+/* Student states */
+.edu-state-draft    { background: #F1F5F9; color: #475569; }
+.edu-state-active   { background: var(--edu-forest-lt); color: var(--edu-forest); }
+.edu-state-suspended{ background: #FEF3E0; color: #92400E; }
+.edu-state-graduated{ background: #EDE9FE; color: #5B21B6; }
+.edu-state-alumni   { background: #F0F4FF; color: var(--edu-prussian); }
+
+/* Fee states */
+.edu-state-pending  { background: #F1F5F9; color: #475569; }
+.edu-state-partial  { background: #FEF3E0; color: #92400E; }
+.edu-state-paid     { background: var(--edu-forest-lt); color: var(--edu-forest); }
+.edu-state-overdue  { background: #FEE2E2; color: #991B1B; }
+.edu-state-waived   { background: #F3F4F6; color: #6B7280; }
+
+/* Lead states */
+.edu-state-new       { background: #EFF6FF; color: #1D4ED8; }
+.edu-state-contacted { background: #F0F4FF; color: var(--edu-prussian); }
+.edu-state-qualified { background: var(--edu-saffron-lt); color: #92400E; }
+.edu-state-converted { background: var(--edu-forest-lt); color: var(--edu-forest); }
+.edu-state-lost      { background: #F3F4F6; color: #6B7280; }
+
+/* Applicant states */
+.edu-state-submitted            { background: #EFF6FF; color: #1D4ED8; }
+.edu-state-document_verification{ background: var(--edu-saffron-lt); color: #92400E; }
+.edu-state-interview            { background: #EDE9FE; color: #5B21B6; }
+.edu-state-approved             { background: var(--edu-forest-lt); color: var(--edu-forest); }
+.edu-state-rejected             { background: #FEE2E2; color: #991B1B; }
+
+/* Exam states */
+.edu-state-ongoing   { background: var(--edu-saffron-lt); color: #92400E; }
+.edu-state-completed { background: var(--edu-forest-lt); color: var(--edu-forest); }
+.edu-state-cancelled { background: #FEE2E2; color: #991B1B; }
+
+/* ── Kanban card left-border accent ──────────────────────── */
+.o_kanban_record.edu-priority-high { border-left: 3px solid #DC2626 !important; }
+.o_kanban_record.edu-priority-medium { border-left: 3px solid var(--edu-saffron) !important; }
+.o_kanban_record.edu-priority-low { border-left: 3px solid var(--edu-border) !important; }
+
+/* Lead kanban cards */
+.o_kanban_record .edu-lead-source {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--edu-ground);
+  color: var(--edu-muted);
+  letter-spacing: 0.03em;
+}
+.o_kanban_record .edu-lead-website-source {
+  background: #EFF6FF;
+  color: #1D4ED8;
+}
+
+/* ── Fee progress bar ────────────────────────────────────── */
+.edu-fee-progress {
+  margin: 12px 0 6px;
+}
+.edu-fee-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--edu-muted);
+  margin-bottom: 4px;
+}
+.edu-fee-progress-label strong {
+  color: var(--edu-slate);
+}
+.edu-fee-bar-track {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--edu-border);
+  overflow: hidden;
+}
+.edu-fee-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--edu-forest) 0%, #22C55E 100%);
+  transition: width 0.3s ease;
+}
+.edu-fee-bar-fill.overdue {
+  background: linear-gradient(90deg, #DC2626 0%, #F87171 100%);
+}
+
+/* ── Attendance bar ───────────────────────────────────────── */
+.edu-att-bar-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--edu-border);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.edu-att-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.edu-att-fill-good    { background: var(--edu-forest); }
+.edu-att-fill-warning { background: var(--edu-saffron); }
+.edu-att-fill-poor    { background: #DC2626; }
+
+/* ── Kanban student card ─────────────────────────────────── */
+.o_kanban_record .edu-student-card-code {
+  font-size: 0.72rem;
+  color: var(--edu-muted);
+  font-variant-numeric: tabular-nums;
+}
+.o_kanban_record .edu-student-card-class {
+  font-size: 0.82rem;
+  color: var(--edu-prussian);
+  font-weight: 600;
+}
+.o_kanban_record .edu-student-att-label {
+  font-size: 0.72rem;
+  color: var(--edu-muted);
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── Applicant kanban ────────────────────────────────────── */
+.o_kanban_record .edu-applicant-student {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--edu-slate);
+}
+.o_kanban_record .edu-applicant-guardian {
+  font-size: 0.8rem;
+  color: var(--edu-muted);
+}
+.o_kanban_record .edu-applicant-class {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--edu-ground);
+  color: var(--edu-prussian);
+  margin-top: 5px;
+}
+
+/* ── Form group accent ──────────────────────────────────── */
+.o_inner_group .o_wrap_field:first-child > .o_cell:first-child {
+  color: var(--edu-muted);
+}
+
+/* ── Notebook / tab refinements ─────────────────────────── */
+.o_notebook .nav-tabs .nav-link.active {
+  border-bottom-color: var(--edu-prussian) !important;
+  color: var(--edu-prussian) !important;
+  font-weight: 600;
+}
+
+/* ── Dashboard fee-due alert strip ──────────────────────── */
+.edu-overdue-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FEF3E0;
+  border: 1px solid #F6C56D;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 22px;
+  font-size: 0.88rem;
+  color: #92400E;
+}
+.edu-overdue-strip .edu-overdue-count {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #92400E;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .oe_button_box { flex-wrap: wrap; }
+}

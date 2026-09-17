@@ -1,16 +1,74 @@
 <odoo>
+
+    <record id="view_edu_student_kanban" model="ir.ui.view">
+        <field name="name">edu.student.kanban</field>
+        <field name="model">edu.student</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column" default_group_by="state">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="student_code"/>
+                <field name="class_id"/>
+                <field name="image"/>
+                <field name="attendance_percentage"/>
+                <field name="state"/>
+                <field name="total_fees_due"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-start gap-2 mb-1">
+                            <field name="image" widget="image" class="rounded-circle flex-shrink-0"
+                                   style="width:40px;height:40px;object-fit:cover;"/>
+                            <div class="min-width-0">
+                                <field name="name" class="fw-bold"/>
+                                <div class="edu-student-card-code"><field name="student_code"/></div>
+                            </div>
+                        </div>
+                        <div class="edu-student-card-class mt-1"><field name="class_id"/></div>
+                        <div class="edu-student-att-label">
+                            <span>Attendance</span>
+                            <span><field name="attendance_percentage" widget="percentage"/></span>
+                        </div>
+                        <div class="edu-att-bar-track">
+                            <div class="edu-att-bar-fill"
+                                 t-attf-class="edu-att-bar-fill {{ record.attendance_percentage.raw_value >= 75 and 'edu-att-fill-good' or record.attendance_percentage.raw_value >= 50 and 'edu-att-fill-warning' or 'edu-att-fill-poor' }}"
+                                 t-attf-style="width:{{ [record.attendance_percentage.raw_value, 100] | min }}%"/>
+                        </div>
+                        <footer class="pt-2 mt-1">
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'active'"
+                                   decoration-warning="state == 'suspended'"
+                                   decoration-info="state == 'draft'"
+                                   decoration-muted="state in ('graduated','alumni')"/>
+                            <t t-if="record.total_fees_due.raw_value > 0">
+                                <span class="ms-auto text-danger small fw-semibold">
+                                    Due: <field name="total_fees_due" widget="monetary"/>
+                                </span>
+                            </t>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="view_edu_student_list" model="ir.ui.view">
         <field name="name">edu.student.list</field>
         <field name="model">edu.student</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="student_code"/>
+            <list decoration-muted="state in ('suspended','alumni')"
+                  decoration-success="state == 'active'"
+                  decoration-info="state == 'draft'">
+                <field name="student_code" optional="show"/>
                 <field name="name"/>
                 <field name="class_id"/>
-                <field name="roll_number"/>
+                <field name="roll_number" optional="hide"/>
                 <field name="attendance_percentage" widget="percentage"/>
-                <field name="total_fees_due"/>
-                <field name="state"/>
+                <field name="total_fees_due" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'suspended'"
+                       decoration-info="state == 'draft'"
+                       decoration-muted="state in ('graduated','alumni')"/>
             </list>
         </field>
     </record>
@@ -22,32 +80,48 @@
             <form>
                 <header>
                     <button name="action_activate" string="Activate" type="object"
-                            invisible="state == 'active'"/>
+                            invisible="state == 'active'" class="oe_highlight"/>
                     <button name="action_suspend" string="Suspend" type="object"
-                            invisible="state in ('suspended', 'graduated', 'alumni')"/>
+                            invisible="state in ('suspended','graduated','alumni')"/>
                     <button name="action_graduate" string="Graduate" type="object"
-                            invisible="state in ('graduated', 'alumni', 'draft')"/>
+                            invisible="state in ('graduated','alumni','draft')"/>
                     <button name="action_alumni" string="Mark Alumni" type="object"
                             invisible="state == 'alumni'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,active,graduated"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_student_fees" type="object" class="oe_stat_button" icon="fa-dollar">
+                            <field name="fee_count" widget="statinfo" string="Fees"/>
+                        </button>
+                        <button name="action_view_student_exams" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="exam_result_count" widget="statinfo" string="Exams"/>
+                        </button>
+                        <button name="action_view_student_attendance" type="object" class="oe_stat_button" icon="fa-calendar-check-o">
+                            <field name="attendance_count" widget="statinfo" string="Attendance"/>
+                        </button>
+                        <button name="action_view_student_leaves" type="object" class="oe_stat_button" icon="fa-calendar-times-o">
+                            <field name="leave_count" widget="statinfo" string="Leaves"/>
+                        </button>
+                    </div>
                     <field name="image" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name"/>
-                        </h1>
+                        <label class="o_field_label" for="name"/>
+                        <h1><field name="name" placeholder="Student Name"/></h1>
+                        <div class="text-muted small"><field name="student_code"/></div>
                     </div>
                     <group>
-                        <group>
-                            <field name="student_code"/>
+                        <group string="Enrollment">
                             <field name="class_id"/>
                             <field name="roll_number"/>
                             <field name="academic_year_id"/>
                             <field name="admission_date"/>
+                            <field name="applicant_id" optional="show"/>
                         </group>
-                        <group>
+                        <group string="Personal">
                             <field name="email"/>
                             <field name="phone"/>
                             <field name="gender"/>
@@ -56,12 +130,12 @@
                             <field name="blood_group"/>
                         </group>
                     </group>
-                    <group>
+                    <group string="Performance Summary">
                         <field name="attendance_percentage" widget="percentage"/>
                         <field name="total_fees_due"/>
                     </group>
                     <notebook>
-                        <page string="Guardians">
+                        <page string="Guardians" name="guardians">
                             <field name="guardian_ids">
                                 <list>
                                     <field name="name"/>
@@ -71,52 +145,63 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Address">
-                            <field name="address"/>
-                            <field name="city"/>
-                            <field name="state_id"/>
-                            <field name="country_id"/>
+                        <page string="Address" name="address">
+                            <group>
+                                <field name="address"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                            </group>
                         </page>
-                        <page string="Attendance">
+                        <page string="Attendance" name="attendance">
                             <field name="attendance_line_ids" readonly="1">
                                 <list>
                                     <field name="date"/>
-                                    <field name="status"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status == 'present'"
+                                           decoration-warning="status == 'late'"
+                                           decoration-danger="status == 'absent'"/>
                                     <field name="remarks"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Exam Results">
+                        <page string="Exam Results" name="results">
                             <field name="exam_result_ids" readonly="1">
                                 <list>
                                     <field name="exam_id"/>
                                     <field name="marks_obtained"/>
                                     <field name="percentage"/>
                                     <field name="grade"/>
-                                    <field name="is_passed"/>
+                                    <field name="is_passed" widget="boolean_toggle"/>
+                                    <field name="remarks"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Fees">
+                        <page string="Fees" name="fees">
                             <field name="fee_ids" readonly="1">
-                                <list>
+                                <list decoration-danger="state == 'overdue'"
+                                      decoration-success="state == 'paid'">
                                     <field name="name"/>
                                     <field name="fee_type"/>
                                     <field name="net_amount"/>
                                     <field name="paid_amount"/>
                                     <field name="balance"/>
                                     <field name="due_date"/>
-                                    <field name="state"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'paid'"
+                                           decoration-danger="state == 'overdue'"
+                                           decoration-warning="state == 'partial'"
+                                           decoration-muted="state in ('waived','pending')"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Leave Requests">
+                        <page string="Leave Requests" name="leaves">
                             <field name="leave_request_ids" readonly="1">
                                 <list>
                                     <field name="leave_type"/>
                                     <field name="date_from"/>
                                     <field name="date_to"/>
-                                    <field name="state"/>
+                                    <field name="state" widget="badge"/>
                                 </list>
                             </field>
                         </page>
@@ -132,13 +217,22 @@
         <field name="model">edu.student</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Student" filter_domain="[('name','ilike',self)]"/>
                 <field name="student_code"/>
                 <field name="class_id"/>
-                <filter name="active_students" string="Active" domain="[('state', '=', 'active')]"/>
+                <field name="academic_year_id"/>
+                <separator/>
+                <filter name="active_students" string="Active" domain="[('state','=','active')]"/>
+                <filter name="draft_students" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="suspended" string="Suspended" domain="[('state','=','suspended')]"/>
+                <filter name="fees_due" string="Has Fees Due" domain="[('total_fees_due','>',0)]"/>
+                <separator/>
+                <filter name="low_attendance" string="Low Attendance (&lt;75%)"
+                        domain="[('attendance_percentage','&lt;',75)]"/>
                 <group>
-                    <filter name="group_by_class" string="Class" context="{'group_by': 'class_id'}"/>
-                    <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_class"  string="Class"  context="{'group_by':'class_id'}"/>
+                    <filter name="group_by_state"  string="Status" context="{'group_by':'state'}"/>
+                    <filter name="group_by_year"   string="Academic Year" context="{'group_by':'academic_year_id'}"/>
                 </group>
             </search>
         </field>
@@ -147,7 +241,7 @@
     <record id="action_edu_student" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">edu.student</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="search_view_id" ref="view_edu_student_search"/>
         <field name="context">{'search_default_active_students': 1}</field>
     </record>

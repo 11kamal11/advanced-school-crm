@@ -1,20 +1,37 @@
 <odoo>
+
     <record id="view_edu_lead_kanban" model="ir.ui.view">
         <field name="name">edu.lead.kanban</field>
         <field name="model">edu.lead</field>
         <field name="arch" type="xml">
             <kanban default_group_by="stage_id" class="o_kanban_small_column">
                 <field name="active"/>
+                <field name="is_from_website"/>
+                <field name="priority"/>
+                <field name="source_id"/>
+                <field name="class_applying_id"/>
+                <field name="state"/>
                 <templates>
                     <t t-name="card">
-                        <field name="name" class="fw-bold fs-5"/>
-                        <field name="contact_name"/>
-                        <field name="class_applying_id"/>
-                        <footer class="pt-1 mt-0">
-                            <div class="d-flex mt-auto">
-                                <field name="priority" widget="priority" class="me-2"/>
-                                <field name="activity_ids" widget="kanban_activity"/>
+                        <div class="d-flex align-items-start justify-content-between gap-1">
+                            <field name="name" class="fw-bold"/>
+                            <t t-if="record.is_from_website.raw_value">
+                                <span class="edu-lead-source edu-lead-website-source ms-1 flex-shrink-0">Web</span>
+                            </t>
+                        </div>
+                        <div class="text-muted small mt-1"><field name="contact_name"/></div>
+                        <t t-if="record.student_name.value">
+                            <div class="small mt-1">
+                                <i class="fa fa-child me-1 text-muted"/>
+                                <field name="student_name"/>
                             </div>
+                        </t>
+                        <t t-if="record.class_applying_id.value">
+                            <div class="edu-lead-source mt-1"><field name="class_applying_id"/></div>
+                        </t>
+                        <footer class="pt-2 mt-1">
+                            <field name="priority" widget="priority"/>
+                            <field name="activity_ids" widget="kanban_activity" class="ms-1"/>
                             <field name="user_id" widget="many2one_avatar_user" class="ms-auto"/>
                         </footer>
                     </t>
@@ -27,14 +44,22 @@
         <field name="name">edu.lead.list</field>
         <field name="model">edu.lead</field>
         <field name="arch" type="xml">
-            <list decoration-muted="state == 'lost'">
+            <list decoration-muted="state == 'lost'"
+                  decoration-success="state == 'converted'"
+                  decoration-info="state == 'new'">
                 <field name="name"/>
                 <field name="contact_name"/>
+                <field name="student_name" optional="show"/>
                 <field name="class_applying_id"/>
                 <field name="stage_id"/>
-                <field name="source_id"/>
-                <field name="user_id"/>
-                <field name="state"/>
+                <field name="source_id" optional="show"/>
+                <field name="priority" widget="priority"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'new'"
+                       decoration-warning="state == 'contacted'"
+                       decoration-success="state in ('qualified','converted')"
+                       decoration-muted="state == 'lost'"/>
             </list>
         </field>
     </record>
@@ -47,31 +72,31 @@
                 <header>
                     <button name="action_mark_contacted" string="Mark Contacted" type="object"
                             invisible="state != 'new'"/>
-                    <button name="action_mark_qualified" string="Mark Qualified" type="object"
-                            invisible="state != 'contacted'"/>
-                    <button name="action_convert_to_applicant" string="Convert to Applicant"
+                    <button name="action_mark_qualified" string="Qualify" type="object"
+                            invisible="state != 'contacted'" class="oe_highlight"/>
+                    <button name="action_convert_to_applicant" string="Convert to Application"
                             type="object" class="oe_highlight"
-                            invisible="state not in ('contacted', 'qualified')"/>
+                            invisible="state not in ('contacted','qualified')"/>
                     <button name="action_lost" string="Mark Lost" type="object"
-                            invisible="state in ('converted', 'lost')"/>
-                    <button name="action_restore" string="Restore" type="object"
+                            invisible="state in ('converted','lost')"/>
+                    <button name="action_restore" string="Restore Inquiry" type="object"
                             invisible="state != 'lost'"/>
-                    <field name="stage_id" widget="statusbar"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name"/>
-                        </h1>
+                        <label class="o_field_label" for="name"/>
+                        <h1><field name="name" placeholder="Inquiry title"/></h1>
                     </div>
                     <group>
                         <group string="Contact">
                             <field name="contact_name"/>
-                            <field name="email"/>
-                            <field name="phone"/>
-                            <field name="mobile"/>
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="mobile" widget="phone" optional="show"/>
+                            <field name="partner_id" optional="show"/>
                         </group>
-                        <group string="Admission Interest">
+                        <group string="Prospective Student">
                             <field name="student_name"/>
                             <field name="student_dob"/>
                             <field name="class_applying_id"/>
@@ -79,21 +104,26 @@
                         </group>
                     </group>
                     <group>
-                        <group string="Tracking">
+                        <group string="Pipeline">
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="kanban_state" widget="state_selection"/>
+                            <field name="state" widget="badge"
+                                   decoration-info="state == 'new'"
+                                   decoration-warning="state == 'contacted'"
+                                   decoration-success="state in ('qualified','converted')"
+                                   decoration-muted="state == 'lost'"/>
+                            <field name="lost_reason_id" invisible="state != 'lost'"/>
+                            <field name="applicant_id" readonly="1" optional="show"/>
+                        </group>
+                        <group string="Source Tracking">
                             <field name="source_id"/>
                             <field name="medium_id"/>
                             <field name="campaign_id"/>
-                            <field name="is_from_website"/>
-                        </group>
-                        <group string="Ownership">
-                            <field name="user_id"/>
-                            <field name="priority"/>
-                            <field name="state"/>
-                            <field name="lost_reason_id" invisible="state != 'lost'"/>
-                            <field name="applicant_id"/>
+                            <field name="is_from_website" widget="boolean_toggle"/>
                         </group>
                     </group>
-                    <field name="description" placeholder="Notes..."/>
+                    <field name="description" placeholder="Notes, questions asked, key observations…"/>
                 </sheet>
                 <chatter reload_on_post="True"/>
             </form>
@@ -107,12 +137,22 @@
             <search>
                 <field name="name"/>
                 <field name="contact_name"/>
+                <field name="student_name"/>
                 <field name="class_applying_id"/>
-                <filter name="my_leads" string="My Inquiries" domain="[('user_id', '=', uid)]"/>
-                <filter name="from_website" string="From Website" domain="[('is_from_website', '=', True)]"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter name="my_leads" string="My Inquiries" domain="[('user_id','=',uid)]"/>
+                <filter name="from_website" string="From Website" domain="[('is_from_website','=',True)]"/>
+                <filter name="high_priority" string="High Priority" domain="[('priority','=','high')]"/>
+                <separator/>
+                <filter name="new" string="New" domain="[('state','=','new')]"/>
+                <filter name="qualified" string="Qualified" domain="[('state','=','qualified')]"/>
+                <filter name="archived" string="Lost / Archived" domain="[('active','=',False)]"/>
                 <group>
-                    <filter name="group_by_stage" string="Stage" context="{'group_by': 'stage_id'}"/>
-                    <filter name="group_by_source" string="Source" context="{'group_by': 'source_id'}"/>
+                    <filter name="group_by_stage"  string="Stage"   context="{'group_by':'stage_id'}"/>
+                    <filter name="group_by_source" string="Source"  context="{'group_by':'source_id'}"/>
+                    <filter name="group_by_user"   string="Assigned To" context="{'group_by':'user_id'}"/>
+                    <filter name="group_by_class"  string="Class"   context="{'group_by':'class_applying_id'}"/>
                 </group>
             </search>
         </field>
@@ -123,6 +163,5 @@
         <field name="res_model">edu.lead</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="view_edu_lead_search"/>
-        <field name="context">{'search_default_my_leads': 0}</field>
     </record>
 </odoo>

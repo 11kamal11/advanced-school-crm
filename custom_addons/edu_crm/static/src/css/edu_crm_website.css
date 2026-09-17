@@ -1,159 +1,210 @@
+/* ============================================================
+   edu_crm — Public Website / Portal styles
+   Palette: Prussian #1B3F6E  |  Saffron #C8871A
+   ============================================================ */
+
 :root {
-    --edu-primary: #163B5C;
-    --edu-primary-dark: #0E2740;
-    --edu-accent: #2E86C1;
-    --edu-accent-light: #EAF2F8;
-    --edu-ink: #1C2B36;
-    --edu-muted: #5B6B79;
+  --edu-prussian:    #1B3F6E;
+  --edu-prussian-dk: #132E52;
+  --edu-saffron:     #C8871A;
+  --edu-saffron-lt:  #FEF3E0;
+  --edu-forest:      #177A63;
+  --edu-ink:         #0C1A26;
+  --edu-muted:       #5A6B7A;
+  --edu-border:      #DDE3EA;
+  --edu-ground:      #F5F7FA;
 }
 
+/* ── Typography ─────────────────────────────────────────── */
+body { color: var(--edu-ink); }
+
+/* ── Navbar ──────────────────────────────────────────────── */
 .edu-navbar-brand {
-    font-weight: 700;
-    letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--edu-prussian) !important;
 }
+.navbar .nav-link { font-weight: 500; }
+.navbar .nav-link:hover { color: var(--edu-saffron) !important; }
 
+/* ── Hero section ────────────────────────────────────────── */
 .edu-hero {
-    background: linear-gradient(135deg, var(--edu-primary) 0%, var(--edu-primary-dark) 100%);
-    color: #fff;
-    padding: 6rem 0 5rem;
+  background: linear-gradient(148deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
+  color: #fff;
+  padding: 6.5rem 0 5.5rem;
+  position: relative;
+  overflow: hidden;
 }
-
+.edu-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,135,26,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
 .edu-hero h1 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 2.9rem;
+  line-height: 1.1;
 }
-
 .edu-hero p.lead {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.15rem;
-    max-width: 42rem;
+  color: rgba(255,255,255,0.82);
+  font-size: 1.15rem;
+  max-width: 44rem;
+  font-weight: 400;
 }
 
 .edu-hero .btn-edu-primary {
-    background-color: #fff;
-    color: var(--edu-primary);
-    font-weight: 600;
-    border: none;
-    padding: 0.7rem 1.6rem;
+  background: var(--edu-saffron);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  padding: 0.72rem 1.65rem;
+  border-radius: 8px;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s;
 }
-
 .edu-hero .btn-edu-primary:hover {
-    background-color: var(--edu-accent-light);
-    color: var(--edu-primary-dark);
+  background: #A06712;
+  color: #fff;
+  transform: translateY(-1px);
 }
-
 .edu-hero .btn-edu-outline {
-    border: 1.5px solid rgba(255, 255, 255, 0.55);
-    color: #fff;
-    font-weight: 600;
-    padding: 0.7rem 1.6rem;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.72rem 1.65rem;
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.2s;
 }
-
 .edu-hero .btn-edu-outline:hover {
-    border-color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
+  border-color: #fff;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
 
-.edu-section {
-    padding: 4.5rem 0;
-}
-
-.edu-section-alt {
-    background-color: #F7F9FB;
-}
+/* ── Sections ────────────────────────────────────────────── */
+.edu-section { padding: 5rem 0; }
+.edu-section-alt { background-color: var(--edu-ground); }
 
 .edu-eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--edu-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--edu-saffron);
 }
-
 .edu-section-title {
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--edu-ink);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--edu-ink);
 }
-
 .edu-section-subtitle {
-    color: var(--edu-muted);
-    max-width: 40rem;
+  color: var(--edu-muted);
+  max-width: 40rem;
+  font-size: 1.05rem;
 }
 
+/* ── Cards ───────────────────────────────────────────────── */
 .edu-card {
-    border: 1px solid #E7ECF1;
-    border-radius: 0.75rem;
-    background: #fff;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    height: 100%;
+  border: 1.5px solid var(--edu-border);
+  border-radius: 14px;
+  background: #fff;
+  transition: box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s;
+  height: 100%;
 }
-
 .edu-card:hover {
-    box-shadow: 0 12px 28px rgba(22, 59, 92, 0.12);
-    transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(27,63,110,0.13);
+  transform: translateY(-3px);
+  border-color: rgba(200,135,26,0.35);
 }
-
-.edu-card-body {
-    padding: 1.75rem;
-}
-
+.edu-card-body { padding: 1.75rem; }
 .edu-card-img {
-    height: 160px;
-    background-color: var(--edu-accent-light);
-    background-size: cover;
-    background-position: center;
-    border-radius: 0.75rem 0.75rem 0 0;
+  height: 165px;
+  background-color: var(--edu-saffron-lt);
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px 12px 0 0;
 }
 
+/* ── Badges ──────────────────────────────────────────────── */
 .edu-badge {
-    display: inline-block;
-    background-color: var(--edu-accent-light);
-    color: var(--edu-primary);
-    font-weight: 600;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    letter-spacing: 0.02em;
+  display: inline-block;
+  background-color: var(--edu-saffron-lt);
+  color: var(--edu-saffron);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 0.22rem 0.72rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
+/* ── Faculty avatar ──────────────────────────────────────── */
 .edu-faculty-avatar {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: var(--edu-accent-light);
-    border: 3px solid #fff;
-    box-shadow: 0 2px 10px rgba(22, 59, 92, 0.15);
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--edu-saffron-lt);
+  border: 3px solid #fff;
+  box-shadow: 0 4px 14px rgba(27,63,110,0.18);
 }
 
+/* ── CTA banner ──────────────────────────────────────────── */
 .edu-cta-banner {
-    background-color: var(--edu-primary);
-    color: #fff;
-    border-radius: 1rem;
-    padding: 3rem;
+  background: linear-gradient(135deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 3.5rem;
+  position: relative;
+  overflow: hidden;
 }
-
-.edu-cta-banner h3 {
-    font-weight: 700;
+.edu-cta-banner::before {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,135,26,0.22) 0%, transparent 70%);
+  pointer-events: none;
 }
+.edu-cta-banner h3 { font-weight: 800; }
 
+/* ── Form card ───────────────────────────────────────────── */
 .edu-form-card {
-    border: 1px solid #E7ECF1;
-    border-radius: 0.75rem;
-    padding: 2.5rem;
-    background: #fff;
+  border: 1.5px solid var(--edu-border);
+  border-radius: 14px;
+  padding: 2.5rem;
+  background: #fff;
 }
 
+/* ── Stats strip ─────────────────────────────────────────── */
 .edu-stat-number {
-    font-size: 2.25rem;
-    font-weight: 700;
-    color: var(--edu-primary);
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--edu-prussian);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.edu-stat-label {
+  color: var(--edu-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
-.edu-stat-label {
-    color: var(--edu-muted);
-    font-size: 0.9rem;
+/* ── Portal ──────────────────────────────────────────────── */
+.o_portal_my_home .o_portal_doc_entry a:hover { color: var(--edu-saffron); }
+
+/* ── Focus ───────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--edu-saffron); outline-offset: 2px; }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .edu-hero { padding: 4rem 0 3.5rem; }
+  .edu-hero h1 { font-size: 2rem; }
+  .edu-cta-banner { padding: 2rem 1.5rem; }
+  .edu-stat-number { font-size: 1.8rem; }
 }

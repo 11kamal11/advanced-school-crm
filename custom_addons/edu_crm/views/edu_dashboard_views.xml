@@ -6,77 +6,84 @@
             <form create="false" edit="false" delete="false" class="o_edu_dashboard">
                 <sheet>
                     <div class="edu-dash-header">
-                        <h1>School CRM Dashboard</h1>
-                        <p>Quick access to everything you manage.</p>
+                        <div>
+                            <h1 class="edu-dash-title">School CRM</h1>
+                            <p class="edu-dash-subtitle">Your school operations at a glance</p>
+                        </div>
                     </div>
 
                     <div class="edu-hero-strip">
-                        <button name="%(action_edu_student)d" type="action" class="edu-hero-card edu-hero-blue">
-                            <i class="fa fa-user edu-hero-icon"/>
+                        <button name="%(action_edu_student)d" type="action" class="edu-hero-card edu-hero-prussian">
+                            <i class="fa fa-users edu-hero-icon" title="Students"/>
                             <span class="edu-hero-value"><field name="student_count"/></span>
                             <span class="edu-hero-label">Active Students</span>
                         </button>
-                        <button name="%(action_edu_class)d" type="action" class="edu-hero-card edu-hero-purple">
-                            <i class="fa fa-building edu-hero-icon"/>
-                            <span class="edu-hero-value"><field name="class_count"/></span>
-                            <span class="edu-hero-label">Classes</span>
+                        <button name="%(action_edu_fee)d" type="action" class="edu-hero-card edu-hero-saffron">
+                            <i class="fa fa-exclamation-circle edu-hero-icon" title="Fees Due"/>
+                            <span class="edu-hero-value"><field name="fee_due_count"/></span>
+                            <span class="edu-hero-label">Fees Outstanding</span>
                         </button>
-                        <button name="%(action_edu_leave_request)d" type="action" class="edu-hero-card edu-hero-amber">
-                            <i class="fa fa-calendar-times-o edu-hero-icon"/>
+                        <button name="%(action_edu_lead)d" type="action" class="edu-hero-card edu-hero-forest">
+                            <i class="fa fa-phone edu-hero-icon" title="Open Inquiries"/>
+                            <span class="edu-hero-value"><field name="lead_count"/></span>
+                            <span class="edu-hero-label">Open Inquiries</span>
+                        </button>
+                        <button name="%(action_edu_leave_request)d" type="action" class="edu-hero-card edu-hero-slate">
+                            <i class="fa fa-calendar-times-o edu-hero-icon" title="Leave Requests"/>
                             <span class="edu-hero-value"><field name="leave_pending_count"/></span>
                             <span class="edu-hero-label">Pending Leave</span>
                         </button>
-                        <button name="%(action_edu_asset)d" type="action" class="edu-hero-card edu-hero-emerald">
-                            <i class="fa fa-laptop edu-hero-icon"/>
-                            <span class="edu-hero-value"><field name="asset_checked_out_count"/></span>
-                            <span class="edu-hero-label">Assets Checked Out</span>
-                        </button>
                     </div>
 
+                    <!-- Academics -->
                     <div class="edu-section">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-blue"/>Academics</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-prussian"/>
+                            <span class="edu-section-title-text">Academics</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_student)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-user"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-users" title="Students"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="student_count"/></div>
                                     <div class="edu-kpi-label">Students</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_teacher)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-chalkboard-teacher"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-user-circle" title="Teachers"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="teacher_count"/></div>
                                     <div class="edu-kpi-label">Teachers</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_class)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-building"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-building-o" title="Classes"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="class_count"/></div>
                                     <div class="edu-kpi-label">Classes</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_subject)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-book"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-book" title="Subjects"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Subjects</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_timetable)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-calendar"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-calendar" title="Timetable"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Timetable</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_exam)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-pencil-square-o"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-pencil-square-o" title="Exams"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Exams</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_guardian)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-blue"><i class="fa fa-users"/></div>
+                                <div class="edu-kpi-icon edu-ic-prussian"><i class="fa fa-home" title="Guardians"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Guardians</div>
                                 </div>
@@ -84,30 +91,35 @@
                         </div>
                     </div>
 
+                    <!-- Attendance and Leave -->
                     <div class="edu-section">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-teal"/>Attendance &amp; Leave</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-teal"/>
+                            <span class="edu-section-title-text">Attendance &amp; Leave</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_attendance_wizard)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-teal"><i class="fa fa-check-square-o"/></div>
+                                <div class="edu-kpi-icon edu-ic-teal"><i class="fa fa-check-square-o" title="Take Attendance"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Take Attendance</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_attendance)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-teal"><i class="fa fa-list"/></div>
+                                <div class="edu-kpi-icon edu-ic-teal"><i class="fa fa-list" title="Attendance Log"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Attendance Log</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_leave_request)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-teal"><i class="fa fa-calendar-times-o"/></div>
+                                <div class="edu-kpi-icon edu-ic-teal"><i class="fa fa-calendar-times-o" title="Leave Requests"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="leave_pending_count"/></div>
-                                    <div class="edu-kpi-label">Pending Leave Requests</div>
+                                    <div class="edu-kpi-label">Pending Requests</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_announcement)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-teal"><i class="fa fa-bullhorn"/></div>
+                                <div class="edu-kpi-icon edu-ic-teal"><i class="fa fa-bullhorn" title="Announcements"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="announcement_count"/></div>
                                     <div class="edu-kpi-label">Announcements</div>
@@ -116,18 +128,23 @@
                         </div>
                     </div>
 
+                    <!-- Admissions -->
                     <div class="edu-section" groups="edu_crm.group_edu_frontdesk">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-amber"/>Admissions</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-saffron"/>
+                            <span class="edu-section-title-text">Admissions</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_lead)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-amber"><i class="fa fa-phone"/></div>
+                                <div class="edu-kpi-icon edu-ic-saffron"><i class="fa fa-phone" title="Inquiries"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="lead_count"/></div>
                                     <div class="edu-kpi-label">Open Inquiries</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_applicant)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-amber"><i class="fa fa-file-text-o"/></div>
+                                <div class="edu-kpi-icon edu-ic-saffron"><i class="fa fa-file-text-o" title="Applications"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="applicant_count"/></div>
                                     <div class="edu-kpi-label">Pending Applications</div>
@@ -136,19 +153,24 @@
                         </div>
                     </div>
 
+                    <!-- Finance -->
                     <div class="edu-section" groups="edu_crm.group_edu_frontdesk">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-emerald"/>Finance</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-forest"/>
+                            <span class="edu-section-title-text">Finance</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_fee)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-emerald"><i class="fa fa-money"/></div>
+                                <div class="edu-kpi-icon edu-ic-forest"><i class="fa fa-money" title="Fees"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="fee_due_count"/></div>
                                     <div class="edu-kpi-label">Fees Due</div>
-                                    <div class="edu-kpi-sub"><field name="fee_due_amount"/> outstanding</div>
+                                    <div class="edu-kpi-sub"><field name="fee_due_amount" widget="monetary"/> outstanding</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_fee_structure)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-emerald"><i class="fa fa-list-alt"/></div>
+                                <div class="edu-kpi-icon edu-ic-forest"><i class="fa fa-list-alt" title="Fee Structures"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Fee Structures</div>
                                 </div>
@@ -156,18 +178,23 @@
                         </div>
                     </div>
 
+                    <!-- Assets -->
                     <div class="edu-section">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-purple"/>Assets</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-purple"/>
+                            <span class="edu-section-title-text">Assets</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_asset)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-purple"><i class="fa fa-laptop"/></div>
+                                <div class="edu-kpi-icon edu-ic-purple"><i class="fa fa-laptop" title="Assets"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="asset_count"/></div>
-                                    <div class="edu-kpi-label">Assets</div>
+                                    <div class="edu-kpi-label">Total Assets</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_asset_checkout)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-purple"><i class="fa fa-exchange"/></div>
+                                <div class="edu-kpi-icon edu-ic-purple"><i class="fa fa-exchange" title="Checked Out"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-value"><field name="asset_checked_out_count"/></div>
                                     <div class="edu-kpi-label">Checked Out</div>
@@ -176,29 +203,34 @@
                         </div>
                     </div>
 
+                    <!-- Reports -->
                     <div class="edu-section" groups="edu_crm.group_edu_frontdesk">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-indigo"/>Website &amp; Reports</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-slate"/>
+                            <span class="edu-section-title-text">Reports</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_program)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-indigo"><i class="fa fa-globe"/></div>
+                                <div class="edu-kpi-icon edu-ic-slate"><i class="fa fa-globe" title="Programs"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Programs</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_attendance_analysis)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-indigo"><i class="fa fa-bar-chart"/></div>
+                                <div class="edu-kpi-icon edu-ic-slate"><i class="fa fa-bar-chart" title="Attendance Analysis"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Attendance Analysis</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_fee_analysis)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-indigo"><i class="fa fa-line-chart"/></div>
+                                <div class="edu-kpi-icon edu-ic-slate"><i class="fa fa-line-chart" title="Fee Collection"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Fee Collection</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_lead_analysis)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-indigo"><i class="fa fa-filter"/></div>
+                                <div class="edu-kpi-icon edu-ic-slate"><i class="fa fa-filter" title="Admissions Funnel"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Admissions Funnel</div>
                                 </div>
@@ -206,23 +238,28 @@
                         </div>
                     </div>
 
+                    <!-- Configuration -->
                     <div class="edu-section" groups="edu_crm.group_edu_admin">
-                        <div class="edu-section-title"><span class="edu-dot edu-dot-slate"/>Configuration</div>
+                        <div class="edu-section-title">
+                            <span class="edu-section-accent edu-acc-slate"/>
+                            <span class="edu-section-title-text">Configuration</span>
+                            <span class="edu-section-line"/>
+                        </div>
                         <div class="edu-kpi-grid">
                             <button name="%(action_edu_academic_year)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-slate"><i class="fa fa-cog"/></div>
+                                <div class="edu-kpi-icon edu-ic-slate"><i class="fa fa-calendar-o" title="Academic Years"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Academic Years</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_crm_stage)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-slate"><i class="fa fa-cog"/></div>
+                                <div class="edu-kpi-icon edu-ic-slate"><i class="fa fa-columns" title="Pipeline Stages"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Pipeline Stages</div>
                                 </div>
                             </button>
                             <button name="%(action_edu_demo_data_wizard)d" type="action" class="edu-kpi-card">
-                                <div class="edu-kpi-icon edu-bg-slate"><i class="fa fa-magic"/></div>
+                                <div class="edu-kpi-icon edu-ic-saffron"><i class="fa fa-magic" title="Sample Data"/></div>
                                 <div class="edu-kpi-body">
                                     <div class="edu-kpi-label">Generate Sample Data</div>
                                 </div>

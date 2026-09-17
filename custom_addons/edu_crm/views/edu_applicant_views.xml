@@ -1,14 +1,50 @@
 <odoo>
+
+    <record id="view_edu_applicant_kanban" model="ir.ui.view">
+        <field name="name">edu.applicant.kanban</field>
+        <field name="model">edu.applicant</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="state"/>
+                <field name="class_applying_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="edu-applicant-student"><field name="student_name"/></div>
+                        <div class="edu-applicant-guardian mt-1">
+                            <i class="fa fa-user-o me-1"/>
+                            <field name="guardian_name"/>
+                        </div>
+                        <t t-if="record.class_applying_id.value">
+                            <div class="edu-applicant-class mt-1"><field name="class_applying_id"/></div>
+                        </t>
+                        <footer class="pt-2 mt-1">
+                            <field name="name" class="text-muted small"/>
+                            <field name="activity_ids" widget="kanban_activity" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="view_edu_applicant_list" model="ir.ui.view">
         <field name="name">edu.applicant.list</field>
         <field name="model">edu.applicant</field>
         <field name="arch" type="xml">
-            <list decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+            <list decoration-success="state == 'approved'"
+                  decoration-danger="state == 'rejected'"
+                  decoration-muted="state == 'rejected'">
                 <field name="name"/>
                 <field name="student_name"/>
                 <field name="class_applying_id"/>
                 <field name="guardian_name"/>
-                <field name="state"/>
+                <field name="guardian_email" optional="show"/>
+                <field name="lead_id" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'submitted'"
+                       decoration-warning="state in ('document_verification','interview')"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"/>
             </list>
         </field>
     </record>
@@ -19,54 +55,58 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_start_verification" string="Start Document Verification"
+                    <button name="action_start_verification" string="Start Verification"
                             type="object" invisible="state != 'submitted'"/>
                     <button name="action_schedule_interview" string="Schedule Interview"
                             type="object" invisible="state != 'document_verification'"/>
                     <button name="action_approve" string="Approve" type="object"
                             invisible="state != 'interview'" class="oe_highlight"/>
                     <button name="action_reject" string="Reject" type="object"
-                            invisible="state in ('approved', 'rejected')"/>
+                            invisible="state in ('approved','rejected')"/>
                     <button name="action_enroll" string="Enroll as Student" type="object"
                             invisible="state != 'approved' or student_id" class="oe_highlight"/>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="submitted,document_verification,interview,approved"/>
                 </header>
                 <sheet>
+                    <field name="photo" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
+                        <label class="o_field_label" for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                        <div class="text-muted small" invisible="not lead_id">
+                            From inquiry: <field name="lead_id" readonly="1"/>
+                        </div>
                     </div>
                     <group>
-                        <group string="Student">
+                        <group string="Student Information">
                             <field name="student_name"/>
                             <field name="student_dob"/>
                             <field name="gender"/>
-                            <field name="previous_school"/>
                             <field name="class_applying_id"/>
+                            <field name="previous_school"/>
                         </group>
-                        <group string="Guardian">
+                        <group string="Guardian / Parent">
                             <field name="guardian_name"/>
-                            <field name="guardian_phone"/>
-                            <field name="guardian_email"/>
+                            <field name="guardian_phone" widget="phone"/>
+                            <field name="guardian_email" widget="email"/>
                             <field name="relationship"/>
                         </group>
                     </group>
-                    <group>
-                        <field name="lead_id"/>
-                        <field name="student_id"/>
+                    <group string="Outcome" invisible="state not in ('approved','rejected')">
+                        <field name="student_id" readonly="1" invisible="not student_id"/>
                         <field name="rejection_reason" invisible="state != 'rejected'"/>
                     </group>
                     <notebook>
-                        <page string="Address">
-                            <field name="address"/>
+                        <page string="Address" name="address">
+                            <group><field name="address"/></group>
                         </page>
-                        <page string="Documents">
+                        <page string="Documents" name="documents">
                             <group>
-                                <field name="photo" widget="image" class="oe_avatar"/>
-                                <field name="birth_certificate" filename="birth_certificate_filename"/>
+                                <field name="birth_certificate" filename="birth_certificate_filename"
+                                       string="Birth Certificate"/>
                                 <field name="birth_certificate_filename" invisible="1"/>
-                                <field name="previous_marksheet" filename="previous_marksheet_filename"/>
+                                <field name="previous_marksheet" filename="previous_marksheet_filename"
+                                       string="Previous Marksheet"/>
                                 <field name="previous_marksheet_filename" invisible="1"/>
                             </group>
                         </page>
@@ -77,9 +117,32 @@
         </field>
     </record>
 
+    <record id="view_edu_applicant_search" model="ir.ui.view">
+        <field name="name">edu.applicant.search</field>
+        <field name="model">edu.applicant</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_name"/>
+                <field name="guardian_name"/>
+                <field name="class_applying_id"/>
+                <separator/>
+                <filter name="submitted"     string="Submitted"         domain="[('state','=','submitted')]"/>
+                <filter name="in_progress"   string="In Progress"       domain="[('state','in',('document_verification','interview'))]"/>
+                <filter name="approved"      string="Approved"          domain="[('state','=','approved')]"/>
+                <filter name="to_enroll"     string="Ready to Enroll"   domain="[('state','=','approved'),('student_id','=',False)]"/>
+                <filter name="rejected"      string="Rejected"          domain="[('state','=','rejected')]"/>
+                <group>
+                    <filter name="group_state" string="Stage" context="{'group_by':'state'}"/>
+                    <filter name="group_class" string="Class" context="{'group_by':'class_applying_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_edu_applicant" model="ir.actions.act_window">
         <field name="name">Applications</field>
         <field name="res_model">edu.applicant</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_edu_applicant_search"/>
     </record>
 </odoo>

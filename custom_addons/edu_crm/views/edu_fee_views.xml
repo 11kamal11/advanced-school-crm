@@ -1,17 +1,26 @@
 <odoo>
+
     <record id="view_edu_fee_list" model="ir.ui.view">
         <field name="name">edu.fee.list</field>
         <field name="model">edu.fee</field>
         <field name="arch" type="xml">
-            <list decoration-danger="state == 'overdue'" decoration-success="state == 'paid'">
+            <list decoration-danger="state == 'overdue'"
+                  decoration-success="state == 'paid'"
+                  decoration-warning="state == 'partial'">
                 <field name="name"/>
                 <field name="student_id"/>
+                <field name="class_id" optional="show"/>
                 <field name="fee_type"/>
-                <field name="net_amount"/>
-                <field name="paid_amount"/>
-                <field name="balance"/>
+                <field name="net_amount" sum="Total Net"/>
+                <field name="paid_amount" sum="Total Paid"/>
+                <field name="balance" sum="Total Balance"/>
                 <field name="due_date"/>
-                <field name="state"/>
+                <field name="academic_year_id" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-danger="state == 'overdue'"
+                       decoration-warning="state == 'partial'"
+                       decoration-muted="state in ('waived','pending')"/>
             </list>
         </field>
     </record>
@@ -23,36 +32,49 @@
             <form>
                 <header>
                     <button name="action_pay" string="Record Payment" type="object"
-                            invisible="state in ('paid', 'waived')" class="oe_highlight"/>
-                    <button name="action_waive" string="Waive" type="object"
-                            invisible="state in ('paid', 'waived')"/>
-                    <field name="state" widget="statusbar"/>
+                            invisible="state in ('paid','waived')" class="oe_highlight"/>
+                    <button name="action_waive" string="Waive Fee" type="object"
+                            invisible="state in ('paid','waived')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending,partial,paid"/>
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <label class="o_field_label" for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
                     <group>
-                        <group>
+                        <group string="Student">
                             <field name="student_id"/>
-                            <field name="class_id"/>
+                            <field name="class_id" readonly="1"/>
+                            <field name="academic_year_id"/>
                             <field name="fee_structure_id"/>
+                        </group>
+                        <group string="Fee Details">
                             <field name="fee_type"/>
                             <field name="description"/>
-                        </group>
-                        <group>
-                            <field name="amount"/>
-                            <field name="discount"/>
-                            <field name="net_amount"/>
-                            <field name="paid_amount"/>
-                            <field name="balance"/>
                             <field name="due_date"/>
-                            <field name="paid_date"/>
+                            <field name="paid_date" readonly="1"/>
                         </group>
                     </group>
-                    <field name="payment_ids" readonly="1">
+                    <group string="Amounts">
+                        <group>
+                            <field name="amount"/>
+                            <field name="discount" widget="percentage"/>
+                            <field name="net_amount" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="paid_amount" readonly="1"/>
+                            <field name="balance" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="payment_ids" readonly="1" optional="show">
                         <list>
                             <field name="payment_date"/>
                             <field name="amount"/>
-                            <field name="payment_method"/>
+                            <field name="payment_method" widget="badge"/>
                             <field name="reference"/>
+                            <field name="notes" optional="show"/>
                         </list>
                     </field>
                 </sheet>
@@ -61,10 +83,48 @@
         </field>
     </record>
 
+    <record id="view_edu_fee_search" model="ir.ui.view">
+        <field name="name">edu.fee.search</field>
+        <field name="model">edu.fee</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/>
+                <field name="name"/>
+                <field name="fee_type"/>
+                <separator/>
+                <filter name="overdue"  string="Overdue"  domain="[('state','=','overdue')]"/>
+                <filter name="pending"  string="Pending"  domain="[('state','in',('pending','partial'))]"/>
+                <filter name="paid"     string="Paid"     domain="[('state','=','paid')]"/>
+                <filter name="has_balance" string="Has Balance" domain="[('balance','>',0)]"/>
+                <group>
+                    <filter name="group_student"   string="Student"   context="{'group_by':'student_id'}"/>
+                    <filter name="group_type"      string="Fee Type"  context="{'group_by':'fee_type'}"/>
+                    <filter name="group_class"     string="Class"     context="{'group_by':'class_id'}"/>
+                    <filter name="group_state"     string="Status"    context="{'group_by':'state'}"/>
+                    <filter name="group_year"      string="Academic Year" context="{'group_by':'academic_year_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_edu_fee_graph" model="ir.ui.view">
+        <field name="name">edu.fee.graph</field>
+        <field name="model">edu.fee</field>
+        <field name="arch" type="xml">
+            <graph type="bar" stacked="0">
+                <field name="fee_type"/>
+                <field name="net_amount" type="measure"/>
+                <field name="paid_amount" type="measure"/>
+                <field name="balance" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <record id="action_edu_fee" model="ir.actions.act_window">
         <field name="name">Fees</field>
         <field name="res_model">edu.fee</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,graph</field>
+        <field name="search_view_id" ref="view_edu_fee_search"/>
     </record>
 
     <record id="view_edu_fee_structure_list" model="ir.ui.view">
@@ -76,7 +136,7 @@
                 <field name="class_id"/>
                 <field name="academic_year_id"/>
                 <field name="fee_type"/>
-                <field name="amount"/>
+                <field name="amount" sum="Total"/>
                 <field name="due_date"/>
             </list>
         </field>

@@ -59,6 +59,7 @@
             'edu_crm/static/src/css/edu_crm_website.css',
         ],
         'web.assets_backend': [
+            'edu_crm/static/src/css/edu_crm_backend.css',
             'edu_crm/static/src/css/edu_crm_dashboard.css',
         ],
     },

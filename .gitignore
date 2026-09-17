@@ -2,39 +2,14 @@
 custom_addons/whatsapp_lead_automation/
 page_xml_export.md
 
-# Runtime data
-data/
+# Runtime data: filestore, sessions, downloaded addon caches -- never commit user data
+# /data/ anchored to repo root so module data/ directories are NOT ignored
+/data/
 
 # Logs
-logs/
+/logs/
 
-# Local Odoo configuration - contains credentials
-conf/odoo-school-crm.conf
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-
-# Editor / OS cruft
-.DS_Store
-*.swp
-
-# Local MCP configuration - contains API key
-.mcp.json
-
-# Local virtualenv for the MCP server
-mcp_server/venv/custom_addons/whatsapp_lead_automation/
-page_xml_export.md# Local/custom development files
-custom_addons/whatsapp_lead_automation/
-page_xml_export.md# Runtime data: filestore, sessions, downloaded addon caches -- never commit user data
-data/
-
-# Logs
-logs/
-
-# Contains real credentials (db password, master password) -- copy
-# conf/odoo-school-crm.conf.example to this filename and fill in your own.
+# Contains real credentials (db password, master password)
 conf/odoo-school-crm.conf
 
 # Python

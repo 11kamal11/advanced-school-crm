@@ -1,14 +1,62 @@
 <odoo>
+
+    <record id="view_edu_teacher_kanban" model="ir.ui.view">
+        <field name="name">edu.teacher.kanban</field>
+        <field name="model">edu.teacher</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="image"/>
+                <field name="state"/>
+                <field name="email"/>
+                <field name="specialization"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-center gap-3">
+                            <field name="image" widget="image" class="rounded-circle flex-shrink-0"
+                                   style="width:48px;height:48px;object-fit:cover;"/>
+                            <div class="min-width-0">
+                                <field name="name" class="fw-bold d-block"/>
+                                <div class="text-muted small"><field name="employee_code"/></div>
+                            </div>
+                        </div>
+                        <t t-if="record.specialization.value">
+                            <div class="small mt-2 text-muted">
+                                <i class="fa fa-graduation-cap me-1"/>
+                                <field name="specialization"/>
+                            </div>
+                        </t>
+                        <div class="small mt-1 text-muted">
+                            <i class="fa fa-envelope me-1"/>
+                            <field name="email"/>
+                        </div>
+                        <footer class="pt-2 mt-1">
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'active'"
+                                   decoration-warning="state == 'on_leave'"
+                                   decoration-muted="state == 'resigned'"/>
+                            <field name="activity_ids" widget="kanban_activity" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="view_edu_teacher_list" model="ir.ui.view">
         <field name="name">edu.teacher.list</field>
         <field name="model">edu.teacher</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="employee_code"/>
+            <list decoration-muted="state == 'resigned'">
+                <field name="employee_code" optional="show"/>
                 <field name="name"/>
-                <field name="email"/>
-                <field name="phone"/>
-                <field name="state"/>
+                <field name="specialization" optional="show"/>
+                <field name="email" widget="email"/>
+                <field name="phone" widget="phone" optional="show"/>
+                <field name="experience_years" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'on_leave'"
+                       decoration-muted="state == 'resigned'"/>
             </list>
         </field>
     </record>
@@ -20,47 +68,58 @@
             <form>
                 <header>
                     <button name="action_set_active" string="Set Active" type="object"
-                            invisible="state == 'active'"/>
+                            invisible="state == 'active'" class="oe_highlight"/>
                     <button name="action_set_on_leave" string="Set On Leave" type="object"
                             invisible="state == 'on_leave'"/>
-                    <button name="action_set_resigned" string="Set Resigned" type="object"
+                    <button name="action_set_resigned" string="Mark Resigned" type="object"
                             invisible="state == 'resigned'"/>
                     <field name="is_published" widget="website_redirect_button"/>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,on_leave"/>
                 </header>
                 <sheet>
                     <field name="image" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name"/>
-                        </h1>
+                        <label class="o_field_label" for="name"/>
+                        <h1><field name="name" placeholder="Full Name"/></h1>
+                        <div class="text-muted small"><field name="employee_code"/></div>
                     </div>
                     <group>
-                        <group>
-                            <field name="employee_code"/>
-                            <field name="email"/>
-                            <field name="phone"/>
+                        <group string="Contact">
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
                             <field name="gender"/>
                             <field name="date_of_birth"/>
-                        </group>
-                        <group>
-                            <field name="qualification"/>
-                            <field name="experience_years"/>
-                            <field name="specialization"/>
-                            <field name="date_of_joining"/>
                             <field name="user_id"/>
+                        </group>
+                        <group string="Professional">
+                            <field name="qualification"/>
+                            <field name="specialization"/>
+                            <field name="experience_years"/>
+                            <field name="date_of_joining"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Subjects &amp; Classes">
-                            <field name="subject_ids" widget="many2many_tags"/>
-                            <field name="class_ids"/>
+                        <page string="Subjects &amp; Classes" name="subjects">
+                            <group>
+                                <field name="subject_ids" widget="many2many_tags"/>
+                            </group>
+                            <field name="class_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="section"/>
+                                    <field name="student_count"/>
+                                </list>
+                            </field>
                         </page>
-                        <page string="Address">
-                            <field name="address"/>
+                        <page string="Address" name="address">
+                            <group><field name="address"/></group>
                         </page>
-                        <page string="Public Profile">
-                            <field name="bio"/>
+                        <page string="Public Profile" name="public">
+                            <group>
+                                <field name="is_published" widget="boolean_toggle"/>
+                                <field name="website_url" widget="url" readonly="1"/>
+                            </group>
+                            <field name="bio" widget="html"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -69,9 +128,30 @@
         </field>
     </record>
 
+    <record id="view_edu_teacher_search" model="ir.ui.view">
+        <field name="name">edu.teacher.search</field>
+        <field name="model">edu.teacher</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="specialization"/>
+                <field name="subject_ids"/>
+                <separator/>
+                <filter name="active"   string="Active"   domain="[('state','=','active')]"/>
+                <filter name="on_leave" string="On Leave" domain="[('state','=','on_leave')]"/>
+                <filter name="published" string="Published on Website" domain="[('is_published','=',True)]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_edu_teacher" model="ir.actions.act_window">
         <field name="name">Teachers</field>
         <field name="res_model">edu.teacher</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_edu_teacher_search"/>
+        <field name="context">{'search_default_active': 1}</field>
     </record>
 </odoo>

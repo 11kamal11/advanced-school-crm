@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- UTM Sources for tracking inquiry origins -->
+    <record id="utm_source_website" model="utm.source">
+        <field name="name">School Website</field>
+    </record>
+
+    <record id="utm_source_social_media" model="utm.source">
+        <field name="name">Social Media</field>
+    </record>
+
+    <record id="utm_source_referral" model="utm.source">
+        <field name="name">Parent Referral</field>
+    </record>
+
+    <record id="utm_source_walk_in" model="utm.source">
+        <field name="name">Walk-In</field>
+    </record>
+
+    <record id="utm_source_school_fair" model="utm.source">
+        <field name="name">School Fair / Event</field>
+    </record>
+
+    <record id="utm_source_print_ad" model="utm.source">
+        <field name="name">Print Advertisement</field>
+    </record>
+
+    <record id="utm_source_google_ads" model="utm.source">
+        <field name="name">Google Ads</field>
+    </record>
+
+    <record id="utm_source_phone_enquiry" model="utm.source">
+        <field name="name">Phone Enquiry</field>
+    </record>
+
+</odoo>

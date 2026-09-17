@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="lost_reason_fee_concerns" model="edu.lead.lost.reason">
+        <field name="name">Fee Concerns</field>
+    </record>
+
+    <record id="lost_reason_admission_closed" model="edu.lead.lost.reason">
+        <field name="name">Admission Closed / Seats Full</field>
+    </record>
+
+    <record id="lost_reason_chose_another_school" model="edu.lead.lost.reason">
+        <field name="name">Chose Another School</field>
+    </record>
+
+    <record id="lost_reason_no_response" model="edu.lead.lost.reason">
+        <field name="name">No Response from Family</field>
+    </record>
+
+    <record id="lost_reason_location" model="edu.lead.lost.reason">
+        <field name="name">Location / Distance</field>
+    </record>
+
+    <record id="lost_reason_curriculum_mismatch" model="edu.lead.lost.reason">
+        <field name="name">Curriculum Mismatch</field>
+    </record>
+
+    <record id="lost_reason_moved_city" model="edu.lead.lost.reason">
+        <field name="name">Family Relocated</field>
+    </record>
+
+    <record id="lost_reason_other" model="edu.lead.lost.reason">
+        <field name="name">Other</field>
+    </record>
+
+</odoo>
