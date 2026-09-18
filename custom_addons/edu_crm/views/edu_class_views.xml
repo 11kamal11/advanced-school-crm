@@ -9,7 +9,7 @@
                 <field name="academic_year_id"/>
                 <field name="class_teacher_id"/>
                 <filter string="Full" name="full" domain="[('is_full','=',True)]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_year"     string="Academic Year"   context="{'group_by':'academic_year_id'}"/>
                     <filter name="group_teacher"  string="Class Teacher"   context="{'group_by':'class_teacher_id'}"/>
                 </group>

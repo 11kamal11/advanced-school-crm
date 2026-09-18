@@ -17,7 +17,7 @@
                         domain="[('applicant_type','=','student')]"/>
                 <filter string="Teacher Leave" name="teacher"
                         domain="[('applicant_type','=','teacher')]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_state"   string="Status"    context="{'group_by':'state'}"/>
                     <filter name="group_type"    string="Applicant" context="{'group_by':'applicant_type'}"/>
                     <filter name="group_leave"   string="Leave Type" context="{'group_by':'leave_type'}"/>
@@ -85,7 +85,7 @@
                         <div class="text-muted small mt-1">
                             <i class="fa fa-calendar me-1"/>
                             <field name="date_from"/> → <field name="date_to"/>
-                            &nbsp;(<field name="days"/> days)
+                            &#160;(<field name="days"/> days)
                         </div>
                     </t>
                 </templates>

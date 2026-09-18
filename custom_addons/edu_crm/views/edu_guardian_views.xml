@@ -12,7 +12,7 @@
                         domain="[('has_portal_access','=',True)]"/>
                 <filter string="No Portal Access" name="no_portal"
                         domain="[('has_portal_access','=',False)]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_relationship" string="Relationship"
                             context="{'group_by':'relationship'}"/>
                 </group>

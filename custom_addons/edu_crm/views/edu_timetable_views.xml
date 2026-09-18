@@ -13,7 +13,7 @@
                 <filter string="Wednesday" name="wed" domain="[('day_of_week','=','2')]"/>
                 <filter string="Thursday"  name="thu" domain="[('day_of_week','=','3')]"/>
                 <filter string="Friday"    name="fri" domain="[('day_of_week','=','4')]"/>
-                <group expand="1" string="Group By">
+                <group>
                     <filter name="group_class"   string="Class"   context="{'group_by':'class_id'}"/>
                     <filter name="group_day"     string="Day"     context="{'group_by':'day_of_week'}"/>
                     <filter name="group_teacher" string="Teacher" context="{'group_by':'teacher_id'}"/>

@@ -1,0 +1,831 @@
+<title>edu_crm Enterprise Audit — Advanced School CRM</title>
+<style>
+:root {
+  --ground:     #F5F7FA;
+  --ground-2:   #EDF0F4;
+  --text:       #0C1A26;
+  --text-muted: #5A6B7A;
+  --text-faint: #94A3B8;
+  --prussian:   #1B3F6E;
+  --prussian-dk:#0E2545;
+  --saffron:    #C8871A;
+  --forest:     #177A63;
+  --danger:     #C0392B;
+  --warn:       #D97706;
+  --info:       #2563EB;
+  --border:     #DDE3EA;
+  --white:      #FFFFFF;
+
+  --ff: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --ff-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff);
+  background: var(--ground);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ──────────────────────────────────── */
+.report-header {
+  background: linear-gradient(150deg, var(--prussian-dk) 0%, var(--prussian) 100%);
+  color: #fff;
+  padding: 40px 48px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.report-header-left {}
+.report-eyebrow {
+  font-size: 10px;
+  font-family: var(--ff-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+.report-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1.1;
+}
+.report-title span { color: var(--saffron); }
+.report-meta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+}
+.overall-score {
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 20px 32px;
+  min-width: 160px;
+}
+.overall-score-num {
+  font-size: 3.2rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--saffron);
+  font-variant-numeric: tabular-nums;
+}
+.overall-score-denom {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+}
+.overall-score-label {
+  font-size: 10px;
+  font-family: var(--ff-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-top: 4px;
+}
+.overall-verdict {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--saffron);
+  margin-top: 6px;
+}
+
+/* ── Main Layout ─────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 36px 0 0; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.section-label {
+  font-size: 10px;
+  font-family: var(--ff-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.section-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── Score Cards ─────────────────────────────── */
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 4px;
+}
+.score-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.score-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 14px 14px 0 0;
+}
+.score-card.good::before  { background: var(--forest); }
+.score-card.ok::before    { background: var(--saffron); }
+.score-card.poor::before  { background: var(--warn); }
+.score-card.bad::before   { background: var(--danger); }
+
+.score-card-label {
+  font-size: 10px;
+  font-family: var(--ff-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.score-card-num {
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.good  .score-card-num { color: var(--forest); }
+.ok    .score-card-num { color: var(--saffron); }
+.poor  .score-card-num { color: var(--warn); }
+.bad   .score-card-num { color: var(--danger); }
+
+.score-card-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.score-bar {
+  height: 4px;
+  background: var(--ground-2);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.score-bar-fill { height: 100%; border-radius: 2px; }
+.good  .score-bar-fill { background: var(--forest); }
+.ok    .score-bar-fill { background: var(--saffron); }
+.poor  .score-bar-fill { background: var(--warn); }
+.bad   .score-bar-fill { background: var(--danger); }
+
+/* ── Issue Table ─────────────────────────────── */
+.issue-list { display: flex; flex-direction: column; gap: 10px; }
+.issue-item {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+.issue-item.critical { border-left: 4px solid var(--danger); }
+.issue-item.high     { border-left: 4px solid var(--warn); }
+.issue-item.medium   { border-left: 4px solid var(--saffron); }
+.issue-item.low      { border-left: 4px solid var(--text-faint); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-family: var(--ff-mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.badge-critical { background: #FDECEC; color: var(--danger); }
+.badge-high     { background: #FEF3E2; color: var(--warn); }
+.badge-medium   { background: #FEFAE6; color: #92610A; }
+.badge-low      { background: var(--ground-2); color: var(--text-muted); }
+
+.issue-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.issue-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.issue-fix {
+  font-size: 11px;
+  color: var(--forest);
+  font-weight: 600;
+  margin-top: 4px;
+}
+.issue-fix::before { content: '→ '; }
+.issue-file {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+/* ── Feature Gaps ────────────────────────────── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+.feature-item {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.feature-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+.feature-score {
+  font-size: 11px;
+  font-family: var(--ff-mono);
+  font-weight: 700;
+}
+.feature-bar {
+  height: 6px;
+  background: var(--ground-2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.feature-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+.f-0  .feature-bar-fill { background: var(--danger);  width: 0%; }
+.f-2  .feature-bar-fill { background: var(--danger);  width: 20%; }
+.f-3  .feature-bar-fill { background: var(--warn);    width: 30%; }
+.f-4  .feature-bar-fill { background: var(--warn);    width: 40%; }
+.f-5  .feature-bar-fill { background: var(--saffron); width: 50%; }
+.f-6  .feature-bar-fill { background: var(--saffron); width: 60%; }
+.f-7  .feature-bar-fill { background: var(--forest);  width: 70%; }
+.f-9  .feature-bar-fill { background: var(--forest);  width: 90%; }
+.f-0  .feature-score { color: var(--danger); }
+.f-2  .feature-score { color: var(--danger); }
+.f-3  .feature-score { color: var(--warn); }
+.f-4  .feature-score { color: var(--warn); }
+.f-5  .feature-score { color: var(--saffron); }
+.f-6  .feature-score { color: var(--saffron); }
+.f-7  .feature-score { color: var(--forest); }
+.f-9  .feature-score { color: var(--forest); }
+.feature-note {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── What's Good ─────────────────────────────── */
+.good-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.good-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #F0FAF6;
+  border: 1.5px solid #C6E9DA;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.good-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.good-text { font-size: 12px; color: #0F5C48; font-weight: 500; }
+.good-text strong { display: block; font-weight: 700; color: #0A4035; margin-bottom: 1px; }
+
+/* ── Action Plan ─────────────────────────────── */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 768px) { .action-grid { grid-template-columns: 1fr; } }
+.action-phase {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.action-phase-header {
+  padding: 12px 16px;
+  font-size: 11px;
+  font-family: var(--ff-mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.phase-1 .action-phase-header { background: var(--danger); }
+.phase-2 .action-phase-header { background: var(--saffron); }
+.phase-3 .action-phase-header { background: var(--prussian); }
+.action-phase-body { padding: 14px 16px; }
+.action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.4;
+}
+.action-item:last-child { margin-bottom: 0; }
+.action-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #fff;
+}
+.phase-1 .action-num { background: var(--danger); }
+.phase-2 .action-num { background: var(--saffron); }
+.phase-3 .action-num { background: var(--prussian); }
+
+/* ── Footer ──────────────────────────────────── */
+.report-footer {
+  background: var(--prussian-dk);
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  font-family: var(--ff-mono);
+  margin-top: 48px;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 700px) {
+  .report-header { padding: 28px 20px; }
+  .container { padding: 0 16px; }
+  .issue-item { grid-template-columns: 1fr; }
+  .issue-file { text-align: left; }
+  .score-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="report-header-left">
+    <div class="report-eyebrow">Enterprise Audit Report · September 2026</div>
+    <h1 class="report-title">Advanced School <span>CRM</span></h1>
+    <div class="report-meta">Module: edu_crm &nbsp;·&nbsp; Odoo 19 &nbsp;·&nbsp; 4-angle automated audit</div>
+  </div>
+  <div class="overall-score">
+    <div class="overall-score-num">5.4<span class="overall-score-denom">/10</span></div>
+    <div class="overall-score-label">Enterprise Score</div>
+    <div class="overall-verdict">Solid foundation — not yet production-ready</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SCORE CARDS -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-label">Category Scores</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="score-grid">
+      <div class="score-card good">
+        <div class="score-card-label">Data Models</div>
+        <div class="score-card-num">7</div>
+        <div class="score-card-sub">Solid structure, minor issues</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:70%"></div></div>
+      </div>
+      <div class="score-card ok">
+        <div class="score-card-label">Security</div>
+        <div class="score-card-num">6.5</div>
+        <div class="score-card-sub">Core IDOR protection solid</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:65%"></div></div>
+      </div>
+      <div class="score-card poor">
+        <div class="score-card-label">Backend UX</div>
+        <div class="score-card-num">4.5</div>
+        <div class="score-card-sub">Search views &amp; kanban missing</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:45%"></div></div>
+      </div>
+      <div class="score-card bad">
+        <div class="score-card-label">Features</div>
+        <div class="score-card-num">3.5</div>
+        <div class="score-card-sub">Workflows &amp; automation missing</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:35%"></div></div>
+      </div>
+      <div class="score-card ok">
+        <div class="score-card-label">Code Quality</div>
+        <div class="score-card-num">6</div>
+        <div class="score-card-sub">Float vs Monetary, performance gaps</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRITICAL ISSUES -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-label">🔴 Critical — Fix Before Going Live</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="issue-list">
+
+      <div class="issue-item critical">
+        <div>
+          <div class="badge badge-critical">Critical</div>
+          <div class="issue-file" style="margin-top:6px">edu_exam.py · L58</div>
+        </div>
+        <div>
+          <div class="issue-title">Exam result email template does not exist</div>
+          <div class="issue-desc"><code>self.env.ref('edu_crm.mail_template_exam_result')</code> is called on every exam completion but the template was never created in <code>edu_mail_templates.xml</code>. Parents are never notified of results — silently fails every time.</div>
+          <div class="issue-fix">Add <code>mail_template_exam_result</code> record to edu_mail_templates.xml</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item critical">
+        <div>
+          <div class="badge badge-critical">Critical</div>
+          <div class="issue-file" style="margin-top:6px">res_users.py · L12</div>
+        </div>
+        <div>
+          <div class="issue-title">Portal (guardian) users get backend dashboard as home action</div>
+          <div class="issue-desc"><code>action_id</code> is set to the backend dashboard for ALL new <code>res.users</code> records, including portal users. When a guardian is given portal access, their home page errors — backend actions are inaccessible to portal users.</div>
+          <div class="issue-fix">Guard with <code>if not vals.get('share', False)</code> to skip portal/public user creation</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item critical">
+        <div>
+          <div class="badge badge-critical">Critical</div>
+          <div class="issue-file" style="margin-top:6px">edu_teacher.py · L61<br>edu_program.py · L23</div>
+        </div>
+        <div>
+          <div class="issue-title">Dead website URLs on Teacher and Program models (404)</div>
+          <div class="issue-desc">Both models inherit <code>website.published.mixin</code> and compute URLs pointing to <code>/admissions/faculty/</code> and <code>/admissions/programs/</code> — routes that were deleted. Every "Published" teacher or program record now links to a 404 page.</div>
+          <div class="issue-fix">Remove <code>website.published.mixin</code> from _inherit, or update _compute_website_url to redirect to /</div>
+        </div>
+        <div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HIGH ISSUES -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-label">🟠 High — Fix This Sprint</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="issue-list">
+
+      <div class="issue-item high">
+        <div><div class="badge badge-high">High</div><div class="issue-file" style="margin-top:6px">ir.model.access.csv<br>edu_security_rules.xml</div></div>
+        <div>
+          <div class="issue-title">9 models have no search views — search bar is completely non-functional</div>
+          <div class="issue-desc">edu.attendance, edu.exam, edu.leave.request, edu.announcement, edu.class, edu.guardian, edu.subject, edu.program, edu.timetable — none have <code>&lt;search&gt;</code> views. Attendance by date, leave by student, and exam by class are daily operations that are impossible to filter.</div>
+          <div class="issue-fix">Add search views with filter + group_by options for each model</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item high">
+        <div><div class="badge badge-high">High</div><div class="issue-file" style="margin-top:6px">edu_fee.py · L33,49–53<br>edu_dashboard.py</div></div>
+        <div>
+          <div class="issue-title">All monetary amounts are Float — no currency symbol or multi-currency</div>
+          <div class="issue-desc"><code>amount</code>, <code>net_amount</code>, <code>paid_amount</code>, <code>balance</code> on EduFee; <code>fee_due_amount</code> on Dashboard — all plain <code>fields.Float</code>. No ₹/$/€ symbol in list views, no multi-currency support, and <code>widget="monetary"</code> silently falls back to a default currency.</div>
+          <div class="issue-fix">Add <code>currency_id = fields.Many2one('res.currency', related='company_id.currency_id')</code> and change all monetary fields to <code>fields.Monetary</code></div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item high">
+        <div><div class="badge badge-high">High</div><div class="issue-file" style="margin-top:6px">edu_dashboard.py · L31–35</div></div>
+        <div>
+          <div class="issue-title">Dashboard loads full fee/student tables into Python memory on every open</div>
+          <div class="issue-desc"><code>_safe_sum</code> does <code>.search(domain).mapped(field)</code> — fetches all matching records into Python, then sums them. On a school with 2,000 fee records, every dashboard load pulls 2,000 rows. Should use <code>read_group</code> for a single aggregated SQL call.</div>
+          <div class="issue-fix">Replace with <code>read_group(domain, [field], [])</code> — returns one row with the sum</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item high">
+        <div><div class="badge badge-high">High</div><div class="issue-file" style="margin-top:6px">edu_attendance_views.xml<br>edu_exam_views.xml<br>edu_leave_views.xml</div></div>
+        <div>
+          <div class="issue-title">No chatter/audit trail on 5 key models</div>
+          <div class="issue-desc">edu.attendance, edu.exam, edu.leave.request, edu.class, edu.subject have zero audit trail — no log messages, no follower tracking, no history. Enterprise clients require a complete record of who changed what and when, especially for attendance disputes and leave approvals.</div>
+          <div class="issue-fix">Add <code>mail.thread</code> to _inherit and <code>&lt;chatter/&gt;</code> to form views</div>
+        </div>
+        <div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MEDIUM ISSUES -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-label">🟡 Medium — Next Sprint</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="issue-list">
+
+      <div class="issue-item medium">
+        <div><div class="badge badge-medium">Medium</div><div class="issue-file" style="margin-top:6px">portal.py · L130</div></div>
+        <div>
+          <div class="issue-title">Leave request submit silently fails with no user feedback</div>
+          <div class="issue-desc">ValidationError is caught and redirects to <code>?error=1</code> with no description. If <code>teacher_id</code> is required and not set, the parent gets a blank error page with no explanation of what went wrong or how to fix it.</div>
+          <div class="issue-fix">Pass error message in session or flash and render it on the form</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item medium">
+        <div><div class="badge badge-medium">Medium</div><div class="issue-file" style="margin-top:6px">edu_exam_views.xml<br>edu_leave_views.xml</div></div>
+        <div>
+          <div class="issue-title">No kanban views for Exams or Leave Requests</div>
+          <div class="issue-desc">Both go through multi-step state workflows (draft→ongoing→completed; draft→submitted→approved/rejected) — the canonical kanban use case. Teachers need a visual exam pipeline; admins need the leave approval board at a glance.</div>
+          <div class="issue-fix">Add kanban views grouped by <code>state</code> for both models</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item medium">
+        <div><div class="badge badge-medium">Medium</div><div class="issue-file" style="margin-top:6px">edu_class_views.xml · L65</div></div>
+        <div>
+          <div class="issue-title">Class list shows all historical years mixed with current</div>
+          <div class="issue-desc">No default academic year filter on <code>action_edu_class</code>. A school with 5+ years of data sees hundreds of historical class records mixed with current ones on every open — no way to show "this year only" by default.</div>
+          <div class="issue-fix">Add <code>context="{'search_default_active_year': 1}"</code> after adding a search view</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item medium">
+        <div><div class="badge badge-medium">Medium</div><div class="issue-file" style="margin-top:6px">menu_views.xml · L46–54</div></div>
+        <div>
+          <div class="issue-title">Menu structure too flat — 16+ items at root level</div>
+          <div class="issue-desc">Attendance, Take Attendance, Leave Requests, and Announcements are all direct children of the root menu alongside Dashboard, Students, Teachers, Finance, Assets, Reports, Configuration. This makes navigation overwhelming for new users.</div>
+          <div class="issue-fix">Create an <code>Operations</code> parent menu and move attendance/leave/announcements under it</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item medium">
+        <div><div class="badge badge-medium">Medium</div><div class="issue-file" style="margin-top:6px">edu_fee.py · L24–35</div></div>
+        <div>
+          <div class="issue-title">No unique constraint on FeeStructure — duplicate fees silently created</div>
+          <div class="issue-desc">Two fee structures for the same class + academic year + fee type can be created without any warning. Students then get double fee assignments with no system-level guard.</div>
+          <div class="issue-fix">Add <code>_sql_constraints = [('uniq_fee_structure', 'unique(class_id,academic_year_id,fee_type)', '...')]</code></div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="issue-item medium">
+        <div><div class="badge badge-medium">Medium</div><div class="issue-file" style="margin-top:6px">edu_mail_templates.xml</div></div>
+        <div>
+          <div class="issue-title">Email templates exist but are never auto-triggered</div>
+          <div class="issue-desc"><code>mail_template_new_lead_frontdesk</code> has no <code>email_to</code> field and is never fired on lead create. <code>mail_template_application_received</code> is never auto-triggered on applicant create — guardians get no confirmation email automatically.</div>
+          <div class="issue-fix">Call <code>template.send_mail(rec.id)</code> in model's <code>create()</code> or on state change</div>
+        </div>
+        <div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEATURE GAPS -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-label">Feature Coverage</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-item f-7">
+        <div class="feature-header">
+          <span class="feature-name">Core Data Models</span>
+          <span class="feature-score">7/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Student, teacher, class, subject, guardian, exam, fee — all complete with relationships</div>
+      </div>
+      <div class="feature-item f-9">
+        <div class="feature-header">
+          <span class="feature-name">Admissions CRM Pipeline</span>
+          <span class="feature-score">9/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Leads, applicants, stages, conversion wizard — well-built</div>
+      </div>
+      <div class="feature-item f-6">
+        <div class="feature-header">
+          <span class="feature-name">Bulk Operations</span>
+          <span class="feature-score">6/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Attendance wizard ✅ Fee payment wizard ✅ — missing bulk fee generation &amp; bulk promotion</div>
+      </div>
+      <div class="feature-item f-5">
+        <div class="feature-header">
+          <span class="feature-name">Reports (QWeb)</span>
+          <span class="feature-score">5/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">3 reports exist but no school branding, no letterhead, missing attendance &amp; transfer certificate</div>
+      </div>
+      <div class="feature-item f-4">
+        <div class="feature-header">
+          <span class="feature-name">Fee Payment Online</span>
+          <span class="feature-score">4/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">payment.transaction model linked, portal UI rendered — but no actual payment route/controller</div>
+      </div>
+      <div class="feature-item f-3">
+        <div class="feature-header">
+          <span class="feature-name">Automated Email Notifications</span>
+          <span class="feature-score">3/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Fee reminder cron wired ✅ — exam result template missing ❌ — lead/application templates never auto-fired</div>
+      </div>
+      <div class="feature-item f-5">
+        <div class="feature-header">
+          <span class="feature-name">Cron Jobs</span>
+          <span class="feature-score">5/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Only 1 cron (overdue fee check) — no low-attendance alert, no nextcall set explicitly</div>
+      </div>
+      <div class="feature-item f-4">
+        <div class="feature-header">
+          <span class="feature-name">Parent Communication Log</span>
+          <span class="feature-score">4/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">mail.thread on student gives chatter — no structured call log model</div>
+      </div>
+      <div class="feature-item f-2">
+        <div class="feature-header">
+          <span class="feature-name">Student Year-End Promotion</span>
+          <span class="feature-score">2/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">States exist (active→graduated) — no batch promotion wizard, no year-end class upgrade</div>
+      </div>
+      <div class="feature-item f-2">
+        <div class="feature-header">
+          <span class="feature-name">Academic Year Roll-over</span>
+          <span class="feature-score">2/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">academic.year model exists — no wizard, no automation, no data archival</div>
+      </div>
+      <div class="feature-item f-0">
+        <div class="feature-header">
+          <span class="feature-name">ID Cards &amp; Certificates</span>
+          <span class="feature-score">0/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Completely absent — no ID card, leaving certificate, bonafide, or transfer certificate</div>
+      </div>
+      <div class="feature-item f-0">
+        <div class="feature-header">
+          <span class="feature-name">SMS / WhatsApp Alerts</span>
+          <span class="feature-score">0/10</span>
+        </div>
+        <div class="feature-bar"><div class="feature-bar-fill"></div></div>
+        <div class="feature-note">Completely absent — no hooks for SMS/WhatsApp notification providers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S GOOD -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-label">✅ What's Already Enterprise-Grade</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="good-grid">
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Core IDOR protection</strong>_get_student_or_404 correctly scopes all portal routes to the authenticated guardian's children</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Portal record rules</strong>rule_edu_student_portal correctly restricts edu.student by guardian_ids.partner_id</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Admissions CRM pipeline</strong>Leads → Applicants → Enrolled workflow with kanban, stage data, and conversion wizard</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Role-based security groups</strong>Admin / Frontdesk / Teacher / Parent roles with proper menu and field visibility</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Dashboard design system</strong>Prussian + Saffron palette with hero cards, KPI grid, and full-width layout</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Portal UI quality</strong>Student cards with attendance bars, fee status, quick links — well above default Odoo portal</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Fee overdue cron</strong>Daily check marks overdue fees and sends email reminder via mail template</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Multi-wizard operations</strong>Attendance wizard, fee payment wizard, lead convert, applicant enroll, demo data generator</div>
+      </div>
+      <div class="good-item">
+        <div class="good-icon">✓</div>
+        <div class="good-text"><strong>Asset management</strong>Asset checkout workflow with in/out tracking — not common in school CRMs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION PLAN -->
+  <div class="section" style="padding-bottom:0">
+    <div class="section-title">
+      <span class="section-label">Recommended Fix Order</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="action-grid">
+      <div class="action-phase phase-1">
+        <div class="action-phase-header">Phase 1 — This Week (Critical)</div>
+        <div class="action-phase-body">
+          <div class="action-item"><div class="action-num">1</div>Create <code>mail_template_exam_result</code> in mail templates XML</div>
+          <div class="action-item"><div class="action-num">2</div>Fix <code>res_users.py</code> to skip dashboard action for portal users</div>
+          <div class="action-item"><div class="action-num">3</div>Remove <code>website.published.mixin</code> from Teacher &amp; Program or fix URL compute</div>
+          <div class="action-item"><div class="action-num">4</div>Change all Float monetary fields to <code>fields.Monetary</code> with <code>currency_id</code></div>
+        </div>
+      </div>
+      <div class="action-phase phase-2">
+        <div class="action-phase-header">Phase 2 — Next Sprint (High UX)</div>
+        <div class="action-phase-body">
+          <div class="action-item"><div class="action-num">1</div>Add search views to 9 models (attendance, exam, leave, class, subject, etc.)</div>
+          <div class="action-item"><div class="action-num">2</div>Add chatter to attendance, exam, leave, class, subject forms</div>
+          <div class="action-item"><div class="action-num">3</div>Replace dashboard <code>_safe_sum</code> with <code>read_group</code></div>
+          <div class="action-item"><div class="action-num">4</div>Add kanban views for Exams and Leave Requests</div>
+          <div class="action-item"><div class="action-num">5</div>Wire email templates to auto-fire on lead/applicant create</div>
+        </div>
+      </div>
+      <div class="action-phase phase-3">
+        <div class="action-phase-header">Phase 3 — Enterprise Features</div>
+        <div class="action-phase-body">
+          <div class="action-item"><div class="action-num">1</div>Build year-end student promotion wizard (batch class upgrade)</div>
+          <div class="action-item"><div class="action-num">2</div>Build bulk fee generation wizard (generate fees for entire class from structure)</div>
+          <div class="action-item"><div class="action-num">3</div>Add branded QWeb report templates (letterhead, logo, colors)</div>
+          <div class="action-item"><div class="action-num">4</div>Wire online fee payment controller</div>
+          <div class="action-item"><div class="action-num">5</div>Add ID card &amp; bonafide certificate QWeb reports</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="report-footer">
+  edu_crm · Advanced School CRM · Odoo 19 · Audit generated September 2026 · 4-angle review: Models + Security + Views/UX + Features
+</div>

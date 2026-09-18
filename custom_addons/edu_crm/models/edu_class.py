@@ -17,7 +17,7 @@ class EduClass(models.Model):
     student_ids = fields.One2many('edu.student', 'class_id', string='Students')
     capacity = fields.Integer(default=40)
     student_count = fields.Integer(compute='_compute_student_count', store=True)
-    is_full = fields.Boolean(compute='_compute_is_full')
+    is_full = fields.Boolean(compute='_compute_is_full', store=True)
     description = fields.Text()
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     active = fields.Boolean(default=True)

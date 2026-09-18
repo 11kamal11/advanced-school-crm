@@ -73,7 +73,6 @@
                             invisible="state == 'on_leave'"/>
                     <button name="action_set_resigned" string="Mark Resigned" type="object"
                             invisible="state == 'resigned'"/>
-                    <field name="is_published" widget="website_redirect_button"/>
                     <field name="state" widget="statusbar" statusbar_visible="active,on_leave"/>
                 </header>
                 <sheet>
@@ -114,11 +113,7 @@
                         <page string="Address" name="address">
                             <group><field name="address"/></group>
                         </page>
-                        <page string="Public Profile" name="public">
-                            <group>
-                                <field name="is_published" widget="boolean_toggle"/>
-                                <field name="website_url" widget="url" readonly="1"/>
-                            </group>
+                        <page string="Bio" name="bio_page">
                             <field name="bio" widget="html"/>
                         </page>
                     </notebook>
@@ -139,7 +134,7 @@
                 <separator/>
                 <filter name="active"   string="Active"   domain="[('state','=','active')]"/>
                 <filter name="on_leave" string="On Leave" domain="[('state','=','on_leave')]"/>
-                <filter name="published" string="Published on Website" domain="[('is_published','=',True)]"/>
+
                 <group>
                     <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
                 </group>

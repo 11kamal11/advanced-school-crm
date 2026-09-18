@@ -47,8 +47,6 @@
         'views/edu_dashboard_views.xml',
         'views/menu_views.xml',
 
-        'website_templates/website_contact_override.xml',
-
         'portal_templates/portal_templates.xml',
 
         'reports/edu_reports.xml',

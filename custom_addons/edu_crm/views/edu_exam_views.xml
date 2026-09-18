@@ -17,7 +17,7 @@
                 <filter string="Unit Test"  name="unit_test" domain="[('exam_type','=','unit_test')]"/>
                 <filter string="Mid Term"   name="mid_term"  domain="[('exam_type','=','mid_term')]"/>
                 <filter string="Final"      name="final"     domain="[('exam_type','=','final')]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_class"   string="Class"      context="{'group_by':'class_id'}"/>
                     <filter name="group_subject" string="Subject"    context="{'group_by':'subject_id'}"/>
                     <filter name="group_state"   string="Status"     context="{'group_by':'state'}"/>

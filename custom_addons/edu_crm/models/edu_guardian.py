@@ -18,7 +18,7 @@ class EduGuardian(models.Model):
     phone = fields.Char(related='partner_id.phone', readonly=False)
     email = fields.Char(related='partner_id.email', readonly=False)
     occupation = fields.Char()
-    has_portal_access = fields.Boolean(compute='_compute_has_portal_access')
+    has_portal_access = fields.Boolean(compute='_compute_has_portal_access', store=True)
     active = fields.Boolean(default=True)
 
     _partner_uniq = models.Constraint('unique(partner_id)', 'This contact is already registered as a guardian.')

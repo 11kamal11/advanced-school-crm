@@ -12,7 +12,7 @@
                 <separator/>
                 <filter string="Today"     name="today"
                         domain="[('date','=',context_today().strftime('%Y-%m-%d'))]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_class"  string="Class"  context="{'group_by':'class_id'}"/>
                     <filter name="group_state"  string="Status" context="{'group_by':'state'}"/>
                     <filter name="group_date"   string="Date"   context="{'group_by':'date:week'}"/>

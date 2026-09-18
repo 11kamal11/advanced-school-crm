@@ -10,7 +10,7 @@
                 <filter string="Theory"     name="theory"    domain="[('subject_type','=','theory')]"/>
                 <filter string="Practical"  name="practical" domain="[('subject_type','=','practical')]"/>
                 <filter string="Elective"   name="elective"  domain="[('is_elective','=',True)]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_type" string="Subject Type" context="{'group_by':'subject_type'}"/>
                 </group>
             </search>
