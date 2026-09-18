@@ -1,7 +1,7 @@
 <odoo>
 
 <!-- ============================================================
-     ADMISSIONS HOME — Full landing page
+     HOME — Hero + Stats + Features only
      ============================================================ -->
 <template id="admissions_home" name="Admissions Home">
     <t t-call="website.layout">
@@ -39,22 +39,22 @@
                 <div class="edu-hero-dots"></div>
                 <div class="container edu-hero-content">
                     <div class="row align-items-center g-5">
-                        <div class="col-lg-7">
+                        <div class="col-lg-8 col-xl-7">
                             <span class="edu-hero-badge">
                                 <span class="edu-hero-badge-dot"></span>
                                 Admissions Open 2025 – 26
                             </span>
-                            <h1>Shaping futures,<br/><em>one student at a time.</em></h1>
+                            <h1>Shaping minds.<br/>Not just <em style="color:#F5A623;">filling them.</em></h1>
                             <p class="lead">
-                                We combine rigorous academics with a nurturing community to help every
-                                child discover their potential — from early years through graduation.
+                                Forty years of producing graduates who think clearly, argue well,
+                                and lead with character. Applications reviewed on a rolling basis.
                             </p>
                             <div class="d-flex flex-wrap gap-3">
                                 <a href="/admissions/inquiry" class="btn btn-edu-primary btn-lg">
                                     <i class="fa fa-edit me-2"></i>Start an Application
                                 </a>
-                                <a href="/admissions/programs" class="btn btn-edu-ghost btn-lg">
-                                    <i class="fa fa-graduation-cap me-2"></i>Explore Programs
+                                <a href="/admissions/inquiry" class="btn btn-edu-ghost btn-lg">
+                                    Learn More
                                 </a>
                             </div>
 
@@ -67,10 +67,6 @@
                                 <div class="edu-hero-trust-item">
                                     <i class="fa fa-shield"></i>
                                     <span>Safe, Inclusive Campus</span>
-                                </div>
-                                <div class="edu-hero-trust-item">
-                                    <i class="fa fa-trophy"></i>
-                                    <span>Award-Winning Faculty</span>
                                 </div>
                                 <div class="edu-hero-trust-item">
                                     <i class="fa fa-star"></i>
@@ -211,285 +207,29 @@
                 </div>
             </section>
 
-            <!-- Programs -->
-            <section class="edu-section edu-section-tint" t-if="programs">
-                <div class="container">
-                    <div class="edu-section-head">
-                        <div class="d-flex align-items-end justify-content-between flex-wrap gap-3">
-                            <div>
-                                <span class="edu-eyebrow">Academic Programs</span>
-                                <h2 class="edu-heading mb-1">Explore what we offer</h2>
-                                <p class="edu-subheading mb-0">
-                                    Purposeful, age-appropriate programs from early years through senior grades.
-                                </p>
-                            </div>
-                            <a href="/admissions/programs" class="btn btn-outline-primary fw-bold flex-shrink-0">
-                                View All Programs <i class="fa fa-arrow-right ms-2"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="edu-program-grid">
-                        <a t-foreach="programs" t-as="program"
-                           t-attf-href="/admissions/programs/#{program.id}"
-                           class="edu-program-card edu-anim-up">
-                            <div t-if="program.image" class="edu-program-img"
-                                 t-attf-style="background-image:url(/web/image/edu.program/#{program.id}/image)"/>
-                            <div t-else="" class="edu-program-img-placeholder">
-                                <i class="fa fa-graduation-cap"></i>
-                            </div>
-                            <div class="edu-program-body">
-                                <span class="edu-program-badge" t-if="program.code" t-out="program.code"/>
-                                <p class="edu-program-name" t-out="program.name"/>
-                                <p class="edu-program-tagline" t-out="program.tagline"/>
-                                <span class="edu-program-link">
-                                    Learn more <i class="fa fa-arrow-right"></i>
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Admissions Process -->
-            <section class="edu-section">
-                <div class="container">
-                    <div class="edu-section-head text-center">
-                        <span class="edu-eyebrow">Admissions Process</span>
-                        <h2 class="edu-heading">Simple, transparent, and fast</h2>
-                        <p class="edu-subheading mx-auto">
-                            We review every application with care. Here's how it works.
-                        </p>
-                    </div>
-                    <div class="edu-process-grid">
-                        <div class="edu-process-step edu-anim-up">
-                            <div class="edu-step-circle">
-                                <i class="fa fa-edit"></i>
-                            </div>
-                            <h5 class="edu-step-title">Submit Inquiry</h5>
-                            <p class="edu-step-desc">
-                                Fill out our short online form. Tell us about your child and which
-                                grade you're applying for.
-                            </p>
-                        </div>
-                        <div class="edu-process-step edu-anim-up" style="transition-delay:0.1s">
-                            <div class="edu-step-circle">
-                                <i class="fa fa-search"></i>
-                            </div>
-                            <h5 class="edu-step-title">Application Review</h5>
-                            <p class="edu-step-desc">
-                                Our admissions team reviews your submission and reaches out within
-                                3 working days.
-                            </p>
-                        </div>
-                        <div class="edu-process-step edu-anim-up" style="transition-delay:0.2s">
-                            <div class="edu-step-circle">
-                                <i class="fa fa-comments"></i>
-                            </div>
-                            <h5 class="edu-step-title">Campus Visit</h5>
-                            <p class="edu-step-desc">
-                                Attend a school tour and an informal interaction with our academic
-                                coordinators.
-                            </p>
-                        </div>
-                        <div class="edu-process-step edu-anim-up" style="transition-delay:0.3s">
-                            <div class="edu-step-circle">
-                                <i class="fa fa-check-circle"></i>
-                            </div>
-                            <h5 class="edu-step-title">Enrolment</h5>
-                            <p class="edu-step-desc">
-                                Receive your offer letter, complete documentation, and your child
-                                joins our school family.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Faculty -->
-            <section class="edu-section edu-section-tint" t-if="faculty">
-                <div class="container">
-                    <div class="edu-section-head">
-                        <div class="d-flex align-items-end justify-content-between flex-wrap gap-3">
-                            <div>
-                                <span class="edu-eyebrow">Our Faculty</span>
-                                <h2 class="edu-heading mb-1">Learn from the best</h2>
-                                <p class="edu-subheading mb-0">
-                                    Experienced educators who bring passion and expertise to every class.
-                                </p>
-                            </div>
-                            <a href="/admissions/faculty" class="btn btn-outline-primary fw-bold flex-shrink-0">
-                                Meet All Faculty <i class="fa fa-arrow-right ms-2"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="edu-faculty-grid">
-                        <a t-foreach="faculty" t-as="teacher"
-                           t-attf-href="/admissions/faculty/#{teacher.id}"
-                           class="edu-faculty-card edu-anim-up">
-                            <div t-if="teacher.image" class="edu-faculty-img-wrap">
-                                <img t-attf-src="/web/image/edu.teacher/#{teacher.id}/image"
-                                     t-attf-alt="#{teacher.name}" loading="lazy"/>
-                                <div class="edu-faculty-overlay"></div>
-                            </div>
-                            <div t-else="" class="edu-faculty-img-placeholder">
-                                <i class="fa fa-user"></i>
-                            </div>
-                            <div class="edu-faculty-body">
-                                <p class="edu-faculty-name" t-out="teacher.name"/>
-                                <p class="edu-faculty-role" t-out="teacher.specialization"/>
-                                <p class="text-muted small mb-1" t-if="teacher.qualification">
-                                    <i class="fa fa-graduation-cap me-1"></i>
-                                    <t t-out="teacher.qualification"/>
-                                </p>
-                                <p class="text-muted small mb-0" t-if="teacher.experience_years">
-                                    <i class="fa fa-clock-o me-1"></i>
-                                    <t t-out="teacher.experience_years"/> years experience
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Testimonials -->
-            <section class="edu-section">
-                <div class="container">
-                    <div class="edu-section-head text-center">
-                        <span class="edu-eyebrow">Parent Stories</span>
-                        <h2 class="edu-heading">What families say about us</h2>
-                    </div>
-                    <div class="edu-testimonials-grid">
-                        <div class="edu-testimonial-card edu-anim-up">
-                            <p class="edu-testimonial-text">
-                                "The school's academic rigour is excellent, but what really stands out
-                                is how genuinely the teachers care about each child. My son has grown
-                                immensely both academically and as a person."
-                            </p>
-                            <div class="edu-testimonial-author">
-                                <div class="edu-testimonial-avatar">R</div>
-                                <div>
-                                    <p class="edu-testimonial-name">Radhika Sharma</p>
-                                    <p class="edu-testimonial-role">Parent, Grade 8</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-testimonial-card edu-anim-up" style="transition-delay:0.1s">
-                            <p class="edu-testimonial-text">
-                                "The admissions process was smooth and transparent. The team was
-                                responsive and welcoming. Our daughter loves going to school every day
-                                — that says everything."
-                            </p>
-                            <div class="edu-testimonial-author">
-                                <div class="edu-testimonial-avatar">A</div>
-                                <div>
-                                    <p class="edu-testimonial-name">Arjun Mehta</p>
-                                    <p class="edu-testimonial-role">Parent, Grade 3</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-testimonial-card edu-anim-up" style="transition-delay:0.2s">
-                            <p class="edu-testimonial-text">
-                                "The sports and arts programmes are exceptional. My child discovered a
-                                passion for music here that we never knew existed. The faculty here
-                                are truly invested in every student."
-                            </p>
-                            <div class="edu-testimonial-author">
-                                <div class="edu-testimonial-avatar">P</div>
-                                <div>
-                                    <p class="edu-testimonial-name">Priya Nair</p>
-                                    <p class="edu-testimonial-role">Parent, Grade 11</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CTA Banner -->
-            <section class="edu-section edu-section-tint">
-                <div class="container">
-                    <div class="edu-cta-banner">
-                        <div class="edu-cta-content">
-                            <p class="edu-cta-eyebrow">Ready to enrol?</p>
-                            <h3 class="edu-cta-heading">Join our school family today.</h3>
-                            <p class="edu-cta-sub">Applications are reviewed on a rolling basis — don't miss your spot.</p>
-                        </div>
-                        <div class="edu-cta-actions">
-                            <a href="/admissions/inquiry" class="btn btn-edu-primary btn-lg">
-                                <i class="fa fa-edit me-2"></i>Apply Now
-                            </a>
-                            <a href="/admissions/programs" class="btn btn-edu-ghost btn-lg">
-                                Our Programs
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Strip -->
-            <section class="edu-contact-strip">
-                <div class="container">
-                    <div class="edu-contact-grid">
-                        <div class="edu-contact-item">
-                            <div class="edu-contact-icon"><i class="fa fa-map-marker"></i></div>
-                            <div>
-                                <div class="edu-contact-label">Campus Address</div>
-                                <div class="edu-contact-value">123 School Road, City – 400001</div>
-                            </div>
-                        </div>
-                        <div class="edu-contact-item">
-                            <div class="edu-contact-icon"><i class="fa fa-phone"></i></div>
-                            <div>
-                                <div class="edu-contact-label">Phone</div>
-                                <div class="edu-contact-value">+91 123 456 7890</div>
-                            </div>
-                        </div>
-                        <div class="edu-contact-item">
-                            <div class="edu-contact-icon"><i class="fa fa-envelope-o"></i></div>
-                            <div>
-                                <div class="edu-contact-label">Email</div>
-                                <div class="edu-contact-value">admissions@school.edu</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Scroll animation + counter JS -->
+            <!-- Counter + scroll-reveal JS -->
             <script>
                 (function () {
-                    // Counter animation
                     function animateCounter(el) {
-                        const target = parseFloat(el.dataset.target) || 0;
-                        const suffix = el.dataset.suffix || '';
-                        const duration = 1600;
-                        const step = 16;
-                        const increment = target / (duration / step);
-                        let current = 0;
-                        const timer = setInterval(function () {
-                            current = Math.min(current + increment, target);
+                        var target = parseFloat(el.dataset.target) || 0;
+                        var suffix = el.dataset.suffix || '';
+                        var inc = target / (1600 / 16);
+                        var current = 0;
+                        var timer = setInterval(function () {
+                            current = Math.min(current + inc, target);
                             el.textContent = Math.round(current).toLocaleString('en-IN') + suffix;
                             if (current >= target) clearInterval(timer);
-                        }, step);
+                        }, 16);
                     }
-
-                    // IntersectionObserver for counters and fade-in
-                    const io = new IntersectionObserver(function (entries) {
+                    var io = new IntersectionObserver(function (entries) {
                         entries.forEach(function (e) {
                             if (!e.isIntersecting) return;
                             io.unobserve(e.target);
-                            if (e.target.classList.contains('edu-count-up')) {
-                                animateCounter(e.target);
-                            }
-                            if (e.target.classList.contains('edu-anim-up')) {
-                                e.target.classList.add('is-visible');
-                            }
+                            if (e.target.classList.contains('edu-count-up')) animateCounter(e.target);
+                            if (e.target.classList.contains('edu-anim-up')) e.target.classList.add('is-visible');
                         });
                     }, { threshold: 0.25 });
-
-                    document.querySelectorAll('.edu-count-up, .edu-anim-up').forEach(function (el) {
-                        io.observe(el);
-                    });
+                    document.querySelectorAll('.edu-count-up, .edu-anim-up').forEach(function (el) { io.observe(el); });
                 })();
             </script>
 

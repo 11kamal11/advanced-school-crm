@@ -1,0 +1,520 @@
+<title>Meridian School</title>
+<style>
+:root {
+  --ground:      #FEFCF8;
+  --ground-warm: #F0ECE4;
+  --text:        #0D1B2A;
+  --text-muted:  #5C6E7E;
+  --text-faint:  #8FA3B1;
+  --prussian:    #1B3F6E;
+  --prussian-dk: #0E2545;
+  --prussian-lt: #E8EEF7;
+  --saffron:     #C8871A;
+  --saffron-dk:  #9E6812;
+  --border:      #DDE5ED;
+
+  --ff-display: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --ff-body:    system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --ff-label:   'Courier New', Courier, monospace;
+  --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-body);
+  font-size: 16px;
+  color: var(--text);
+  background: var(--ground);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Util ───────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── Top bar ────────────────────── */
+.topbar {
+  background: var(--prussian-dk);
+  color: rgba(255,255,255,0.55);
+  font-family: var(--ff-label);
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+  padding: 8px 0;
+}
+.topbar .container { display: flex; justify-content: space-between; align-items: center; }
+.topbar a { color: rgba(255,255,255,0.55); transition: color 0.2s; }
+.topbar a:hover { color: var(--saffron); }
+.topbar-left { display: flex; gap: 28px; }
+.topbar-item { display: flex; align-items: center; gap: 7px; }
+
+/* ── Nav ────────────────────────── */
+nav {
+  background: var(--ground);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  max-width: 1120px;
+  margin: 0 auto;
+  height: 64px;
+}
+.nav-brand {
+  font-family: var(--ff-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--prussian);
+  letter-spacing: -0.01em;
+}
+.nav-brand span {
+  display: block;
+  font-size: 0.54rem;
+  font-family: var(--ff-label);
+  letter-spacing: 0.15em;
+  color: var(--text-faint);
+  margin-top: 1px;
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+.nav-links a { color: var(--text-muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--prussian); }
+.nav-cta {
+  background: var(--prussian);
+  color: #fff;
+  font-size: 0.83rem;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--prussian-dk); }
+
+/* ── Hero ───────────────────────── */
+.hero {
+  background: var(--ground);
+  padding: 7rem 0 0;
+  overflow: hidden;
+}
+.hero-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 40px;
+}
+.hero-eyebrow {
+  font-family: var(--ff-label);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 2rem;
+}
+.hero-headline {
+  font-family: var(--ff-display);
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.hero-headline .saffron-word { font-style: italic; color: var(--saffron); }
+.saffron-rule {
+  width: 52px;
+  height: 3px;
+  background: var(--saffron);
+  margin: 0 auto 2.5rem;
+}
+.hero-subline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.65;
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 5rem;
+}
+.btn-primary-hero {
+  background: var(--saffron);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 13px 28px;
+  border-radius: 6px;
+  transition: background 0.2s, transform 0.18s;
+  box-shadow: 0 4px 16px rgba(200,135,26,0.32);
+}
+.btn-primary-hero:hover { background: var(--saffron-dk); transform: translateY(-2px); }
+.btn-secondary-hero {
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 13px 28px;
+  border-radius: 6px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary-hero:hover { border-color: var(--prussian); color: var(--prussian); }
+
+/* ── Stats strip ────────────────── */
+.stats-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--ground);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.stat-cell {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-number {
+  font-family: var(--ff-display);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--prussian);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-family: var(--ff-label);
+  font-size: 0.65rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-top: 6px;
+  display: block;
+}
+
+/* ── Features / Why Us ──────────── */
+.features-section {
+  padding: 6rem 0 7rem;
+  background: var(--ground);
+}
+.features-head {
+  margin-bottom: 4rem;
+}
+.section-label {
+  font-family: var(--ff-label);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 1rem;
+  display: block;
+}
+.section-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+}
+.section-subtitle {
+  font-size: 1.02rem;
+  color: var(--text-muted);
+  max-width: 42rem;
+  line-height: 1.65;
+  margin-top: 0.75rem;
+}
+
+/* Editorial 2×2 grid with border treatment */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.why-cell {
+  padding: 3rem 3.25rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  background: var(--ground);
+  transition: background 0.25s var(--ease);
+}
+.why-cell:nth-child(2n)  { border-right: none; }
+.why-cell:nth-child(n+3) { border-bottom: none; }
+.why-cell:hover { background: var(--ground-warm); }
+
+/* Saffron left-edge reveal on hover */
+.why-cell::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--saffron);
+  transition: height 0.38s var(--ease);
+  border-radius: 0 0 2px 2px;
+}
+.why-cell:hover::before { height: 100%; }
+
+.why-number {
+  font-family: var(--ff-label);
+  font-size: 0.67rem;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  margin-bottom: 1.25rem;
+}
+.why-heading {
+  font-family: var(--ff-display);
+  font-size: 1.28rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.015em;
+  line-height: 1.28;
+}
+.why-body {
+  font-size: 0.91rem;
+  color: var(--text-muted);
+  line-height: 1.74;
+}
+
+/* ── Scroll reveal ──────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.10s; }
+.reveal-delay-2 { transition-delay: 0.20s; }
+.reveal-delay-3 { transition-delay: 0.30s; }
+
+/* ── Responsive ─────────────────── */
+@media (max-width: 900px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .why-cell { border-right: none; }
+  .why-cell:nth-child(n+3) { border-bottom: 1px solid var(--border); }
+  .why-cell:last-child { border-bottom: none; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-cell:nth-child(2) { border-right: none; }
+  .stat-cell:nth-child(n+3) { border-top: 1px solid var(--border); }
+}
+@media (max-width: 768px) {
+  .container { padding: 0 24px; }
+  .nav-links { display: none; }
+  .nav-inner { padding: 0 24px; }
+  .hero { padding: 5rem 0 0; }
+  .hero-headline { font-size: 2.4rem; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .why-cell { padding: 2.25rem 2rem; }
+  .topbar .topbar-left { gap: 12px; }
+}
+@media (max-width: 480px) {
+  .hero-headline { font-size: 2rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+</style>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span class="topbar-item">&#9742; +91 20 6600 1234</span>
+      <span class="topbar-item">&#9993; admissions@meridian.edu.in</span>
+      <span class="topbar-item">Mon – Fri &nbsp;·&nbsp; 8:00 – 16:00</span>
+    </div>
+    <a href="/web/login">Parent Login &rarr;</a>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      Meridian School
+      <span>Est. 1985 &nbsp;·&nbsp; CBSE Affiliated</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Programs</a></li>
+      <li><a href="#">Faculty</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Parent Portal</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Apply Now</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════ -->
+<!-- HERO                  -->
+<!-- ══════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Admissions Open &nbsp;&middot;&nbsp; 2025 – 26</p>
+    <h1 class="hero-headline">
+      Shaping minds.<br/>
+      Not just<br/>
+      <span class="saffron-word">filling them.</span>
+    </h1>
+    <div class="saffron-rule"></div>
+    <p class="hero-subline">
+      Forty years of producing graduates who think clearly, argue well,
+      and lead with character. Applications reviewed on a rolling basis.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary-hero">Start an Application</a>
+      <a href="#" class="btn-secondary-hero">Explore Programs</a>
+    </div>
+  </div>
+
+  <!-- Stats strip — anchored to hero base -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-cell reveal">
+          <span class="stat-number" id="cnt-students">1,240</span>
+          <span class="stat-label">Active Students</span>
+        </div>
+        <div class="stat-cell reveal reveal-delay-1">
+          <span class="stat-number" id="cnt-teachers">84</span>
+          <span class="stat-label">Faculty Members</span>
+        </div>
+        <div class="stat-cell reveal reveal-delay-2">
+          <span class="stat-number">98.6%</span>
+          <span class="stat-label">Board Pass Rate</span>
+        </div>
+        <div class="stat-cell reveal reveal-delay-3">
+          <span class="stat-number">40</span>
+          <span class="stat-label">Years of Excellence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ -->
+<!-- FEATURES / WHY US     -->
+<!-- ══════════════════════ -->
+<section class="features-section">
+  <div class="container">
+
+    <div class="features-head">
+      <span class="section-label">Why Meridian</span>
+      <h2 class="section-title">We believe a school<br/>should leave a mark.</h2>
+      <p class="section-subtitle">
+        Not the mark of a grade — the mark of a person who knows how to think.
+      </p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-cell reveal">
+        <p class="why-number">I &nbsp;—</p>
+        <h3 class="why-heading">Academic rigour without anxiety</h3>
+        <p class="why-body">
+          Our curriculum is demanding — deliberately so. But demand without support
+          creates fear, not learning. Every teacher here uses high expectations and
+          genuine care in the same sentence.
+        </p>
+      </div>
+      <div class="why-cell reveal reveal-delay-1">
+        <p class="why-number">II &nbsp;—</p>
+        <h3 class="why-heading">Small enough to know every name</h3>
+        <p class="why-body">
+          1,200 students. 84 faculty. Class sizes cap at 28, so a child who is
+          struggling is noticed in September, not discovered in March.
+          We treat that ratio as a commitment, not a selling point.
+        </p>
+      </div>
+      <div class="why-cell reveal">
+        <p class="why-number">III &nbsp;—</p>
+        <h3 class="why-heading">Parents as partners, not spectators</h3>
+        <p class="why-body">
+          Attendance, exam results, and fee status are available to parents the
+          moment they exist — not at the end-of-term report. No surprises
+          in either direction.
+        </p>
+      </div>
+      <div class="why-cell reveal reveal-delay-1">
+        <p class="why-number">IV &nbsp;—</p>
+        <h3 class="why-heading">A campus built for the long game</h3>
+        <p class="why-body">
+          Sports, debate, music, and community service aren't extracurricular here —
+          they're the curriculum's other half. The student who wins a science
+          competition and plays for the school team is not an exception.
+          That's the plan.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  /* Scroll reveal */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  /* Counter animation */
+  function count(el, target, suffix) {
+    var start = 0;
+    var inc = target / (1400 / 14);
+    var t = setInterval(function () {
+      start = Math.min(start + inc, target);
+      el.textContent = Math.round(start).toLocaleString('en-IN') + (suffix || '');
+      if (start >= target) clearInterval(t);
+    }, 14);
+  }
+
+  var counts = { 'cnt-students': [1240, '+'], 'cnt-teachers': [84, ''] };
+  var co = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var d = counts[e.target.id];
+        if (d) count(e.target, d[0], d[1]);
+        co.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  Object.keys(counts).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) co.observe(el);
+  });
+})();
+</script>
