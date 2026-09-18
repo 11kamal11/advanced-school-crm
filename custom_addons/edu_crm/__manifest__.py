@@ -47,9 +47,6 @@
         'views/edu_dashboard_views.xml',
         'views/menu_views.xml',
 
-        'website_templates/admissions_pages.xml',
-        'website_templates/admissions_inquiry_form.xml',
-
         'portal_templates/portal_templates.xml',
 
         'reports/edu_reports.xml',
