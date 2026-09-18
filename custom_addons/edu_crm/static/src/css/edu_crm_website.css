@@ -1,210 +1,1302 @@
 /* ============================================================
-   edu_crm — Public Website / Portal styles
-   Palette: Prussian #1B3F6E  |  Saffron #C8871A
+   edu_crm — Public Website & Parent Portal
+   Palette: Prussian #1B3F6E · Saffron #C8871A · Forest #177A63
+   Bootstrap 5 · Font Awesome 4.7 · Odoo 19
    ============================================================ */
 
+/* ── 1. Design Tokens ───────────────────────────────────────── */
 :root {
-  --edu-prussian:    #1B3F6E;
-  --edu-prussian-dk: #132E52;
-  --edu-saffron:     #C8871A;
-  --edu-saffron-lt:  #FEF3E0;
-  --edu-forest:      #177A63;
-  --edu-ink:         #0C1A26;
-  --edu-muted:       #5A6B7A;
-  --edu-border:      #DDE3EA;
-  --edu-ground:      #F5F7FA;
+  --edu-prussian:     #1B3F6E;
+  --edu-prussian-dk:  #0E2545;
+  --edu-prussian-md:  #24527F;
+  --edu-prussian-lt:  #E8EEF7;
+  --edu-saffron:      #C8871A;
+  --edu-saffron-dk:   #9E6812;
+  --edu-saffron-lt:   #FEF3E0;
+  --edu-saffron-mid:  #F5A623;
+  --edu-forest:       #177A63;
+  --edu-forest-lt:    #E3F5F0;
+  --edu-purple:       #6D28D9;
+  --edu-purple-lt:    #EDE9FE;
+  --edu-red:          #DC2626;
+  --edu-red-lt:       #FEE2E2;
+  --edu-ink:          #0C1A26;
+  --edu-ink-md:       #243547;
+  --edu-muted:        #5A6B7A;
+  --edu-slate:        #8FA3B1;
+  --edu-border:       #DDE3EA;
+  --edu-border-lt:    #EDF1F6;
+  --edu-ground:       #F5F7FA;
+  --edu-white:        #FFFFFF;
+
+  --edu-shadow-xs: 0 1px 4px rgba(12,26,38,0.07);
+  --edu-shadow-sm: 0 4px 14px rgba(12,26,38,0.10);
+  --edu-shadow-md: 0 8px 28px rgba(12,26,38,0.13);
+  --edu-shadow-lg: 0 18px 48px rgba(12,26,38,0.16);
+
+  --edu-r-xs: 6px;
+  --edu-r-sm: 10px;
+  --edu-r-md: 16px;
+  --edu-r-lg: 22px;
+  --edu-r-xl: 32px;
+
+  --edu-transition: 0.22s cubic-bezier(0.2, 0.8, 0.3, 1);
 }
 
-/* ── Typography ─────────────────────────────────────────── */
+/* ── 2. Base ────────────────────────────────────────────────── */
 body { color: var(--edu-ink); }
 
-/* ── Navbar ──────────────────────────────────────────────── */
-.edu-navbar-brand {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--edu-prussian) !important;
-}
-.navbar .nav-link { font-weight: 500; }
-.navbar .nav-link:hover { color: var(--edu-saffron) !important; }
+a { color: var(--edu-prussian); }
+a:hover { color: var(--edu-saffron); }
 
-/* ── Hero section ────────────────────────────────────────── */
+/* ── 3. Navbar ──────────────────────────────────────────────── */
+#wrapwrap > header .navbar {
+  box-shadow: 0 1px 0 var(--edu-border);
+}
+.navbar .navbar-brand {
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--edu-prussian) !important;
+  font-size: 1.25rem;
+}
+.navbar .nav-link {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--edu-ink-md);
+  transition: color var(--edu-transition);
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--edu-saffron) !important;
+}
+.navbar .btn-primary {
+  background: var(--edu-prussian);
+  border-color: var(--edu-prussian);
+  font-weight: 700;
+  border-radius: var(--edu-r-sm);
+}
+.navbar .btn-primary:hover {
+  background: var(--edu-prussian-dk);
+  border-color: var(--edu-prussian-dk);
+}
+
+/* ── 4. Top Info Bar ────────────────────────────────────────── */
+.edu-top-bar {
+  background: var(--edu-prussian-dk);
+  color: rgba(255,255,255,0.75);
+  font-size: 0.8rem;
+  padding: 7px 0;
+}
+.edu-top-bar a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.edu-top-bar a:hover { color: var(--edu-saffron); }
+.edu-top-bar .edu-top-bar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── 5. Hero ────────────────────────────────────────────────── */
 .edu-hero {
   background: linear-gradient(148deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
   color: #fff;
-  padding: 6.5rem 0 5.5rem;
+  padding: 7.5rem 0 6.5rem;
   position: relative;
   overflow: hidden;
 }
+/* Dot grid texture */
+.edu-hero-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+/* Animated glow orbs */
 .edu-hero::before {
   content: '';
   position: absolute;
-  top: -80px; right: -80px;
-  width: 420px; height: 420px;
+  top: -120px; right: -100px;
+  width: 560px; height: 560px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,135,26,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(200,135,26,0.20) 0%, transparent 60%);
+  animation: edu-float-a 9s ease-in-out infinite;
   pointer-events: none;
 }
+.edu-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; left: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  animation: edu-float-b 11s ease-in-out infinite;
+  pointer-events: none;
+}
+.edu-hero-content { position: relative; z-index: 1; }
+
+.edu-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(200,135,26,0.22);
+  border: 1px solid rgba(200,135,26,0.40);
+  color: #FFCF6B;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 1.5rem;
+}
+.edu-hero-badge .edu-hero-badge-dot {
+  width: 7px; height: 7px;
+  background: #FFCF6B;
+  border-radius: 50%;
+  animation: edu-pulse 2s ease-in-out infinite;
+}
+
 .edu-hero h1 {
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  font-size: 2.9rem;
-  line-height: 1.1;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+  max-width: 700px;
+}
+.edu-hero h1 em {
+  font-style: normal;
+  color: var(--edu-saffron-mid);
 }
 .edu-hero p.lead {
-  color: rgba(255,255,255,0.82);
-  font-size: 1.15rem;
-  max-width: 44rem;
+  color: rgba(255,255,255,0.78);
+  font-size: 1.12rem;
+  max-width: 520px;
+  line-height: 1.65;
+  margin-bottom: 2rem;
   font-weight: 400;
 }
 
-.edu-hero .btn-edu-primary {
+/* Hero CTA buttons */
+.btn-edu-primary {
   background: var(--edu-saffron);
   color: #fff;
   font-weight: 700;
   border: none;
-  padding: 0.72rem 1.65rem;
-  border-radius: 8px;
+  padding: 0.78rem 1.8rem;
+  border-radius: var(--edu-r-sm);
+  font-size: 0.97rem;
   letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.15s;
+  transition: background var(--edu-transition), transform var(--edu-transition), box-shadow var(--edu-transition);
+  box-shadow: 0 4px 14px rgba(200,135,26,0.35);
 }
-.edu-hero .btn-edu-primary:hover {
-  background: #A06712;
+.btn-edu-primary:hover {
+  background: var(--edu-saffron-dk);
   color: #fff;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(200,135,26,0.42);
 }
-.edu-hero .btn-edu-outline {
-  border: 1.5px solid rgba(255,255,255,0.5);
+.btn-edu-ghost {
+  background: transparent;
   color: #fff;
   font-weight: 600;
-  padding: 0.72rem 1.65rem;
-  border-radius: 8px;
-  transition: border-color 0.2s, background 0.2s;
+  border: 2px solid rgba(255,255,255,0.45);
+  padding: 0.75rem 1.8rem;
+  border-radius: var(--edu-r-sm);
+  font-size: 0.97rem;
+  transition: border-color var(--edu-transition), background var(--edu-transition);
 }
-.edu-hero .btn-edu-outline:hover {
-  border-color: #fff;
-  background: rgba(255,255,255,0.1);
+.btn-edu-ghost:hover {
+  border-color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.10);
   color: #fff;
 }
 
-/* ── Sections ────────────────────────────────────────────── */
-.edu-section { padding: 5rem 0; }
-.edu-section-alt { background-color: var(--edu-ground); }
+/* Hero trust signals */
+.edu-hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+.edu-hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.72);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.edu-hero-trust-item i {
+  color: var(--edu-saffron-mid);
+  font-size: 1rem;
+}
 
+/* ── 6. Stats Strip ─────────────────────────────────────────── */
+.edu-stats-strip {
+  background: var(--edu-white);
+  border-bottom: 1px solid var(--edu-border-lt);
+  padding: 3.5rem 0;
+}
+.edu-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  text-align: center;
+}
+.edu-stat-item {
+  padding: 1.5rem;
+  border-right: 1px solid var(--edu-border-lt);
+}
+.edu-stat-item:last-child { border-right: none; }
+.edu-stat-number {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--edu-prussian);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+.edu-stat-label {
+  font-size: 0.85rem;
+  color: var(--edu-muted);
+  font-weight: 500;
+  margin-top: 5px;
+}
+.edu-stat-icon {
+  width: 40px; height: 40px;
+  background: var(--edu-prussian-lt);
+  border-radius: var(--edu-r-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--edu-prussian);
+  font-size: 1rem;
+  margin: 0 auto 12px;
+}
+
+/* ── 7. Section Base ────────────────────────────────────────── */
+.edu-section { padding: 5.5rem 0; }
+.edu-section-tint { background: var(--edu-ground); }
+.edu-section-dk {
+  background: var(--edu-prussian);
+  color: #fff;
+}
+
+.edu-section-head { margin-bottom: 3.5rem; }
 .edu-eyebrow {
+  display: inline-block;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.75rem;
+  letter-spacing: 0.10em;
+  font-size: 0.74rem;
   font-weight: 800;
   color: var(--edu-saffron);
+  margin-bottom: 0.75rem;
 }
-.edu-section-title {
-  font-weight: 800;
-  letter-spacing: -0.02em;
+.edu-heading {
+  font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
   color: var(--edu-ink);
+  margin-bottom: 0.75rem;
 }
-.edu-section-subtitle {
+.edu-heading-dk {
+  color: #fff;
+}
+.edu-subheading {
   color: var(--edu-muted);
-  max-width: 40rem;
   font-size: 1.05rem;
+  max-width: 44rem;
+  line-height: 1.65;
 }
 
-/* ── Cards ───────────────────────────────────────────────── */
-.edu-card {
+/* ── 8. Feature Cards (Why Us) ─────────────────────────────── */
+.edu-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.edu-feature-card {
+  background: var(--edu-white);
   border: 1.5px solid var(--edu-border);
-  border-radius: 14px;
-  background: #fff;
-  transition: box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s;
-  height: 100%;
+  border-radius: var(--edu-r-md);
+  padding: 2rem 1.75rem;
+  transition: box-shadow var(--edu-transition), transform var(--edu-transition), border-color var(--edu-transition);
 }
-.edu-card:hover {
-  box-shadow: 0 16px 36px rgba(27,63,110,0.13);
-  transform: translateY(-3px);
-  border-color: rgba(200,135,26,0.35);
+.edu-feature-card:hover {
+  box-shadow: var(--edu-shadow-md);
+  transform: translateY(-4px);
+  border-color: rgba(200,135,26,0.30);
 }
-.edu-card-body { padding: 1.75rem; }
-.edu-card-img {
-  height: 165px;
-  background-color: var(--edu-saffron-lt);
+.edu-feature-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--edu-r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.25rem;
+}
+.edu-fi-prussian { background: var(--edu-prussian-lt); color: var(--edu-prussian); }
+.edu-fi-saffron  { background: var(--edu-saffron-lt);  color: var(--edu-saffron); }
+.edu-fi-forest   { background: var(--edu-forest-lt);   color: var(--edu-forest); }
+.edu-fi-purple   { background: var(--edu-purple-lt);   color: var(--edu-purple); }
+
+.edu-feature-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--edu-ink);
+  margin-bottom: 0.5rem;
+}
+.edu-feature-desc {
+  font-size: 0.88rem;
+  color: var(--edu-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── 9. Program Cards ───────────────────────────────────────── */
+.edu-program-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.edu-program-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--edu-transition), transform var(--edu-transition), border-color var(--edu-transition);
+}
+.edu-program-card:hover {
+  box-shadow: var(--edu-shadow-md);
+  transform: translateY(-5px);
+  border-color: rgba(27,63,110,0.25);
+  color: inherit;
+  text-decoration: none;
+}
+.edu-program-img {
+  height: 190px;
+  background: linear-gradient(145deg, var(--edu-prussian-lt) 0%, #D4E0F2 100%);
   background-size: cover;
   background-position: center;
-  border-radius: 12px 12px 0 0;
+  position: relative;
+  overflow: hidden;
 }
-
-/* ── Badges ──────────────────────────────────────────────── */
-.edu-badge {
+.edu-program-img-placeholder {
+  height: 190px;
+  background: linear-gradient(145deg, var(--edu-prussian-lt) 0%, #D4E0F2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--edu-prussian);
+  opacity: 0.5;
+}
+.edu-program-body {
+  padding: 1.5rem 1.75rem 1.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.edu-program-badge {
   display: inline-block;
-  background-color: var(--edu-saffron-lt);
-  color: var(--edu-saffron);
+  background: var(--edu-prussian-lt);
+  color: var(--edu-prussian);
+  font-size: 0.7rem;
   font-weight: 700;
-  font-size: 0.72rem;
-  padding: 0.22rem 0.72rem;
-  border-radius: 999px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+.edu-program-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--edu-ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.edu-program-tagline {
+  font-size: 0.87rem;
+  color: var(--edu-muted);
+  line-height: 1.55;
+  flex: 1;
+  margin-bottom: 1.25rem;
+}
+.edu-program-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--edu-prussian);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  transition: color var(--edu-transition), gap var(--edu-transition);
+}
+.edu-program-card:hover .edu-program-link {
+  color: var(--edu-saffron);
+  gap: 8px;
 }
 
-/* ── Faculty avatar ──────────────────────────────────────── */
-.edu-faculty-avatar {
-  width: 96px; height: 96px;
+/* ── 10. Admissions Process Steps ───────────────────────────── */
+.edu-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+  counter-reset: step;
+}
+.edu-process-grid::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: calc(12.5%);
+  right: calc(12.5%);
+  height: 2px;
+  background: var(--edu-border);
+  z-index: 0;
+}
+.edu-process-step {
+  text-align: center;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+  counter-increment: step;
+}
+.edu-step-circle {
+  width: 72px; height: 72px;
   border-radius: 50%;
-  object-fit: cover;
-  background-color: var(--edu-saffron-lt);
-  border: 3px solid #fff;
-  box-shadow: 0 4px 14px rgba(27,63,110,0.18);
+  background: var(--edu-white);
+  border: 2.5px solid var(--edu-border);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 1.15rem;
+  color: var(--edu-prussian);
+  transition: background var(--edu-transition), border-color var(--edu-transition), box-shadow var(--edu-transition), color var(--edu-transition);
+  position: relative;
+}
+.edu-step-circle::before {
+  content: counter(step);
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--edu-saffron);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edu-process-step:hover .edu-step-circle {
+  background: var(--edu-prussian);
+  border-color: var(--edu-prussian);
+  color: #fff;
+  box-shadow: 0 0 0 6px rgba(27,63,110,0.12);
+}
+.edu-step-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--edu-ink);
+  margin-bottom: 6px;
+}
+.edu-step-desc {
+  font-size: 0.83rem;
+  color: var(--edu-muted);
+  line-height: 1.6;
 }
 
-/* ── CTA banner ──────────────────────────────────────────── */
+/* ── 11. Faculty Cards ──────────────────────────────────────── */
+.edu-faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.edu-faculty-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--edu-transition), transform var(--edu-transition);
+  display: block;
+}
+.edu-faculty-card:hover {
+  box-shadow: var(--edu-shadow-md);
+  transform: translateY(-4px);
+  color: inherit;
+  text-decoration: none;
+}
+.edu-faculty-img-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  background: linear-gradient(135deg, var(--edu-prussian-lt) 0%, #C7D8EE 100%);
+}
+.edu-faculty-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.edu-faculty-card:hover .edu-faculty-img-wrap img {
+  transform: scale(1.06);
+}
+.edu-faculty-img-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--edu-prussian);
+  opacity: 0.35;
+  background: linear-gradient(135deg, var(--edu-prussian-lt) 0%, #C7D8EE 100%);
+}
+.edu-faculty-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12,26,38,0.6) 0%, transparent 55%);
+}
+.edu-faculty-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+.edu-faculty-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--edu-ink);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.edu-faculty-role {
+  font-size: 0.82rem;
+  color: var(--edu-saffron);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.edu-faculty-subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.edu-subject-chip {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--edu-prussian-lt);
+  color: var(--edu-prussian);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* ── 12. Testimonials ───────────────────────────────────────── */
+.edu-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.edu-testimonial-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  padding: 2rem;
+  position: relative;
+}
+.edu-testimonial-card::before {
+  content: '\201C';
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--edu-saffron);
+  position: absolute;
+  top: 1rem; left: 1.5rem;
+  font-family: Georgia, serif;
+  opacity: 0.5;
+}
+.edu-testimonial-text {
+  font-size: 0.93rem;
+  color: var(--edu-muted);
+  line-height: 1.7;
+  margin-top: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.edu-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.edu-testimonial-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--edu-prussian-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900;
+  color: var(--edu-prussian);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.edu-testimonial-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--edu-ink);
+  margin: 0;
+}
+.edu-testimonial-role {
+  font-size: 0.77rem;
+  color: var(--edu-slate);
+  margin: 0;
+}
+
+/* ── 13. CTA Banner ─────────────────────────────────────────── */
 .edu-cta-banner {
   background: linear-gradient(135deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
-  color: #fff;
-  border-radius: 16px;
-  padding: 3.5rem;
+  border-radius: var(--edu-r-xl);
+  padding: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
   position: relative;
   overflow: hidden;
 }
 .edu-cta-banner::before {
   content: '';
   position: absolute;
-  bottom: -60px; right: -60px;
-  width: 280px; height: 280px;
+  bottom: -80px; right: -80px;
+  width: 300px; height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,135,26,0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(200,135,26,0.25) 0%, transparent 70%);
   pointer-events: none;
 }
-.edu-cta-banner h3 { font-weight: 800; }
-
-/* ── Form card ───────────────────────────────────────────── */
-.edu-form-card {
-  border: 1.5px solid var(--edu-border);
-  border-radius: 14px;
-  padding: 2.5rem;
-  background: #fff;
+.edu-cta-banner::after {
+  content: '';
+  position: absolute;
+  top: -60px; left: 200px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
-
-/* ── Stats strip ─────────────────────────────────────────── */
-.edu-stat-number {
-  font-size: 2.4rem;
+.edu-cta-content { position: relative; z-index: 1; }
+.edu-cta-eyebrow {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--edu-saffron-mid);
+  margin-bottom: 0.5rem;
+}
+.edu-cta-heading {
+  font-size: 1.9rem;
   font-weight: 900;
-  color: var(--edu-prussian);
+  color: #fff;
   letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.4rem;
 }
-.edu-stat-label {
-  color: var(--edu-muted);
-  font-size: 0.88rem;
+.edu-cta-sub {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.95rem;
+  margin: 0;
+}
+.edu-cta-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 14. Contact strip ──────────────────────────────────────── */
+.edu-contact-strip {
+  background: var(--edu-prussian-dk);
+  color: rgba(255,255,255,0.72);
+  padding: 3rem 0;
+}
+.edu-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.edu-contact-item { display: flex; gap: 14px; }
+.edu-contact-icon {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--edu-r-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--edu-saffron-mid);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.edu-contact-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: rgba(255,255,255,0.40);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.edu-contact-value {
+  color: #fff;
+  font-size: 0.92rem;
   font-weight: 500;
 }
 
-/* ── Portal ──────────────────────────────────────────────── */
-.o_portal_my_home .o_portal_doc_entry a:hover { color: var(--edu-saffron); }
+/* ── 15. Page hero (inner pages) ────────────────────────────── */
+.edu-page-hero {
+  background: linear-gradient(148deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
+  color: #fff;
+  padding: 4rem 0 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.edu-page-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 350px; height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,135,26,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+.edu-page-hero .edu-breadcrumb {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.82rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+.edu-page-hero .edu-breadcrumb:hover { color: rgba(255,255,255,0.85); }
+.edu-page-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+.edu-page-hero .edu-page-subtitle {
+  color: rgba(255,255,255,0.72);
+  font-size: 1.05rem;
+  margin: 0;
+}
 
-/* ── Focus ───────────────────────────────────────────────── */
-:focus-visible { outline: 2px solid var(--edu-saffron); outline-offset: 2px; }
+/* ── 16. Cards (generic) ─────────────────────────────────────── */
+.edu-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  height: 100%;
+  transition: box-shadow var(--edu-transition), transform var(--edu-transition), border-color var(--edu-transition);
+}
+.edu-card:hover {
+  box-shadow: var(--edu-shadow-md);
+  transform: translateY(-4px);
+  border-color: rgba(200,135,26,0.30);
+}
+.edu-card-img {
+  height: 180px;
+  background: linear-gradient(145deg, var(--edu-prussian-lt) 0%, #D4E0F2 100%);
+  background-size: cover;
+  background-position: center;
+  border-radius: calc(var(--edu-r-md) - 1px) calc(var(--edu-r-md) - 1px) 0 0;
+}
+.edu-card-body { padding: 1.5rem 1.75rem 2rem; }
 
-/* ── Responsive ─────────────────────────────────────────── */
+/* ── 17. Badges ──────────────────────────────────────────────── */
+.edu-badge {
+  display: inline-block;
+  background: var(--edu-saffron-lt);
+  color: var(--edu-saffron);
+  font-weight: 700;
+  font-size: 0.70rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.edu-badge-prussian {
+  background: var(--edu-prussian-lt);
+  color: var(--edu-prussian);
+}
+.edu-badge-forest {
+  background: var(--edu-forest-lt);
+  color: var(--edu-forest);
+}
+.edu-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(200,135,26,0.18);
+  border: 1px solid rgba(200,135,26,0.30);
+  color: #FFCF6B;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+}
+
+/* ── 18. Faculty Avatar (detail) ────────────────────────────── */
+.edu-faculty-avatar {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--edu-prussian-lt);
+  border: 3px solid var(--edu-white);
+  box-shadow: var(--edu-shadow-sm);
+}
+
+/* ── 19. Form Styles ─────────────────────────────────────────── */
+.edu-form-wrap {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-lg);
+  overflow: hidden;
+}
+.edu-form-header {
+  background: linear-gradient(135deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
+  padding: 2.5rem 2.5rem 2rem;
+  color: #fff;
+}
+.edu-form-header h2 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.25rem;
+}
+.edu-form-header p {
+  color: rgba(255,255,255,0.68);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.edu-form-body { padding: 2.5rem; }
+
+.edu-form-section {
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--edu-border-lt);
+}
+.edu-form-section:first-child { padding-top: 0; }
+.edu-form-section:last-child { border-bottom: none; padding-bottom: 0; }
+.edu-form-section-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--edu-prussian);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.edu-form-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--edu-border-lt);
+}
+
+.edu-form-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--edu-ink-md);
+  margin-bottom: 5px;
+}
+.edu-form-label .edu-req { color: var(--edu-red); margin-left: 2px; }
+
+.form-control, .form-select {
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-sm);
+  color: var(--edu-ink);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.92rem;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--edu-prussian);
+  box-shadow: 0 0 0 3px rgba(27,63,110,0.12);
+  outline: none;
+}
+.form-control::placeholder { color: var(--edu-slate); }
+
+.edu-submit-btn {
+  width: 100%;
+  background: var(--edu-prussian);
+  color: #fff;
+  border: none;
+  border-radius: var(--edu-r-sm);
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--edu-transition), transform var(--edu-transition), box-shadow var(--edu-transition);
+  box-shadow: 0 4px 14px rgba(27,63,110,0.28);
+}
+.edu-submit-btn:hover {
+  background: var(--edu-prussian-md);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(27,63,110,0.36);
+}
+
+/* ── 20. Apply sidebar ───────────────────────────────────────── */
+.edu-apply-sidebar {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  overflow: hidden;
+  position: sticky;
+  top: 100px;
+}
+.edu-apply-sidebar-header {
+  background: linear-gradient(135deg, var(--edu-saffron) 0%, var(--edu-saffron-dk) 100%);
+  padding: 1.5rem;
+  color: #fff;
+  text-align: center;
+}
+.edu-apply-sidebar-header h5 {
+  font-weight: 900;
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+}
+.edu-apply-sidebar-body { padding: 1.5rem; }
+.edu-apply-sidebar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.edu-apply-meta-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.85rem;
+}
+.edu-apply-meta-item i {
+  color: var(--edu-prussian);
+  margin-top: 2px;
+  width: 14px;
+  flex-shrink: 0;
+}
+.edu-apply-meta-label { color: var(--edu-muted); font-size: 0.75rem; }
+.edu-apply-meta-value { color: var(--edu-ink); font-weight: 600; }
+
+/* ── 21. Thank You Page ──────────────────────────────────────── */
+.edu-thankyou-wrap {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+}
+.edu-thankyou-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-xl);
+  padding: 4rem 3.5rem;
+  text-align: center;
+  max-width: 560px;
+  width: 100%;
+  animation: edu-slide-up 0.5s ease both;
+}
+.edu-thankyou-icon {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  background: var(--edu-forest-lt);
+  color: var(--edu-forest);
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.75rem;
+  animation: edu-check-pop 0.5s 0.2s cubic-bezier(0.2, 0.8, 0.3, 1.3) both;
+}
+.edu-thankyou-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--edu-ground);
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-r-sm);
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--edu-muted);
+  margin-bottom: 2rem;
+}
+.edu-thankyou-ref strong { color: var(--edu-prussian); font-weight: 800; }
+
+/* ── 22. Portal ──────────────────────────────────────────────── */
+.edu-portal-header {
+  background: linear-gradient(135deg, var(--edu-prussian) 0%, var(--edu-prussian-dk) 100%);
+  padding: 2rem 0;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+.edu-portal-header h2 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+.edu-portal-header p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  margin: 3px 0 0;
+}
+
+.edu-student-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: box-shadow var(--edu-transition), transform var(--edu-transition);
+  text-decoration: none;
+  color: inherit;
+}
+.edu-student-card:hover {
+  box-shadow: var(--edu-shadow-md);
+  transform: translateY(-3px);
+  text-decoration: none;
+  color: inherit;
+}
+.edu-student-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--edu-prussian-lt);
+  color: var(--edu-prussian);
+  font-size: 1.4rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.edu-student-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--edu-ink);
+  margin-bottom: 3px;
+}
+.edu-student-class {
+  font-size: 0.83rem;
+  color: var(--edu-muted);
+  margin-bottom: 1rem;
+}
+.edu-att-progress {
+  height: 6px;
+  background: var(--edu-border-lt);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.edu-att-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+.edu-att-fill-good    { background: var(--edu-forest); }
+.edu-att-fill-warn    { background: var(--edu-saffron); }
+.edu-att-fill-poor    { background: var(--edu-red); }
+.edu-att-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--edu-slate);
+  margin-bottom: 1rem;
+}
+
+.edu-portal-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 2rem;
+}
+.edu-portal-stat-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  padding: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: box-shadow var(--edu-transition), transform var(--edu-transition), border-color var(--edu-transition);
+}
+.edu-portal-stat-card:hover {
+  box-shadow: var(--edu-shadow-md);
+  transform: translateY(-3px);
+  border-color: rgba(27,63,110,0.25);
+  color: inherit;
+  text-decoration: none;
+}
+.edu-portal-stat-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--edu-r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem;
+  margin: 0 auto 10px;
+}
+.edu-portal-stat-value {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--edu-ink);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.edu-portal-stat-label {
+  font-size: 0.77rem;
+  color: var(--edu-muted);
+  font-weight: 500;
+}
+
+/* Portal tables */
+.edu-portal-table-wrap {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  overflow: hidden;
+}
+.edu-portal-table-wrap table {
+  margin-bottom: 0;
+}
+.edu-portal-table-wrap thead th {
+  background: var(--edu-ground);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--edu-muted);
+  border-bottom: 1.5px solid var(--edu-border);
+  padding: 0.85rem 1rem;
+}
+.edu-portal-table-wrap tbody td {
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  color: var(--edu-ink);
+  vertical-align: middle;
+  border-color: var(--edu-border-lt);
+}
+.edu-portal-table-wrap tbody tr:hover { background: var(--edu-ground); }
+
+/* Announcement card */
+.edu-announcement-card {
+  background: var(--edu-white);
+  border: 1.5px solid var(--edu-border);
+  border-radius: var(--edu-r-md);
+  padding: 1.5rem;
+  border-left: 4px solid var(--edu-prussian);
+  margin-bottom: 14px;
+}
+.edu-announcement-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--edu-ink);
+  margin-bottom: 4px;
+}
+.edu-announcement-date {
+  font-size: 0.75rem;
+  color: var(--edu-slate);
+  margin-bottom: 8px;
+}
+.edu-announcement-body { font-size: 0.87rem; color: var(--edu-muted); }
+
+/* Status badges for portal */
+.edu-status { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+.edu-status-success { background: var(--edu-forest-lt); color: var(--edu-forest); }
+.edu-status-warning { background: var(--edu-saffron-lt); color: var(--edu-saffron-dk); }
+.edu-status-danger  { background: var(--edu-red-lt);    color: var(--edu-red); }
+.edu-status-info    { background: var(--edu-prussian-lt);color: var(--edu-prussian); }
+.edu-status-muted   { background: var(--edu-border-lt); color: var(--edu-muted); }
+
+/* ── 23. Keyframes ───────────────────────────────────────────── */
+@keyframes edu-float-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-25px, 20px) scale(1.05); }
+}
+@keyframes edu-float-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(20px, -18px) scale(1.04); }
+}
+@keyframes edu-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+@keyframes edu-slide-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes edu-check-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes edu-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.edu-anim-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.edu-anim-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 24. Focus ───────────────────────────────────────────────── */
+:focus-visible { outline: 2.5px solid var(--edu-saffron); outline-offset: 3px; }
+
+/* ── 25. Responsive ──────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .edu-feature-grid  { grid-template-columns: repeat(2, 1fr); }
+  .edu-faculty-grid  { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 992px) {
+  .edu-program-grid  { grid-template-columns: repeat(2, 1fr); }
+  .edu-faculty-grid  { grid-template-columns: repeat(2, 1fr); }
+  .edu-stats-grid    { grid-template-columns: repeat(2, 1fr); }
+  .edu-stat-item:nth-child(2) { border-right: none; }
+  .edu-stat-item:nth-child(3) { border-top: 1px solid var(--edu-border-lt); }
+  .edu-process-grid  { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .edu-process-grid::before { display: none; }
+  .edu-testimonials-grid { grid-template-columns: 1fr 1fr; }
+  .edu-cta-banner    { padding: 2.5rem 2rem; }
+  .edu-contact-grid  { grid-template-columns: 1fr; gap: 1.25rem; }
+  .edu-portal-stat-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
 @media (max-width: 768px) {
-  .edu-hero { padding: 4rem 0 3.5rem; }
-  .edu-hero h1 { font-size: 2rem; }
-  .edu-cta-banner { padding: 2rem 1.5rem; }
-  .edu-stat-number { font-size: 1.8rem; }
+  .edu-hero          { padding: 5rem 0 4.5rem; }
+  .edu-hero h1       { font-size: 2rem; }
+  .edu-hero p.lead   { font-size: 1rem; }
+  .edu-hero-trust    { gap: 16px; }
+  .edu-section       { padding: 3.5rem 0; }
+  .edu-feature-grid  { grid-template-columns: 1fr; }
+  .edu-program-grid  { grid-template-columns: 1fr; }
+  .edu-faculty-grid  { grid-template-columns: 1fr 1fr; }
+  .edu-testimonials-grid { grid-template-columns: 1fr; }
+  .edu-process-grid  { grid-template-columns: 1fr; }
+  .edu-stats-grid    { grid-template-columns: 1fr 1fr; }
+  .edu-cta-banner    { flex-direction: column; text-align: center; padding: 2.5rem 1.75rem; }
+  .edu-cta-heading   { font-size: 1.5rem; }
+  .edu-cta-actions   { justify-content: center; }
+  .edu-form-body     { padding: 1.5rem; }
+  .edu-form-header   { padding: 2rem 1.5rem 1.5rem; }
+  .edu-thankyou-card { padding: 2.5rem 1.5rem; }
+  .edu-portal-stat-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .edu-faculty-grid { grid-template-columns: 1fr; }
+  .edu-top-bar .d-flex { flex-direction: column; gap: 4px; }
 }

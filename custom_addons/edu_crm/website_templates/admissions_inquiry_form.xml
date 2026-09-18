@@ -1,79 +1,263 @@
 <odoo>
 
+<!-- ============================================================
+     ADMISSIONS INQUIRY FORM — Premium redesign
+     ============================================================ -->
 <template id="admissions_inquiry_form" name="Admissions Inquiry Form">
     <t t-call="website.layout">
         <div id="wrap" class="oe_structure">
-            <section class="edu-hero py-5">
-                <div class="container">
-                    <div class="edu-eyebrow text-white-50">Admissions</div>
-                    <h1 class="mt-2 mb-0">Start Your Application</h1>
+
+            <section class="edu-page-hero">
+                <div class="container position-relative" style="z-index:1">
+                    <a href="/admissions" class="edu-breadcrumb">
+                        <i class="fa fa-arrow-left"></i> Admissions
+                    </a>
+                    <h1>Start Your Application</h1>
+                    <p class="edu-page-subtitle">
+                        Takes less than 3 minutes. Our team will reach out within 3 working days.
+                    </p>
                 </div>
             </section>
+
             <section class="edu-section">
-                <div class="container" style="max-width: 720px;">
-                    <div class="edu-form-card">
-                        <div t-if="error" class="alert alert-danger" role="alert">
-                            Please fill in your name, phone number, and your child's name before submitting.
-                        </div>
-                        <form action="/admissions/inquiry/submit" method="post">
-                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Your Name *</label>
-                                    <input type="text" name="contact_name" class="form-control"
-                                           t-att-value="form_data.get('contact_name')" required="required"/>
+                <div class="container">
+                    <div class="row g-5 justify-content-center">
+
+                        <!-- Form card -->
+                        <div class="col-lg-7">
+                            <div class="edu-form-wrap">
+                                <div class="edu-form-header">
+                                    <h2>Admissions Inquiry</h2>
+                                    <p>All information is kept confidential and used solely for admissions purposes.</p>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Phone *</label>
-                                    <input type="tel" name="phone" class="form-control"
-                                           t-att-value="form_data.get('phone')" required="required"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control"
-                                           t-att-value="form_data.get('email')"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Child's Name *</label>
-                                    <input type="text" name="student_name" class="form-control"
-                                           t-att-value="form_data.get('student_name')" required="required"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Grade Applying For</label>
-                                    <select name="class_applying_id" class="form-select">
-                                        <option value="">Select a grade</option>
-                                        <option t-foreach="classes" t-as="klass" t-att-value="klass.id"
-                                                t-out="'%s - %s' % (klass.name, klass.section)"/>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">Message</label>
-                                    <textarea name="message" class="form-control" rows="4"
-                                              placeholder="Anything you'd like us to know?"/>
+                                <div class="edu-form-body">
+
+                                    <!-- Error alert -->
+                                    <div t-if="error" class="alert alert-danger d-flex align-items-center gap-2 mb-4" role="alert">
+                                        <i class="fa fa-exclamation-circle flex-shrink-0"></i>
+                                        <span>Please fill in all required fields (marked with *) before submitting.</span>
+                                    </div>
+
+                                    <form action="/admissions/inquiry/submit" method="post" novalidate="novalidate">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                        <!-- Section 1: Parent / Guardian -->
+                                        <div class="edu-form-section">
+                                            <p class="edu-form-section-title">
+                                                <i class="fa fa-user me-2" style="color:#1B3F6E;"></i>
+                                                Parent / Guardian Information
+                                            </p>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="edu-form-label">
+                                                        Full Name <span class="edu-req">*</span>
+                                                    </label>
+                                                    <input type="text" name="contact_name" class="form-control"
+                                                           placeholder="e.g. Priya Sharma"
+                                                           t-att-value="form_data.get('contact_name')"
+                                                           required="required"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="edu-form-label">
+                                                        Phone Number <span class="edu-req">*</span>
+                                                    </label>
+                                                    <input type="tel" name="phone" class="form-control"
+                                                           placeholder="e.g. +91 98765 43210"
+                                                           t-att-value="form_data.get('phone')"
+                                                           required="required"/>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="edu-form-label">Email Address</label>
+                                                    <input type="email" name="email" class="form-control"
+                                                           placeholder="e.g. parent@email.com"
+                                                           t-att-value="form_data.get('email')"/>
+                                                    <div class="form-text text-muted" style="font-size:0.78rem;">
+                                                        <i class="fa fa-lock me-1"></i>
+                                                        We'll send application updates to this address.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Section 2: Student Details -->
+                                        <div class="edu-form-section">
+                                            <p class="edu-form-section-title">
+                                                <i class="fa fa-child me-2" style="color:#C8871A;"></i>
+                                                Student Details
+                                            </p>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="edu-form-label">
+                                                        Child's Name <span class="edu-req">*</span>
+                                                    </label>
+                                                    <input type="text" name="student_name" class="form-control"
+                                                           placeholder="e.g. Aryan Sharma"
+                                                           t-att-value="form_data.get('student_name')"
+                                                           required="required"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="edu-form-label">Grade Applying For</label>
+                                                    <select name="class_applying_id" class="form-select">
+                                                        <option value="">— Select a grade —</option>
+                                                        <option t-foreach="classes" t-as="klass"
+                                                                t-att-value="klass.id"
+                                                                t-out="'%s – %s' % (klass.name, klass.section)"/>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Section 3: Message -->
+                                        <div class="edu-form-section">
+                                            <p class="edu-form-section-title">
+                                                <i class="fa fa-comment me-2" style="color:#177A63;"></i>
+                                                Additional Information
+                                            </p>
+                                            <div>
+                                                <label class="edu-form-label">Message or Questions</label>
+                                                <textarea name="message" class="form-control" rows="4"
+                                                          placeholder="Tell us anything you'd like us to know — special requirements, questions about the curriculum, etc."/>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="edu-submit-btn">
+                                            <i class="fa fa-send me-2"></i>Submit Application
+                                        </button>
+                                        <p class="text-center text-muted mt-3" style="font-size:0.78rem;">
+                                            <i class="fa fa-lock me-1"></i>
+                                            Your information is protected and will never be shared with third parties.
+                                        </p>
+                                    </form>
+
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-lg mt-4 w-100">Submit Application</button>
-                        </form>
+                        </div>
+
+                        <!-- Info sidebar -->
+                        <div class="col-lg-4">
+                            <div class="position-sticky" style="top:100px;">
+
+                                <div class="edu-apply-sidebar mb-4">
+                                    <div class="edu-apply-sidebar-header" style="background:linear-gradient(135deg,#1B3F6E,#0E2545);">
+                                        <h5>What happens next?</h5>
+                                    </div>
+                                    <div class="edu-apply-sidebar-body">
+                                        <div class="d-flex flex-column gap-3">
+                                            <div class="d-flex gap-3">
+                                                <div class="edu-step-circle flex-shrink-0"
+                                                     style="width:36px;height:36px;font-size:0.82rem;min-width:36px;">
+                                                    <i class="fa fa-check-circle" style="color:#177A63;"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="fw-bold mb-1 small">Application Submitted</p>
+                                                    <p class="text-muted mb-0" style="font-size:0.8rem;">
+                                                        You'll receive a confirmation with your reference number.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-3">
+                                                <div class="edu-step-circle flex-shrink-0"
+                                                     style="width:36px;height:36px;font-size:0.82rem;min-width:36px;">
+                                                    <i class="fa fa-phone" style="color:#C8871A;"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="fw-bold mb-1 small">Team Call Within 3 Days</p>
+                                                    <p class="text-muted mb-0" style="font-size:0.8rem;">
+                                                        Our admissions team will call to discuss next steps.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-3">
+                                                <div class="edu-step-circle flex-shrink-0"
+                                                     style="width:36px;height:36px;font-size:0.82rem;min-width:36px;">
+                                                    <i class="fa fa-map-marker" style="color:#1B3F6E;"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="fw-bold mb-1 small">Campus Visit Scheduled</p>
+                                                    <p class="text-muted mb-0" style="font-size:0.8rem;">
+                                                        Tour the school and meet our academic coordinators.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="edu-form-wrap p-0">
+                                    <div class="p-4">
+                                        <p class="fw-bold mb-1 small" style="color:#1B3F6E;">Need help?</p>
+                                        <div class="d-flex flex-column gap-2 mt-2">
+                                            <a href="tel:+911234567890" class="text-decoration-none text-dark small d-flex align-items-center gap-2">
+                                                <i class="fa fa-phone text-muted"></i> +91 123 456 7890
+                                            </a>
+                                            <a href="mailto:admissions@school.edu" class="text-decoration-none text-dark small d-flex align-items-center gap-2">
+                                                <i class="fa fa-envelope-o text-muted"></i> admissions@school.edu
+                                            </a>
+                                            <span class="text-muted small d-flex align-items-center gap-2">
+                                                <i class="fa fa-clock-o"></i> Mon–Fri · 8:00 AM – 4:00 PM
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </section>
+
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     THANK YOU PAGE
+     ============================================================ -->
 <template id="admissions_inquiry_thank_you" name="Inquiry Thank You">
     <t t-call="website.layout">
         <div id="wrap" class="oe_structure">
-            <section class="edu-section text-center" style="padding: 6rem 0;">
-                <div class="container" style="max-width: 560px;">
-                    <div class="edu-eyebrow">Application Received</div>
-                    <h1 class="edu-section-title mt-2">Thank you, <t t-out="lead.contact_name"/>!</h1>
-                    <p class="edu-section-subtitle mx-auto">
-                        We've received your inquiry for <strong t-out="lead.student_name"/> and our
-                        admissions team will reach out shortly. Your reference number is
-                        <strong t-out="lead.id"/>.
-                    </p>
-                    <a href="/admissions" class="btn btn-primary mt-3">Back to Admissions</a>
+            <section class="edu-section" style="min-height:75vh;display:flex;align-items:center;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-7 col-lg-5">
+                            <div class="edu-thankyou-card">
+                                <div class="edu-thankyou-icon">
+                                    <i class="fa fa-check"></i>
+                                </div>
+
+                                <span class="edu-eyebrow d-block mb-2">Application Received</span>
+                                <h2 class="edu-heading mb-2">
+                                    Thank you, <t t-out="lead.contact_name"/>!
+                                </h2>
+                                <p class="text-muted mb-4" style="font-size:0.95rem;line-height:1.65;">
+                                    We've received your inquiry for
+                                    <strong t-out="lead.student_name"/>.
+                                    Our admissions team will reach out within
+                                    <strong>3 working days</strong> to discuss the next steps.
+                                </p>
+
+                                <div class="edu-thankyou-ref mb-4">
+                                    <i class="fa fa-tag"></i>
+                                    Reference: <strong>ADM-<t t-out="lead.id"/></strong>
+                                </div>
+
+                                <div class="d-flex flex-column gap-2">
+                                    <a href="/admissions" class="btn btn-primary fw-bold py-3">
+                                        <i class="fa fa-arrow-left me-2"></i>Back to Admissions
+                                    </a>
+                                    <a href="/admissions/programs" class="btn btn-outline-secondary fw-semibold">
+                                        Explore Our Programs
+                                    </a>
+                                </div>
+
+                                <hr class="my-4"/>
+                                <p class="text-muted mb-1" style="font-size:0.8rem;">Have questions? Reach us at:</p>
+                                <p class="mb-0 small fw-semibold">+91 123 456 7890 · admissions@school.edu</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

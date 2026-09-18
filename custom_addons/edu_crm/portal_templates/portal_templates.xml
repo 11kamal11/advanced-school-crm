@@ -1,281 +1,611 @@
 <odoo>
 
+<!-- ============================================================
+     PORTAL: My Children (landing)
+     ============================================================ -->
 <template id="portal_my_children" name="My Children">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'children'"/>
+
         <div class="o_portal_my_home">
-            <h3>My Children</h3>
-            <div t-if="not students" class="alert alert-info mt-3">
-                No children are linked to your account yet. Please contact the school office.
+            <!-- Header -->
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+                <div>
+                    <h3 class="mb-0 fw-black" style="letter-spacing:-0.02em;color:#0C1A26;">My Children</h3>
+                    <p class="text-muted mb-0 small">View academic progress, attendance, and fees for each child.</p>
+                </div>
+                <a href="/my/announcements" class="btn btn-outline-primary btn-sm fw-semibold">
+                    <i class="fa fa-bell-o me-1"></i>Announcements
+                </a>
             </div>
-            <div class="row g-3 mt-1" t-if="students">
+
+            <!-- Empty state -->
+            <div t-if="not students" class="text-center py-5"
+                 style="background:#F5F7FA;border:1.5px solid #DDE3EA;border-radius:16px;">
+                <i class="fa fa-user-circle-o fa-3x mb-3" style="color:#8FA3B1;"></i>
+                <h5 class="fw-bold" style="color:#0C1A26;">No children linked yet</h5>
+                <p class="text-muted mb-3 small">Please contact the school office to link your children to your account.</p>
+                <a href="tel:+911234567890" class="btn btn-primary btn-sm fw-semibold">
+                    <i class="fa fa-phone me-1"></i>+91 123 456 7890
+                </a>
+            </div>
+
+            <!-- Student cards -->
+            <div t-if="students" class="row g-4">
                 <div class="col-md-4" t-foreach="students" t-as="student">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title" t-out="student.name"/>
-                            <p class="card-text text-muted mb-1" t-out="student.class_id.display_name"/>
-                            <p class="card-text small">
-                                Attendance: <t t-out="round(student.attendance_percentage, 1)"/>%
-                            </p>
-                            <a t-attf-href="/my/children/#{student.id}" class="btn btn-primary btn-sm">View Details</a>
+                    <a t-attf-href="/my/children/#{student.id}" class="edu-student-card text-decoration-none">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="edu-student-avatar" style="font-size:1.2rem;font-weight:900;">
+                                <t t-out="student.name[0].upper()"/>
+                            </div>
+                            <div class="min-width-0">
+                                <p class="edu-student-name mb-0" t-out="student.name"/>
+                                <p class="edu-student-class mb-0" t-out="student.class_id.display_name"/>
+                            </div>
                         </div>
-                    </div>
+
+                        <!-- Attendance bar -->
+                        <div class="edu-att-label-row">
+                            <span>Attendance</span>
+                            <span class="fw-semibold" t-out="'%.1f%%' % student.attendance_percentage"/>
+                        </div>
+                        <div class="edu-att-progress mb-3">
+                            <div class="edu-att-fill"
+                                 t-attf-class="edu-att-fill {{ 'edu-att-fill-good' if student.attendance_percentage >= 75 else 'edu-att-fill-warn' if student.attendance_percentage >= 50 else 'edu-att-fill-poor' }}"
+                                 t-attf-style="width:{{ [student.attendance_percentage, 100] | min }}%"/>
+                        </div>
+
+                        <!-- Quick links row -->
+                        <div class="d-flex justify-content-between align-items-center mt-auto pt-3"
+                             style="border-top:1px solid #EDF1F6;">
+                            <span class="edu-status edu-status-info" t-out="student.state.capitalize()"/>
+                            <span class="small fw-bold" style="color:#DC2626;"
+                                  t-if="student.total_fees_due > 0">
+                                Due: ₹<t t-out="'%.0f' % student.total_fees_due"/>
+                            </span>
+                            <span class="small text-success fw-semibold" t-else="">
+                                <i class="fa fa-check-circle me-1"></i>Fees clear
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick action links -->
+            <div class="row g-3 mt-2" t-if="students">
+                <div class="col-auto">
+                    <a href="/my/leave-requests" class="btn btn-outline-secondary btn-sm fw-semibold">
+                        <i class="fa fa-calendar-times-o me-1"></i>Leave Requests
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="/my/announcements" class="btn btn-outline-secondary btn-sm fw-semibold">
+                        <i class="fa fa-bullhorn me-1"></i>All Announcements
+                    </a>
                 </div>
             </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: Child Dashboard
+     ============================================================ -->
 <template id="portal_child_dashboard" name="Child Dashboard">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'child_dashboard'"/>
-        <div class="o_portal_my_home">
-            <a href="/my/children" class="small">&#8592; My Children</a>
-            <h3 class="mt-2" t-out="student.name"/>
-            <p class="text-muted" t-out="student.class_id.display_name"/>
 
-            <div class="row g-3 my-2">
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <div class="h3 mb-0" t-out="round(student.attendance_percentage, 1)"/>%
-                            <div class="text-muted small">Attendance</div>
-                            <a t-attf-href="/my/children/#{student.id}/attendance" class="stretched-link"/>
-                        </div>
+        <div class="o_portal_my_home">
+            <!-- Breadcrumb + header -->
+            <div class="mb-4">
+                <a href="/my/children" class="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 mb-2">
+                    <i class="fa fa-arrow-left"></i> My Children
+                </a>
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div class="edu-student-avatar" style="width:52px;height:52px;font-size:1.3rem;font-weight:900;">
+                        <t t-out="student.name[0].upper()"/>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <div class="h3 mb-0" t-out="student.total_fees_due"/>
-                            <div class="text-muted small">Fees Due</div>
-                            <a t-attf-href="/my/children/#{student.id}/fees" class="stretched-link"/>
-                        </div>
+                    <div>
+                        <h3 class="mb-0 fw-black" style="letter-spacing:-0.02em;color:#0C1A26;" t-out="student.name"/>
+                        <p class="text-muted mb-0 small" t-out="student.class_id.display_name"/>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <div class="h3 mb-0" t-out="len(upcoming_exams)"/>
-                            <div class="text-muted small">Upcoming Exams</div>
-                            <a t-attf-href="/my/children/#{student.id}/exams" class="stretched-link"/>
-                        </div>
+                    <div class="ms-auto">
+                        <span class="edu-status edu-status-info" t-out="student.state.capitalize()"/>
                     </div>
                 </div>
             </div>
 
-            <h5 class="mt-4">Recent Announcements</h5>
-            <ul class="list-group" t-if="announcements">
-                <li class="list-group-item" t-foreach="announcements" t-as="announcement">
-                    <strong t-out="announcement.name"/>
-                    <span class="text-muted small float-end" t-out="announcement.publish_date"/>
-                </li>
-            </ul>
-            <p t-else="" class="text-muted">No announcements right now.</p>
+            <!-- Stat cards -->
+            <div class="edu-portal-stat-grid mb-4">
+                <a t-attf-href="/my/children/#{student.id}/attendance" class="edu-portal-stat-card">
+                    <div class="edu-portal-stat-icon edu-fi-forest">
+                        <i class="fa fa-calendar-check-o"></i>
+                    </div>
+                    <div class="edu-portal-stat-value">
+                        <t t-out="'%.1f' % student.attendance_percentage"/>%
+                    </div>
+                    <div class="edu-portal-stat-label">Attendance</div>
+                    <div class="edu-att-progress mt-2" style="height:4px;">
+                        <div class="edu-att-fill"
+                             t-attf-class="edu-att-fill {{ 'edu-att-fill-good' if student.attendance_percentage >= 75 else 'edu-att-fill-warn' if student.attendance_percentage >= 50 else 'edu-att-fill-poor' }}"
+                             t-attf-style="width:{{ [student.attendance_percentage, 100] | min }}%"/>
+                    </div>
+                </a>
+                <a t-attf-href="/my/children/#{student.id}/fees" class="edu-portal-stat-card">
+                    <div class="edu-portal-stat-icon edu-fi-saffron">
+                        <i class="fa fa-rupee"></i>
+                    </div>
+                    <div class="edu-portal-stat-value"
+                         t-attf-style="{{ 'color:#DC2626' if student.total_fees_due > 0 else '' }}">
+                        ₹<t t-out="'%.0f' % student.total_fees_due"/>
+                    </div>
+                    <div class="edu-portal-stat-label">Fees Due</div>
+                </a>
+                <a t-attf-href="/my/children/#{student.id}/exams" class="edu-portal-stat-card">
+                    <div class="edu-portal-stat-icon edu-fi-prussian">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </div>
+                    <div class="edu-portal-stat-value" t-out="len(upcoming_exams)"/>
+                    <div class="edu-portal-stat-label">Upcoming Exams</div>
+                </a>
+            </div>
+
+            <!-- Recent Announcements -->
+            <div t-if="announcements" class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-black mb-0" style="color:#0C1A26;font-size:0.95rem;letter-spacing:0.01em;">
+                        Recent Announcements
+                    </h5>
+                    <a href="/my/announcements" class="small fw-semibold text-primary text-decoration-none">
+                        View all <i class="fa fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                <div t-foreach="announcements" t-as="ann" class="edu-announcement-card">
+                    <p class="edu-announcement-title" t-out="ann.name"/>
+                    <p class="edu-announcement-date">
+                        <i class="fa fa-calendar me-1"></i><t t-out="ann.publish_date"/>
+                    </p>
+                </div>
+            </div>
+            <div t-else="" class="text-center py-4"
+                 style="background:#F5F7FA;border:1.5px solid #EDF1F6;border-radius:12px;margin-bottom:1.5rem;">
+                <i class="fa fa-bell-o fa-2x mb-2 d-block" style="color:#8FA3B1;"></i>
+                <p class="text-muted mb-0 small">No recent announcements.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="d-flex flex-wrap gap-2">
+                <a t-attf-href="/my/children/#{student.id}/attendance" class="btn btn-outline-primary btn-sm fw-semibold">
+                    <i class="fa fa-calendar-check-o me-1"></i>Attendance
+                </a>
+                <a t-attf-href="/my/children/#{student.id}/exams" class="btn btn-outline-primary btn-sm fw-semibold">
+                    <i class="fa fa-pencil-square-o me-1"></i>Exam Results
+                </a>
+                <a t-attf-href="/my/children/#{student.id}/fees" class="btn btn-outline-primary btn-sm fw-semibold">
+                    <i class="fa fa-rupee me-1"></i>Fees
+                </a>
+                <a href="/my/leave-requests/new" class="btn btn-outline-secondary btn-sm fw-semibold">
+                    <i class="fa fa-plus me-1"></i>Leave Request
+                </a>
+            </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: Attendance
+     ============================================================ -->
 <template id="portal_child_attendance" name="Child Attendance">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'child_attendance'"/>
+
         <div class="o_portal_my_home">
-            <a t-attf-href="/my/children/#{student.id}" class="small">&#8592; <t t-out="student.name"/></a>
-            <h3 class="mt-2">Attendance</h3>
-            <t t-call="portal.portal_table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr t-foreach="lines" t-as="line">
-                        <td t-out="line.date"/>
-                        <td t-out="line.status"/>
-                        <td t-out="line.remarks"/>
-                    </tr>
-                </tbody>
-            </t>
-            <p t-if="not lines" class="text-muted">No attendance records yet.</p>
+            <a t-attf-href="/my/children/#{student.id}" class="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 mb-3">
+                <i class="fa fa-arrow-left"></i> <t t-out="student.name"/>
+            </a>
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                <div>
+                    <h3 class="mb-0 fw-black" style="letter-spacing:-0.02em;color:#0C1A26;">Attendance</h3>
+                    <p class="text-muted mb-0 small"><t t-out="student.name"/> · <t t-out="student.class_id.display_name"/></p>
+                </div>
+                <div class="text-end">
+                    <div class="fw-black" style="font-size:1.6rem;color:#177A63;letter-spacing:-0.03em;">
+                        <t t-out="'%.1f' % student.attendance_percentage"/>%
+                    </div>
+                    <div class="text-muted small">Overall Attendance</div>
+                </div>
+            </div>
+
+            <div t-if="lines">
+                <div class="edu-portal-table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="lines" t-as="line">
+                                <td class="fw-semibold" t-out="line.date"/>
+                                <td>
+                                    <span t-if="line.status == 'present'" class="edu-status edu-status-success">
+                                        <i class="fa fa-check-circle"></i> Present
+                                    </span>
+                                    <span t-elif="line.status == 'absent'" class="edu-status edu-status-danger">
+                                        <i class="fa fa-times-circle"></i> Absent
+                                    </span>
+                                    <span t-elif="line.status == 'late'" class="edu-status edu-status-warning">
+                                        <i class="fa fa-clock-o"></i> Late
+                                    </span>
+                                    <span t-else="" class="edu-status edu-status-muted" t-out="line.status"/>
+                                </td>
+                                <td class="text-muted small" t-out="line.remarks or '—'"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div t-else="" class="text-center py-5" style="background:#F5F7FA;border:1.5px solid #EDF1F6;border-radius:14px;">
+                <i class="fa fa-calendar fa-2x mb-2 d-block" style="color:#8FA3B1;"></i>
+                <p class="text-muted mb-0">No attendance records yet.</p>
+            </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: Exam Results
+     ============================================================ -->
 <template id="portal_child_exams" name="Child Exam Results">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'child_exams'"/>
+
         <div class="o_portal_my_home">
-            <a t-attf-href="/my/children/#{student.id}" class="small">&#8592; <t t-out="student.name"/></a>
-            <h3 class="mt-2">Exam Results</h3>
-            <t t-call="portal.portal_table">
-                <thead>
-                    <tr>
-                        <th>Exam</th>
-                        <th>Marks</th>
-                        <th>Percentage</th>
-                        <th>Grade</th>
-                        <th>Result</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr t-foreach="results" t-as="result">
-                        <td t-out="result.exam_id.name"/>
-                        <td t-out="result.marks_obtained"/>
-                        <td><t t-out="round(result.percentage, 1)"/>%</td>
-                        <td t-out="result.grade"/>
-                        <td>
-                            <span t-if="result.is_passed" class="badge text-bg-success">Passed</span>
-                            <span t-else="" class="badge text-bg-danger">Failed</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </t>
-            <p t-if="not results" class="text-muted">No exam results published yet.</p>
+            <a t-attf-href="/my/children/#{student.id}" class="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 mb-3">
+                <i class="fa fa-arrow-left"></i> <t t-out="student.name"/>
+            </a>
+            <h3 class="fw-black mb-0" style="letter-spacing:-0.02em;color:#0C1A26;">Exam Results</h3>
+            <p class="text-muted mb-4 small"><t t-out="student.name"/> · <t t-out="student.class_id.display_name"/></p>
+
+            <div t-if="results">
+                <div class="edu-portal-table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Exam</th>
+                                <th>Marks</th>
+                                <th>Percentage</th>
+                                <th>Grade</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="results" t-as="result">
+                                <td class="fw-semibold" t-out="result.exam_id.name"/>
+                                <td t-out="result.marks_obtained"/>
+                                <td>
+                                    <span class="fw-bold"
+                                          t-attf-style="color:{{ '#177A63' if result.percentage >= 75 else '#C8871A' if result.percentage >= 50 else '#DC2626' }}">
+                                        <t t-out="'%.1f' % result.percentage"/>%
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="edu-badge edu-badge-prussian" t-if="result.grade" t-out="result.grade"/>
+                                    <span t-else="" class="text-muted">—</span>
+                                </td>
+                                <td>
+                                    <span t-if="result.is_passed" class="edu-status edu-status-success">
+                                        <i class="fa fa-check"></i> Passed
+                                    </span>
+                                    <span t-else="" class="edu-status edu-status-danger">
+                                        <i class="fa fa-times"></i> Failed
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div t-else="" class="text-center py-5" style="background:#F5F7FA;border:1.5px solid #EDF1F6;border-radius:14px;">
+                <i class="fa fa-pencil-square-o fa-2x mb-2 d-block" style="color:#8FA3B1;"></i>
+                <p class="text-muted mb-0">No exam results published yet.</p>
+            </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: Fees
+     ============================================================ -->
 <template id="portal_child_fees" name="Child Fees">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'child_fees'"/>
+
         <div class="o_portal_my_home">
-            <a t-attf-href="/my/children/#{student.id}" class="small">&#8592; <t t-out="student.name"/></a>
-            <h3 class="mt-2">Fees</h3>
-            <p class="text-muted">
-                Total outstanding: <strong t-out="student.total_fees_due"/>.
-            </p>
-            <t t-call="portal.portal_table">
-                <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Paid</th>
-                        <th>Balance</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th/>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr t-foreach="fees" t-as="fee">
-                        <td t-out="fee.name"/>
-                        <td t-out="fee.fee_type"/>
-                        <td t-out="fee.net_amount"/>
-                        <td t-out="fee.paid_amount"/>
-                        <td t-out="fee.balance"/>
-                        <td t-out="fee.due_date"/>
-                        <td t-out="fee.state"/>
-                        <td>
-                            <a t-if="fee.balance > 0 and fee.state not in ('paid', 'waived')"
-                               t-attf-href="/my/children/#{student.id}/fees/#{fee.id}/pay"
-                               class="btn btn-primary btn-sm">Pay Now</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </t>
-            <p t-if="not fees" class="text-muted">No fees recorded yet.</p>
+            <a t-attf-href="/my/children/#{student.id}" class="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 mb-3">
+                <i class="fa fa-arrow-left"></i> <t t-out="student.name"/>
+            </a>
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                <div>
+                    <h3 class="mb-0 fw-black" style="letter-spacing:-0.02em;color:#0C1A26;">Fees</h3>
+                    <p class="text-muted mb-0 small"><t t-out="student.name"/> · <t t-out="student.class_id.display_name"/></p>
+                </div>
+                <div t-if="student.total_fees_due > 0" class="text-end">
+                    <div class="fw-black" style="font-size:1.5rem;color:#DC2626;letter-spacing:-0.03em;">
+                        ₹<t t-out="'%.0f' % student.total_fees_due"/>
+                    </div>
+                    <div class="text-muted small">Total Outstanding</div>
+                </div>
+                <div t-else="" class="text-end">
+                    <div class="fw-bold text-success d-flex align-items-center gap-1">
+                        <i class="fa fa-check-circle"></i> All fees paid
+                    </div>
+                </div>
+            </div>
+
+            <div t-if="fees">
+                <div class="edu-portal-table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="fees" t-as="fee">
+                                <td class="fw-semibold small" t-out="fee.name"/>
+                                <td class="text-muted small" t-out="fee.fee_type"/>
+                                <td class="fw-semibold">₹<t t-out="'%.0f' % fee.net_amount"/></td>
+                                <td class="text-success">₹<t t-out="'%.0f' % fee.paid_amount"/></td>
+                                <td>
+                                    <span t-attf-class="{{ 'fw-bold text-danger' if fee.balance > 0 else 'text-muted' }}">
+                                        ₹<t t-out="'%.0f' % fee.balance"/>
+                                    </span>
+                                </td>
+                                <td class="small text-muted" t-out="fee.due_date"/>
+                                <td>
+                                    <span t-if="fee.state == 'paid'" class="edu-status edu-status-success">
+                                        <i class="fa fa-check"></i> Paid
+                                    </span>
+                                    <span t-elif="fee.state == 'overdue'" class="edu-status edu-status-danger">
+                                        <i class="fa fa-exclamation"></i> Overdue
+                                    </span>
+                                    <span t-elif="fee.state == 'partial'" class="edu-status edu-status-warning">
+                                        Partial
+                                    </span>
+                                    <span t-elif="fee.state == 'waived'" class="edu-status edu-status-muted">
+                                        Waived
+                                    </span>
+                                    <span t-else="" class="edu-status edu-status-info" t-out="fee.state.capitalize()"/>
+                                </td>
+                                <td>
+                                    <a t-if="fee.balance > 0 and fee.state not in ('paid','waived')"
+                                       t-attf-href="/my/children/#{student.id}/fees/#{fee.id}/pay"
+                                       class="btn btn-primary btn-sm fw-semibold">
+                                        Pay Now
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div t-else="" class="text-center py-5" style="background:#F5F7FA;border:1.5px solid #EDF1F6;border-radius:14px;">
+                <i class="fa fa-check-circle fa-2x mb-2 d-block text-success"></i>
+                <p class="text-muted mb-0">No fees recorded yet.</p>
+            </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: Leave Requests
+     ============================================================ -->
 <template id="portal_leave_requests" name="Leave Requests">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'leave_requests'"/>
+
         <div class="o_portal_my_home">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3>Leave Requests</h3>
-                <a href="/my/leave-requests/new" class="btn btn-primary btn-sm">New Request</a>
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+                <div>
+                    <h3 class="mb-0 fw-black" style="letter-spacing:-0.02em;color:#0C1A26;">Leave Requests</h3>
+                    <p class="text-muted mb-0 small">Manage absence and leave requests for your children.</p>
+                </div>
+                <a href="/my/leave-requests/new" class="btn btn-primary btn-sm fw-bold">
+                    <i class="fa fa-plus me-1"></i>New Request
+                </a>
             </div>
-            <t t-call="portal.portal_table">
-                <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Child</th>
-                        <th>Type</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr t-foreach="leaves" t-as="leave">
-                        <td t-out="leave.name"/>
-                        <td t-out="leave.student_id.name"/>
-                        <td t-out="leave.leave_type"/>
-                        <td t-out="leave.date_from"/>
-                        <td t-out="leave.date_to"/>
-                        <td t-out="leave.state"/>
-                    </tr>
-                </tbody>
-            </t>
-            <p t-if="not leaves" class="text-muted">No leave requests yet.</p>
+
+            <div t-if="leaves">
+                <div class="edu-portal-table-wrap">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Child</th>
+                                <th>Type</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="leaves" t-as="leave">
+                                <td class="fw-semibold small" t-out="leave.name"/>
+                                <td class="fw-semibold" t-out="leave.student_id.name"/>
+                                <td class="text-muted small" t-out="leave.leave_type.capitalize()"/>
+                                <td class="small" t-out="leave.date_from"/>
+                                <td class="small" t-out="leave.date_to"/>
+                                <td>
+                                    <span t-if="leave.state == 'approved'" class="edu-status edu-status-success">
+                                        <i class="fa fa-check"></i> Approved
+                                    </span>
+                                    <span t-elif="leave.state == 'rejected'" class="edu-status edu-status-danger">
+                                        Rejected
+                                    </span>
+                                    <span t-elif="leave.state == 'submitted'" class="edu-status edu-status-warning">
+                                        Under Review
+                                    </span>
+                                    <span t-else="" class="edu-status edu-status-info" t-out="leave.state.capitalize()"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div t-else="" class="text-center py-5" style="background:#F5F7FA;border:1.5px solid #EDF1F6;border-radius:14px;">
+                <i class="fa fa-calendar-times-o fa-2x mb-2 d-block" style="color:#8FA3B1;"></i>
+                <p class="text-muted mb-2">No leave requests yet.</p>
+                <a href="/my/leave-requests/new" class="btn btn-primary btn-sm fw-semibold">
+                    <i class="fa fa-plus me-1"></i>Submit a Request
+                </a>
+            </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: New Leave Request Form
+     ============================================================ -->
 <template id="portal_leave_request_form" name="New Leave Request">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'leave_request_new'"/>
-        <div class="o_portal_my_home" style="max-width: 640px;">
-            <a href="/my/leave-requests" class="small">&#8592; Leave Requests</a>
-            <h3 class="mt-2">New Leave Request</h3>
-            <div t-if="error" class="alert alert-danger">Please fill in all required fields correctly.</div>
-            <form action="/my/leave-requests/new/submit" method="post" class="mt-3">
-                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <div class="mb-3">
-                    <label class="form-label">Child *</label>
-                    <select name="student_id" class="form-select" required="required">
-                        <option t-foreach="students" t-as="student" t-att-value="student.id" t-out="student.name"/>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Leave Type</label>
-                    <select name="leave_type" class="form-select">
-                        <option value="sick">Sick</option>
-                        <option value="personal">Personal</option>
-                        <option value="family">Family</option>
-                        <option value="medical">Medical</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">From *</label>
-                        <input type="date" name="date_from" class="form-control" required="required"/>
+
+        <div class="o_portal_my_home">
+            <a href="/my/leave-requests" class="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 mb-4">
+                <i class="fa fa-arrow-left"></i> Leave Requests
+            </a>
+
+            <div class="row justify-content-start">
+                <div class="col-lg-6">
+                    <div class="edu-form-wrap">
+                        <div class="edu-form-header">
+                            <h2>New Leave Request</h2>
+                            <p>Submit an absence request for your child. We'll notify the class teacher.</p>
+                        </div>
+                        <div class="edu-form-body">
+
+                            <div t-if="error" class="alert alert-danger d-flex align-items-center gap-2 mb-4" role="alert">
+                                <i class="fa fa-exclamation-circle flex-shrink-0"></i>
+                                <span>Please fill in all required fields correctly.</span>
+                            </div>
+
+                            <form action="/my/leave-requests/new/submit" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                <div class="edu-form-section">
+                                    <p class="edu-form-section-title">
+                                        <i class="fa fa-child me-2" style="color:#1B3F6E;"></i>
+                                        Student Details
+                                    </p>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="edu-form-label">
+                                                Child <span class="edu-req">*</span>
+                                            </label>
+                                            <select name="student_id" class="form-select" required="required">
+                                                <option t-foreach="students" t-as="student"
+                                                        t-att-value="student.id" t-out="student.name"/>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="edu-form-label">Leave Type</label>
+                                            <select name="leave_type" class="form-select">
+                                                <option value="sick">🤒 Sick Leave</option>
+                                                <option value="personal">🏠 Personal</option>
+                                                <option value="family">👨‍👩‍👧 Family Matter</option>
+                                                <option value="medical">🏥 Medical Appointment</option>
+                                                <option value="other">📋 Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="edu-form-section">
+                                    <p class="edu-form-section-title">
+                                        <i class="fa fa-calendar me-2" style="color:#C8871A;"></i>
+                                        Leave Dates
+                                    </p>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="edu-form-label">From <span class="edu-req">*</span></label>
+                                            <input type="date" name="date_from" class="form-control" required="required"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="edu-form-label">To <span class="edu-req">*</span></label>
+                                            <input type="date" name="date_to" class="form-control" required="required"/>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="edu-form-label">Reason <span class="edu-req">*</span></label>
+                                            <textarea name="reason" class="form-control" rows="3"
+                                                      placeholder="Please explain the reason for the leave request..."
+                                                      required="required"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="edu-submit-btn">
+                                    <i class="fa fa-send me-2"></i>Submit Request
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">To *</label>
-                        <input type="date" name="date_to" class="form-control" required="required"/>
-                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Reason *</label>
-                    <textarea name="reason" class="form-control" rows="3" required="required"/>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Request</button>
-            </form>
+            </div>
         </div>
     </t>
 </template>
 
+
+<!-- ============================================================
+     PORTAL: Announcements
+     ============================================================ -->
 <template id="portal_announcements" name="Announcements">
     <t t-call="portal.portal_layout">
         <t t-set="page_name" t-value="'announcements'"/>
+
         <div class="o_portal_my_home">
-            <h3>Announcements</h3>
-            <div class="list-group mt-3" t-if="announcements">
-                <div class="list-group-item" t-foreach="announcements" t-as="announcement">
-                    <div class="d-flex justify-content-between">
-                        <strong t-out="announcement.name"/>
-                        <span class="text-muted small" t-out="announcement.publish_date"/>
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+                <div>
+                    <h3 class="mb-0 fw-black" style="letter-spacing:-0.02em;color:#0C1A26;">Announcements</h3>
+                    <p class="text-muted mb-0 small">School-wide and class-specific notices.</p>
+                </div>
+                <a href="/my/children" class="btn btn-outline-secondary btn-sm fw-semibold">
+                    <i class="fa fa-arrow-left me-1"></i>Back
+                </a>
+            </div>
+
+            <div t-if="announcements">
+                <div t-foreach="announcements" t-as="ann" class="edu-announcement-card">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                        <p class="edu-announcement-title mb-0" t-out="ann.name"/>
+                        <span class="edu-badge edu-badge-prussian" t-out="ann.audience.capitalize()"/>
                     </div>
-                    <div t-field="announcement.body"/>
+                    <p class="edu-announcement-date mt-1">
+                        <i class="fa fa-calendar-o me-1"></i><t t-out="ann.publish_date"/>
+                    </p>
+                    <div t-if="ann.body" t-field="ann.body" class="edu-announcement-body"/>
                 </div>
             </div>
-            <p t-else="" class="text-muted">No announcements right now.</p>
+            <div t-else="" class="text-center py-5" style="background:#F5F7FA;border:1.5px solid #EDF1F6;border-radius:14px;">
+                <i class="fa fa-bell-slash-o fa-2x mb-2 d-block" style="color:#8FA3B1;"></i>
+                <p class="text-muted mb-0">No announcements at this time. Check back later.</p>
+            </div>
         </div>
     </t>
 </template>
