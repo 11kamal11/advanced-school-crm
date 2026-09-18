@@ -4,6 +4,7 @@ from odoo import fields, models
 class EduSubject(models.Model):
     _name = 'edu.subject'
     _description = 'Subject'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'name'
 
     name = fields.Char(required=True)

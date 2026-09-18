@@ -48,7 +48,13 @@ class EduApplicant(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') == 'New':
                 vals['name'] = self.env['ir.sequence'].sudo().next_by_code('edu.applicant') or 'New'
-        return super().create(vals_list)
+        applicants = super().create(vals_list)
+        template = self.env.ref('edu_crm.mail_template_application_received', raise_if_not_found=False)
+        if template:
+            for applicant in applicants:
+                if applicant.guardian_email:
+                    template.send_mail(applicant.id, force_send=False)
+        return applicants
 
     def action_start_verification(self):
         self.write({'state': 'document_verification'})

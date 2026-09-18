@@ -1,4 +1,19 @@
 <odoo>
+    <!-- ── Search view ──────────────────────────────────────────── -->
+    <record id="view_edu_program_search" model="ir.ui.view">
+        <field name="name">edu.program.search</field>
+        <field name="model">edu.program</field>
+        <field name="arch" type="xml">
+            <search string="Programs">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Active"   name="active"   domain="[('active','=',True)]"/>
+                <filter string="Archived" name="archived" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── List view ────────────────────────────────────────────── -->
     <record id="view_edu_program_list" model="ir.ui.view">
         <field name="name">edu.program.list</field>
         <field name="model">edu.program</field>
@@ -8,30 +23,26 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="tagline"/>
-                <field name="is_published" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
 
+    <!-- ── Form view ────────────────────────────────────────────── -->
     <record id="view_edu_program_form" model="ir.ui.view">
         <field name="name">edu.program.form</field>
         <field name="model">edu.program</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <field name="is_published" widget="website_redirect_button"/>
-                </header>
                 <sheet>
                     <field name="image" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name"/>
-                        </h1>
+                        <h1><field name="name"/></h1>
                         <field name="tagline" placeholder="Short tagline shown on the program card"/>
                     </div>
                     <group>
                         <field name="code"/>
                         <field name="sequence"/>
+                        <field name="active"/>
                     </group>
                     <field name="description"/>
                     <field name="class_ids"/>
@@ -40,9 +51,11 @@
         </field>
     </record>
 
+    <!-- ── Action ───────────────────────────────────────────────── -->
     <record id="action_edu_program" model="ir.actions.act_window">
         <field name="name">Programs</field>
         <field name="res_model">edu.program</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_program_search"/>
     </record>
 </odoo>

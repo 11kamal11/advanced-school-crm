@@ -1,4 +1,22 @@
 <odoo>
+    <!-- ── Search view ──────────────────────────────────────────── -->
+    <record id="view_edu_class_search" model="ir.ui.view">
+        <field name="name">edu.class.search</field>
+        <field name="model">edu.class</field>
+        <field name="arch" type="xml">
+            <search string="Classes">
+                <field name="name"/>
+                <field name="academic_year_id"/>
+                <field name="class_teacher_id"/>
+                <filter string="Full" name="full" domain="[('is_full','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_year"     string="Academic Year"   context="{'group_by':'academic_year_id'}"/>
+                    <filter name="group_teacher"  string="Class Teacher"   context="{'group_by':'class_teacher_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="view_edu_class_list" model="ir.ui.view">
         <field name="name">edu.class.list</field>
         <field name="model">edu.class</field>
@@ -66,5 +84,6 @@
         <field name="name">Classes</field>
         <field name="res_model">edu.class</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_class_search"/>
     </record>
 </odoo>

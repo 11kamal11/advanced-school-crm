@@ -6,6 +6,7 @@
         <field name="name">New Admissions Inquiry</field>
         <field name="model_id" ref="model_edu_lead"/>
         <field name="subject">New Admissions Inquiry: {{ object.student_name or object.contact_name }}</field>
+        <field name="email_to">{{ object.user_id.email or '' }}</field>
         <field name="body_html"><![CDATA[
 <p>Hello,</p>
 <p>A new admissions inquiry has been received via the school website.</p>
@@ -183,6 +184,60 @@
     If you have any questions, please do not hesitate to reach out.
 </p>
 <p>Regards,<br/>Admissions Team</p>
+        ]]></field>
+        <field name="auto_delete">True</field>
+    </record>
+
+    <!-- Template: Leave request approved/rejected notification to guardian or teacher -->
+    <record id="mail_template_leave_status" model="mail.template">
+        <field name="name">Leave Request Status Notification</field>
+        <field name="model_id" ref="model_edu_leave_request"/>
+        <field name="subject">Leave Request {{ object.state | capitalize }}: {{ object.name }}</field>
+        <field name="email_to">{{ ', '.join(g.email for g in object.student_id.guardian_ids if g.email) if object.applicant_type == 'student' else (object.teacher_id.email or '') }}</field>
+        <field name="body_html"><![CDATA[
+<p>Dear {{ object.student_id.guardian_ids[0].name if object.applicant_type == 'student' and object.student_id.guardian_ids else object.teacher_id.name }},</p>
+<p>
+    Your leave request has been
+    <strong>{{ 'approved' if object.state == 'approved' else 'rejected' }}</strong>.
+</p>
+<table style="border-collapse:collapse; width:100%; font-family:sans-serif; font-size:14px;">
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; width:160px; background:#f5f5f5;">Reference</td>
+        <td style="padding:8px 12px;">{{ object.name }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Leave Type</td>
+        <td style="padding:8px 12px;">{{ object.leave_type | capitalize }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">From</td>
+        <td style="padding:8px 12px;">{{ object.date_from }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">To</td>
+        <td style="padding:8px 12px;">{{ object.date_to }} ({{ object.days }} days)</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Status</td>
+        <td style="padding:8px 12px;">
+            {% if object.state == 'approved' %}
+            <span style="color:#177A63; font-weight:bold;">✓ APPROVED</span>
+            {% else %}
+            <span style="color:#C0392B; font-weight:bold;">✗ REJECTED</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% if object.rejection_reason %}
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5; vertical-align:top;">Reason</td>
+        <td style="padding:8px 12px;">{{ object.rejection_reason }}</td>
+    </tr>
+    {% endif %}
+</table>
+<p style="margin-top:16px;">
+    Please contact the school office if you have any questions.
+</p>
+<p>Regards,<br/>School Administration</p>
         ]]></field>
         <field name="auto_delete">True</field>
     </record>

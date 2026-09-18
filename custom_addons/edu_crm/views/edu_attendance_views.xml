@@ -1,4 +1,27 @@
 <odoo>
+    <!-- ── Search view ──────────────────────────────────────────── -->
+    <record id="view_edu_attendance_search" model="ir.ui.view">
+        <field name="name">edu.attendance.search</field>
+        <field name="model">edu.attendance</field>
+        <field name="arch" type="xml">
+            <search string="Attendance">
+                <field name="class_id"/>
+                <field name="teacher_id"/>
+                <filter string="Draft"     name="draft"     domain="[('state','=','draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <separator/>
+                <filter string="Today"     name="today"
+                        domain="[('date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_class"  string="Class"  context="{'group_by':'class_id'}"/>
+                    <filter name="group_state"  string="Status" context="{'group_by':'state'}"/>
+                    <filter name="group_date"   string="Date"   context="{'group_by':'date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── List view ────────────────────────────────────────────── -->
     <record id="view_edu_attendance_list" model="ir.ui.view">
         <field name="name">edu.attendance.list</field>
         <field name="model">edu.attendance</field>
@@ -7,14 +30,18 @@
                 <field name="name"/>
                 <field name="class_id"/>
                 <field name="date"/>
+                <field name="teacher_id" optional="show"/>
                 <field name="total_present"/>
                 <field name="total_absent"/>
                 <field name="total_late"/>
-                <field name="state"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'draft'"/>
             </list>
         </field>
     </record>
 
+    <!-- ── Form view ────────────────────────────────────────────── -->
     <record id="view_edu_attendance_form" model="ir.ui.view">
         <field name="name">edu.attendance.form</field>
         <field name="model">edu.attendance</field>
@@ -22,10 +49,10 @@
             <form>
                 <header>
                     <button name="action_confirm" string="Confirm" type="object"
-                            invisible="state == 'confirmed'"/>
+                            invisible="state == 'confirmed'" class="oe_highlight"/>
                     <button name="action_draft" string="Reset to Draft" type="object"
                             invisible="state == 'draft'"/>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                 </header>
                 <sheet>
                     <group>
@@ -49,13 +76,16 @@
                         </list>
                     </field>
                 </sheet>
+                <chatter reload_on_post="True"/>
             </form>
         </field>
     </record>
 
+    <!-- ── Action ───────────────────────────────────────────────── -->
     <record id="action_edu_attendance" model="ir.actions.act_window">
         <field name="name">Attendance</field>
         <field name="res_model">edu.attendance</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_attendance_search"/>
     </record>
 </odoo>

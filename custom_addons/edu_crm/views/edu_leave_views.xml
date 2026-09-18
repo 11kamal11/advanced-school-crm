@@ -1,9 +1,60 @@
 <odoo>
+    <!-- ── Search view ──────────────────────────────────────────── -->
+    <record id="view_edu_leave_request_search" model="ir.ui.view">
+        <field name="name">edu.leave.request.search</field>
+        <field name="model">edu.leave.request</field>
+        <field name="arch" type="xml">
+            <search string="Leave Requests">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="teacher_id"/>
+                <filter string="Draft"     name="draft"     domain="[('state','=','draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>
+                <filter string="Approved"  name="approved"  domain="[('state','=','approved')]"/>
+                <filter string="Rejected"  name="rejected"  domain="[('state','=','rejected')]"/>
+                <separator/>
+                <filter string="Student Leave" name="student"
+                        domain="[('applicant_type','=','student')]"/>
+                <filter string="Teacher Leave" name="teacher"
+                        domain="[('applicant_type','=','teacher')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state"   string="Status"    context="{'group_by':'state'}"/>
+                    <filter name="group_type"    string="Applicant" context="{'group_by':'applicant_type'}"/>
+                    <filter name="group_leave"   string="Leave Type" context="{'group_by':'leave_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── List view ────────────────────────────────────────────── -->
     <record id="view_edu_leave_request_list" model="ir.ui.view">
         <field name="name">edu.leave.request.list</field>
         <field name="model">edu.leave.request</field>
         <field name="arch" type="xml">
             <list>
+                <field name="name"/>
+                <field name="applicant_type"/>
+                <field name="student_id"/>
+                <field name="teacher_id" optional="show"/>
+                <field name="leave_type"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="days"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"
+                       decoration-warning="state == 'submitted'"
+                       decoration-muted="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Kanban view ──────────────────────────────────────────── -->
+    <record id="view_edu_leave_request_kanban" model="ir.ui.view">
+        <field name="name">edu.leave.request.kanban</field>
+        <field name="model">edu.leave.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
                 <field name="name"/>
                 <field name="applicant_type"/>
                 <field name="student_id"/>
@@ -13,23 +64,52 @@
                 <field name="date_to"/>
                 <field name="days"/>
                 <field name="state"/>
-            </list>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-center gap-1">
+                            <span class="fw-bold"><field name="name"/></span>
+                            <span class="badge bg-secondary text-capitalize small">
+                                <field name="leave_type"/>
+                            </span>
+                        </div>
+                        <div class="text-muted small mt-1">
+                            <t t-if="record.applicant_type.raw_value == 'student'">
+                                <i class="fa fa-user me-1"/>
+                                <field name="student_id"/>
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-user-circle me-1"/>
+                                <field name="teacher_id"/>
+                            </t>
+                        </div>
+                        <div class="text-muted small mt-1">
+                            <i class="fa fa-calendar me-1"/>
+                            <field name="date_from"/> → <field name="date_to"/>
+                            &nbsp;(<field name="days"/> days)
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
+    <!-- ── Form view ────────────────────────────────────────────── -->
     <record id="view_edu_leave_request_form" model="ir.ui.view">
         <field name="name">edu.leave.request.form</field>
         <field name="model">edu.leave.request</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_submit" string="Submit" type="object" invisible="state != 'draft'"/>
+                    <button name="action_submit" string="Submit" type="object"
+                            invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_approve" string="Approve" type="object"
                             invisible="state != 'submitted'" class="oe_highlight"/>
-                    <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'"/>
+                    <button name="action_reject"     string="Reject"         type="object"
+                            invisible="state != 'submitted'"/>
                     <button name="action_reset_draft" string="Reset to Draft" type="object"
                             invisible="state == 'draft'"/>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,approved"/>
                 </header>
                 <sheet>
                     <group>
@@ -46,7 +126,7 @@
                         </group>
                     </group>
                     <field name="reason"/>
-                    <group invisible="state not in ('approved', 'rejected')">
+                    <group invisible="state not in ('approved','rejected')">
                         <field name="approver_id"/>
                         <field name="review_date"/>
                         <field name="rejection_reason" invisible="state != 'rejected'"/>
@@ -57,9 +137,12 @@
         </field>
     </record>
 
+    <!-- ── Action ───────────────────────────────────────────────── -->
     <record id="action_edu_leave_request" model="ir.actions.act_window">
         <field name="name">Leave Requests</field>
         <field name="res_model">edu.leave.request</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_edu_leave_request_search"/>
+        <field name="context">{'search_default_submitted': 1}</field>
     </record>
 </odoo>

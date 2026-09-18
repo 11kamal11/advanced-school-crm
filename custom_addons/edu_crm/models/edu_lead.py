@@ -47,6 +47,16 @@ class EduLead(models.Model):
     ], default='normal')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        leads = super().create(vals_list)
+        template = self.env.ref('edu_crm.mail_template_new_lead_frontdesk', raise_if_not_found=False)
+        if template:
+            for lead in leads:
+                if lead.user_id and lead.user_id.email:
+                    template.send_mail(lead.id, force_send=False)
+        return leads
+
     @api.model
     def _read_group_stage_ids(self, stages, domain):
         return stages.search([], order='sequence')

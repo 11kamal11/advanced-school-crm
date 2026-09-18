@@ -1,4 +1,28 @@
 <odoo>
+    <!-- ── Search view ──────────────────────────────────────────── -->
+    <record id="view_edu_timetable_search" model="ir.ui.view">
+        <field name="name">edu.timetable.search</field>
+        <field name="model">edu.timetable</field>
+        <field name="arch" type="xml">
+            <search string="Timetable">
+                <field name="class_id"/>
+                <field name="teacher_id"/>
+                <field name="subject_id"/>
+                <filter string="Monday"    name="mon" domain="[('day_of_week','=','0')]"/>
+                <filter string="Tuesday"   name="tue" domain="[('day_of_week','=','1')]"/>
+                <filter string="Wednesday" name="wed" domain="[('day_of_week','=','2')]"/>
+                <filter string="Thursday"  name="thu" domain="[('day_of_week','=','3')]"/>
+                <filter string="Friday"    name="fri" domain="[('day_of_week','=','4')]"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_class"   string="Class"   context="{'group_by':'class_id'}"/>
+                    <filter name="group_day"     string="Day"     context="{'group_by':'day_of_week'}"/>
+                    <filter name="group_teacher" string="Teacher" context="{'group_by':'teacher_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── List view ────────────────────────────────────────────── -->
     <record id="view_edu_timetable_list" model="ir.ui.view">
         <field name="name">edu.timetable.list</field>
         <field name="model">edu.timetable</field>
@@ -9,15 +33,18 @@
                 <field name="teacher_id"/>
                 <field name="day_of_week"/>
                 <field name="start_time" widget="float_time"/>
-                <field name="end_time" widget="float_time"/>
-                <field name="room"/>
+                <field name="end_time"   widget="float_time"/>
+                <field name="room"       optional="show"/>
             </list>
         </field>
     </record>
 
+    <!-- ── Action ───────────────────────────────────────────────── -->
     <record id="action_edu_timetable" model="ir.actions.act_window">
         <field name="name">Timetable</field>
         <field name="res_model">edu.timetable</field>
         <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_edu_timetable_search"/>
+        <field name="context">{'search_default_group_class': 1}</field>
     </record>
 </odoo>

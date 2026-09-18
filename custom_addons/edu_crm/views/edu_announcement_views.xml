@@ -1,4 +1,25 @@
 <odoo>
+    <!-- ── Search view ──────────────────────────────────────────── -->
+    <record id="view_edu_announcement_search" model="ir.ui.view">
+        <field name="name">edu.announcement.search</field>
+        <field name="model">edu.announcement</field>
+        <field name="arch" type="xml">
+            <search string="Announcements">
+                <field name="name"/>
+                <filter string="Active"      name="active"   domain="[('is_active','=',True)]"/>
+                <filter string="High Priority" name="urgent" domain="[('priority','=','high')]"/>
+                <separator/>
+                <filter string="All Students"  name="all"    domain="[('audience','=','all')]"/>
+                <filter string="By Class"      name="class"  domain="[('audience','=','class')]"/>
+                <filter string="Staff Only"    name="staff"  domain="[('audience','=','staff')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_audience"  string="Audience"  context="{'group_by':'audience'}"/>
+                    <filter name="group_priority"  string="Priority"  context="{'group_by':'priority'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="view_edu_announcement_list" model="ir.ui.view">
         <field name="name">edu.announcement.list</field>
         <field name="model">edu.announcement</field>
@@ -50,5 +71,7 @@
         <field name="name">Announcements</field>
         <field name="res_model">edu.announcement</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_edu_announcement_search"/>
+        <field name="context">{'search_default_active': 1}</field>
     </record>
 </odoo>
