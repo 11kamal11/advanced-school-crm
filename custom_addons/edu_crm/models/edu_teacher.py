@@ -4,7 +4,7 @@ from odoo import fields, models, api
 class EduTeacher(models.Model):
     _name = 'edu.teacher'
     _description = 'Teacher'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'website.published.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'name'
 
     name = fields.Char(required=True, tracking=True)
@@ -54,8 +54,3 @@ class EduTeacher(models.Model):
     def action_set_resigned(self):
         self.write({'state': 'resigned'})
 
-    @api.depends_context('lang')
-    def _compute_website_url(self):
-        super()._compute_website_url()
-        for rec in self:
-            rec.website_url = f'/admissions/faculty/{rec.id}'

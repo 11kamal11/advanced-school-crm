@@ -5,6 +5,8 @@
         <field name="arch" type="xml">
             <form create="false" edit="false" delete="false" class="o_edu_dashboard">
                 <sheet>
+                    <!-- currency_id must be present for widget="monetary" on fee_due_amount -->
+                    <field name="currency_id" invisible="1"/>
                     <div class="edu-dash-header">
                         <div>
                             <h1 class="edu-dash-title">School CRM</h1>

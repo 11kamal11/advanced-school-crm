@@ -12,7 +12,8 @@ class EduDashboard(models.TransientModel):
     lead_count = fields.Integer(readonly=True)
     applicant_count = fields.Integer(readonly=True)
     fee_due_count = fields.Integer(readonly=True)
-    fee_due_amount = fields.Float(readonly=True)
+    currency_id = fields.Many2one('res.currency', readonly=True)
+    fee_due_amount = fields.Monetary(currency_field='currency_id', readonly=True)
     leave_pending_count = fields.Integer(readonly=True)
     asset_count = fields.Integer(readonly=True)
     asset_checked_out_count = fields.Integer(readonly=True)
@@ -29,8 +30,10 @@ class EduDashboard(models.TransientModel):
             return 0
 
     def _safe_sum(self, model, domain, field):
+        """Aggregate via read_group (single SQL SUM) instead of fetching all records."""
         try:
-            return sum(self.env[model].search(domain).mapped(field))
+            groups = self.env[model].read_group(domain, [field], [])
+            return groups[0][field] if groups else 0.0
         except AccessError:
             return 0.0
 
@@ -38,6 +41,7 @@ class EduDashboard(models.TransientModel):
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         defaults.update({
+            'currency_id': self.env.company.currency_id.id,
             'student_count': self._safe_count('edu.student', [('state', '=', 'active')]),
             'teacher_count': self._safe_count('edu.teacher', [('state', '=', 'active')]),
             'class_count': self._safe_count('edu.class'),

@@ -1,10 +1,9 @@
-from odoo import fields, models, api
+from odoo import fields, models
 
 
 class EduProgram(models.Model):
     _name = 'edu.program'
-    _description = 'Academic Program (public website content)'
-    _inherit = ['website.published.mixin']
+    _description = 'Academic Program'
     _order = 'sequence, name'
 
     name = fields.Char(required=True)
@@ -16,8 +15,3 @@ class EduProgram(models.Model):
     class_ids = fields.One2many('edu.class', 'program_id', string='Classes')
     active = fields.Boolean(default=True)
 
-    @api.depends_context('lang')
-    def _compute_website_url(self):
-        super()._compute_website_url()
-        for rec in self:
-            rec.website_url = f'/admissions/programs/{rec.id}'

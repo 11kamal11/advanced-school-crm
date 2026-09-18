@@ -53,7 +53,7 @@
         <field name="name">Fee Payment Reminder</field>
         <field name="model_id" ref="model_edu_fee"/>
         <field name="subject">Fee Payment Reminder – {{ object.student_id.name }}</field>
-        <field name="email_to">{{ ','.join(object.student_id.guardian_ids.mapped('email') | select) }}</field>
+        <field name="email_to">{{ ', '.join(g.email for g in object.student_id.guardian_ids if g.email) }}</field>
         <field name="body_html"><![CDATA[
 <p>Dear Parent / Guardian,</p>
 <p>
@@ -82,6 +82,71 @@
     Please visit the parent portal to view and pay outstanding fees, or contact the school finance office.
 </p>
 <p>Regards,<br/>School Finance Office</p>
+        ]]></field>
+        <field name="auto_delete">True</field>
+    </record>
+
+    <!-- Template: Exam result notification sent to guardians (per edu.exam.result record) -->
+    <record id="mail_template_exam_result" model="mail.template">
+        <field name="name">Exam Result Notification</field>
+        <field name="model_id" ref="model_edu_exam_result"/>
+        <field name="subject">Exam Results: {{ object.student_id.name }} – {{ object.exam_id.name }}</field>
+        <field name="email_to">{{ ', '.join(g.email for g in object.student_id.guardian_ids if g.email) }}</field>
+        <field name="body_html"><![CDATA[
+<p>Dear Parent / Guardian,</p>
+<p>
+    The results for <strong>{{ object.exam_id.name }}</strong> have been published.
+    Please find the details for <strong>{{ object.student_id.name }}</strong> below.
+</p>
+<table style="border-collapse:collapse; width:100%; font-family:sans-serif; font-size:14px;">
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; width:180px; background:#f5f5f5;">Student</td>
+        <td style="padding:8px 12px;">{{ object.student_id.name }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Exam</td>
+        <td style="padding:8px 12px;">{{ object.exam_id.name }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Subject</td>
+        <td style="padding:8px 12px;">{{ object.exam_id.subject_id.name }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Date</td>
+        <td style="padding:8px 12px;">{{ object.exam_id.exam_date }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Marks Obtained</td>
+        <td style="padding:8px 12px;">
+            <strong>{{ object.marks_obtained }}</strong> / {{ object.exam_id.max_marks }}
+            &nbsp;&nbsp;({{ "%.1f"|format(object.percentage) }}%)
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Grade</td>
+        <td style="padding:8px 12px; font-size:1.2em; font-weight:bold;">{{ object.grade }}</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5;">Result</td>
+        <td style="padding:8px 12px;">
+            {% if object.is_passed %}
+            <span style="color:#177A63; font-weight:bold;">✓ PASSED</span>
+            {% else %}
+            <span style="color:#C0392B; font-weight:bold;">✗ NEEDS IMPROVEMENT</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% if object.remarks %}
+    <tr>
+        <td style="padding:8px 12px; font-weight:bold; background:#f5f5f5; vertical-align:top;">Remarks</td>
+        <td style="padding:8px 12px;">{{ object.remarks }}</td>
+    </tr>
+    {% endif %}
+</table>
+<p style="margin-top:20px;">
+    You can view the full exam details and your child's progress by logging into the parent portal.
+</p>
+<p>Regards,<br/>Academic Office</p>
         ]]></field>
         <field name="auto_delete">True</field>
     </record>
