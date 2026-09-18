@@ -8,8 +8,9 @@ class EduFeePaymentWizard(models.TransientModel):
 
     fee_id = fields.Many2one('edu.fee', required=True)
     student_id = fields.Many2one(related='fee_id.student_id', readonly=True)
-    balance = fields.Float(related='fee_id.balance', readonly=True)
-    amount = fields.Float(required=True)
+    currency_id = fields.Many2one(related='fee_id.currency_id', readonly=True)
+    balance = fields.Monetary(related='fee_id.balance', currency_field='currency_id', readonly=True)
+    amount = fields.Monetary(currency_field='currency_id', required=True)
     payment_date = fields.Date(required=True, default=fields.Date.context_today)
     payment_method = fields.Selection([
         ('cash', 'Cash'), ('bank', 'Bank Transfer'), ('online', 'Online'),
