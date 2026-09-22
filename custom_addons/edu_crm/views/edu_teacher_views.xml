@@ -21,12 +21,12 @@
                         </div>
                         <t t-if="record.specialization.value">
                             <div class="small mt-2 text-muted">
-                                <i class="fa fa-graduation-cap me-1"/>
+                                <i class="fa fa-graduation-cap me-1" title="Specialization"/>
                                 <field name="specialization"/>
                             </div>
                         </t>
                         <div class="small mt-1 text-muted">
-                            <i class="fa fa-envelope me-1"/>
+                            <i class="fa fa-envelope me-1" title="Email"/>
                             <field name="email"/>
                         </div>
                         <footer class="pt-2 mt-1">

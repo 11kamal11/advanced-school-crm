@@ -11,7 +11,7 @@
                     <t t-name="card">
                         <div class="edu-applicant-student"><field name="student_name"/></div>
                         <div class="edu-applicant-guardian mt-1">
-                            <i class="fa fa-user-o me-1"/>
+                            <i class="fa fa-user-o me-1" title="Guardian"/>
                             <field name="guardian_name"/>
                         </div>
                         <t t-if="record.class_applying_id.value">

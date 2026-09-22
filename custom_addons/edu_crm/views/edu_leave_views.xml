@@ -74,16 +74,16 @@
                         </div>
                         <div class="text-muted small mt-1">
                             <t t-if="record.applicant_type.raw_value == 'student'">
-                                <i class="fa fa-user me-1"/>
+                                <i class="fa fa-user me-1" title="Student"/>
                                 <field name="student_id"/>
                             </t>
                             <t t-else="">
-                                <i class="fa fa-user-circle me-1"/>
+                                <i class="fa fa-user-circle me-1" title="Teacher"/>
                                 <field name="teacher_id"/>
                             </t>
                         </div>
                         <div class="text-muted small mt-1">
-                            <i class="fa fa-calendar me-1"/>
+                            <i class="fa fa-calendar me-1" title="Dates"/>
                             <field name="date_from"/> → <field name="date_to"/>
                             &#160;(<field name="days"/> days)
                         </div>

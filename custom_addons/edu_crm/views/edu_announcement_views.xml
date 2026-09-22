@@ -6,7 +6,8 @@
         <field name="arch" type="xml">
             <search string="Announcements">
                 <field name="name"/>
-                <filter string="Active"      name="active"   domain="[('is_active','=',True)]"/>
+                <filter string="Active"      name="active"   domain="[('active','=',True)]"/>
+                <filter string="Archived"   name="archived" domain="[('active','=',False)]"/>
                 <filter string="High Priority" name="urgent" domain="[('priority','=','high')]"/>
                 <separator/>
                 <filter string="All Students"  name="all"    domain="[('audience','=','all')]"/>
@@ -30,7 +31,7 @@
                 <field name="priority"/>
                 <field name="publish_date"/>
                 <field name="expiry_date"/>
-                <field name="is_active"/>
+                <field name="active"/>
             </list>
         </field>
     </record>
@@ -56,7 +57,7 @@
                         <group>
                             <field name="publish_date"/>
                             <field name="expiry_date"/>
-                            <field name="is_active"/>
+                            <field name="active"/>
                             <field name="is_portal_visible"/>
                         </group>
                     </group>

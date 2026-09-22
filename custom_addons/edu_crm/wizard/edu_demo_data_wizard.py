@@ -104,7 +104,6 @@ class EduDemoDataWizard(models.TransientModel):
             })
             if i < 6:
                 teacher.write({
-                    'is_published': True,
                     'bio': f'<p>{teacher.name} has {teacher.experience_years} years of teaching '
                            f'experience and specializes in {teacher.specialization}.</p>',
                 })
@@ -116,7 +115,7 @@ class EduDemoDataWizard(models.TransientModel):
             existing = env['edu.program'].search([('code', '=', code)], limit=1)
             program = existing or env['edu.program'].create({
                 'name': name, 'code': code, 'tagline': tagline, 'description': description,
-                'is_published': True, 'sequence': len(programs) * 10,
+                'sequence': len(programs) * 10,
             })
             programs.append(program)
 

@@ -1,3 +1,4 @@
+from markupsafe import Markup
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
 
@@ -27,6 +28,7 @@ class EduFeeStructure(models.Model):
     _order = 'due_date'
 
     name = fields.Char(required=True)
+    active = fields.Boolean(default=True)
     class_id = fields.Many2one('edu.class')
     academic_year_id = fields.Many2one('edu.academic.year')
     fee_type = fields.Selection(FEE_TYPES, default='tuition', required=True)
@@ -34,6 +36,11 @@ class EduFeeStructure(models.Model):
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id', readonly=True)
     amount = fields.Monetary(currency_field='currency_id', required=True)
     due_date = fields.Date()
+
+    _unique_class_year_type = models.Constraint(
+        'UNIQUE(class_id, academic_year_id, fee_type)',
+        'A fee structure for this class, year and fee type already exists.',
+    )
 
 
 class EduFee(models.Model):
@@ -50,12 +57,13 @@ class EduFee(models.Model):
     description = fields.Char()
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id', readonly=True)
     amount = fields.Monetary(currency_field='currency_id', required=True)
-    discount = fields.Float(help='Discount percentage')
+    discount = fields.Float(help='Discount percentage (0–100)')
     net_amount = fields.Monetary(currency_field='currency_id', compute='_compute_amounts', store=True)
     paid_amount = fields.Monetary(currency_field='currency_id', compute='_compute_amounts', store=True, tracking=True)
     balance = fields.Monetary(currency_field='currency_id', compute='_compute_amounts', store=True)
     due_date = fields.Date(required=True)
     paid_date = fields.Date()
+    waive_reason = fields.Char(string='Waiver Reason', tracking=True)
     payment_ids = fields.One2many('edu.fee.payment', 'fee_id')
     academic_year_id = fields.Many2one('edu.academic.year')
     state = fields.Selection([
@@ -66,6 +74,12 @@ class EduFee(models.Model):
         ('waived', 'Waived'),
     ], default='pending', required=True, tracking=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+
+    @api.constrains('discount')
+    def _check_discount(self):
+        for rec in self:
+            if not (0.0 <= rec.discount <= 100.0):
+                raise ValidationError('Discount must be between 0% and 100%.')
 
     @api.depends('amount', 'discount', 'payment_ids.amount')
     def _compute_amounts(self):
@@ -84,6 +98,11 @@ class EduFee(models.Model):
         return super().create(vals_list)
 
     def action_waive(self):
+        for rec in self:
+            if rec.state in ('paid', 'waived'):
+                raise ValidationError(
+                    f'Fee "{rec.name}" is already {rec.state} and cannot be waived.'
+                )
         self.write({'state': 'waived'})
 
     def action_pay(self):
@@ -118,14 +137,15 @@ class EduFee(models.Model):
 class EduFeePayment(models.Model):
     _name = 'edu.fee.payment'
     _description = 'Fee Payment'
+    _inherit = ['mail.thread']
     _order = 'payment_date desc'
 
-    fee_id = fields.Many2one('edu.fee', required=True, ondelete='cascade')
+    fee_id = fields.Many2one('edu.fee', required=True, ondelete='cascade', tracking=True)
     student_id = fields.Many2one(related='fee_id.student_id', store=True)
     currency_id = fields.Many2one(related='fee_id.currency_id', readonly=True)
-    amount = fields.Monetary(currency_field='currency_id', required=True)
-    payment_date = fields.Date(required=True, default=fields.Date.context_today)
-    payment_method = fields.Selection(PAYMENT_METHODS, default='cash', required=True)
+    amount = fields.Monetary(currency_field='currency_id', required=True, tracking=True)
+    payment_date = fields.Date(required=True, default=fields.Date.context_today, tracking=True)
+    payment_method = fields.Selection(PAYMENT_METHODS, default='cash', required=True, tracking=True)
     reference = fields.Char(string='Receipt Number')
     notes = fields.Char()
     transaction_id = fields.Many2one('payment.transaction', readonly=True, copy=False,
@@ -136,8 +156,15 @@ class EduFeePayment(models.Model):
         for rec in self:
             if rec.amount <= 0:
                 raise ValidationError('Payment amount must be positive.')
-            if rec.fee_id.balance < 0:
-                raise ValidationError('This payment would exceed the outstanding balance on the fee.')
+            # Calculate balance inline to avoid the stored-field recompute race condition
+            fee = rec.fee_id
+            net = fee.amount * (1 - (fee.discount or 0.0) / 100)
+            prior_paid = sum(p.amount for p in fee.payment_ids if p.id != rec.id)
+            remaining = net - prior_paid
+            if rec.amount > remaining + 0.001:  # small float tolerance
+                raise ValidationError(
+                    f'Payment of {rec.amount} exceeds the outstanding balance of {remaining:.2f}.'
+                )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -149,5 +176,11 @@ class EduFeePayment(models.Model):
             else:
                 fee.state = 'partial'
             fee.paid_date = payment.payment_date
-            fee.message_post(body=f'Payment of {payment.amount} recorded ({payment.payment_method}).')
+            fee.message_post(body=Markup(
+                '<b>Payment recorded:</b> {amount} via {method} on {date}'
+            ).format(
+                amount=payment.amount,
+                method=dict(PAYMENT_METHODS).get(payment.payment_method, payment.payment_method),
+                date=payment.payment_date,
+            ))
         return payments

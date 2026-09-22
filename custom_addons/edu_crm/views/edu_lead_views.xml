@@ -22,7 +22,7 @@
                         <div class="text-muted small mt-1"><field name="contact_name"/></div>
                         <t t-if="record.student_name.value">
                             <div class="small mt-1">
-                                <i class="fa fa-child me-1 text-muted"/>
+                                <i class="fa fa-child me-1 text-muted" title="Student"/>
                                 <field name="student_name"/>
                             </div>
                         </t>

@@ -145,6 +145,59 @@
         <field name="groups" eval="[(4, ref('group_edu_frontdesk'))]"/>
     </record>
 
+    <!-- Front Desk staff inherit Teacher via implied_ids, so the Teacher attendance rule
+         would restrict them to their own classes. Grant frontdesk unrestricted read/write. -->
+    <record id="rule_edu_attendance_frontdesk" model="ir.rule">
+        <field name="name">Front Desk: all attendance</field>
+        <field name="model_id" ref="model_edu_attendance"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_frontdesk'))]"/>
+    </record>
+
+    <record id="rule_edu_attendance_line_frontdesk" model="ir.rule">
+        <field name="name">Front Desk: all attendance lines</field>
+        <field name="model_id" ref="model_edu_attendance_line"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_frontdesk'))]"/>
+    </record>
+
+    <!-- Principal read-only access to financial and admissions data -->
+    <record id="rule_edu_lead_principal" model="ir.rule">
+        <field name="name">Principal: all leads</field>
+        <field name="model_id" ref="model_edu_lead"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_applicant_principal" model="ir.rule">
+        <field name="name">Principal: all applicants</field>
+        <field name="model_id" ref="model_edu_applicant"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_fee_principal" model="ir.rule">
+        <field name="name">Principal: all fees</field>
+        <field name="model_id" ref="model_edu_fee"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <record id="rule_edu_guardian_principal" model="ir.rule">
+        <field name="name">Principal: all guardians</field>
+        <field name="model_id" ref="model_edu_guardian"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_edu_principal'))]"/>
+    </record>
+
+    <!-- Portal guardian: can only read their own guardian record -->
+    <record id="rule_edu_guardian_portal" model="ir.rule">
+        <field name="name">Portal: own guardian record only</field>
+        <field name="model_id" ref="model_edu_guardian"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
     <!-- Portal (parent/guardian) access: strictly scoped to one's own children,
          via edu.guardian.partner_id = the logged-in portal user's partner. -->
     <record id="rule_edu_student_portal" model="ir.rule">

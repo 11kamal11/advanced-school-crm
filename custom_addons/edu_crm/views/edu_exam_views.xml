@@ -65,15 +65,15 @@
                     <t t-name="card">
                         <div class="fw-bold"><field name="name"/></div>
                         <div class="text-muted small mt-1">
-                            <i class="fa fa-users me-1"/>
+                            <i class="fa fa-users me-1" title="Class"/>
                             <field name="class_id"/>
                         </div>
                         <div class="text-muted small">
-                            <i class="fa fa-book me-1"/>
+                            <i class="fa fa-book me-1" title="Subject"/>
                             <field name="subject_id"/>
                         </div>
                         <div class="text-muted small mt-1">
-                            <i class="fa fa-calendar me-1"/>
+                            <i class="fa fa-calendar me-1" title="Exam Date"/>
                             <field name="exam_date"/>
                         </div>
                     </t>
