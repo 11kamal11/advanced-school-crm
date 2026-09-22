@@ -13,7 +13,7 @@ class EduStudent(models.Model):
     name = fields.Char(required=True, tracking=True)
     student_code = fields.Char(readonly=True, copy=False, default='New')
     partner_id = fields.Many2one('res.partner', string='Contact')
-    image = fields.Binary()
+    image = fields.Image(max_width=1024, max_height=1024)
     email = fields.Char()
     phone = fields.Char()
     gender = fields.Selection([
@@ -62,6 +62,10 @@ class EduStudent(models.Model):
     leave_count = fields.Integer(compute='_compute_related_counts')
 
     _student_code_uniq = models.Constraint('unique(student_code)', 'This student code already exists.')
+    _student_email_company_uniq = models.Constraint(
+        'unique(email, company_id)',
+        'A student with this email already exists in this company.',
+    )
 
     @api.constrains('date_of_birth')
     def _check_dob(self):

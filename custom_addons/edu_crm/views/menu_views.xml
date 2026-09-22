@@ -75,6 +75,10 @@
               parent="menu_edu_reports" sequence="10"
               action="action_edu_attendance_analysis"
               groups="edu_crm.group_edu_teacher"/>
+    <menuitem id="menu_edu_exam_result_analysis" name="Exam Results"
+              parent="menu_edu_reports" sequence="15"
+              action="action_edu_exam_result_analysis"
+              groups="edu_crm.group_edu_teacher"/>
     <menuitem id="menu_edu_fee_analysis" name="Fee Collection"
               parent="menu_edu_reports" sequence="20"
               action="action_edu_fee_analysis"

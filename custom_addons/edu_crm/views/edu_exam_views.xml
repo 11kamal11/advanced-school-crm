@@ -93,8 +93,9 @@
                             invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_complete" string="Complete" type="object"
                             invisible="state != 'ongoing'" class="oe_highlight"/>
-                    <button name="action_cancel"   string="Cancel"   type="object"
-                            invisible="state in ('completed','cancelled')"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('completed','cancelled')"
+                            groups="edu_crm.group_edu_frontdesk,edu_crm.group_edu_principal"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,ongoing,completed"/>
                 </header>
@@ -133,6 +134,38 @@
                 <chatter reload_on_post="True"/>
             </form>
         </field>
+    </record>
+
+    <!-- ── Exam Result graph view ───────────────────────────────── -->
+    <record id="view_edu_exam_result_graph" model="ir.ui.view">
+        <field name="name">edu.exam.result.graph</field>
+        <field name="model">edu.exam.result</field>
+        <field name="arch" type="xml">
+            <graph string="Exam Results" type="bar">
+                <field name="exam_id" type="row"/>
+                <field name="marks_obtained" type="measure"/>
+                <field name="percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_edu_exam_result_pivot" model="ir.ui.view">
+        <field name="name">edu.exam.result.pivot</field>
+        <field name="model">edu.exam.result</field>
+        <field name="arch" type="xml">
+            <pivot string="Exam Results" display_quantity="true">
+                <field name="exam_id" type="row"/>
+                <field name="grade" type="col"/>
+                <field name="marks_obtained" type="measure"/>
+                <field name="percentage" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_edu_exam_result_analysis" model="ir.actions.act_window">
+        <field name="name">Exam Result Analysis</field>
+        <field name="res_model">edu.exam.result</field>
+        <field name="view_mode">pivot,graph,list</field>
     </record>
 
     <!-- ── Action ───────────────────────────────────────────────── -->

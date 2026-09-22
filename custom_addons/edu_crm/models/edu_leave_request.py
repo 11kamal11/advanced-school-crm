@@ -86,6 +86,8 @@ class EduLeaveRequest(models.Model):
         for leave in self:
             if leave.applicant_type == 'student' and leave.student_id.guardian_ids.mapped('email'):
                 template.send_mail(leave.id, force_send=False)
+            elif leave.applicant_type == 'teacher' and leave.teacher_id.email:
+                template.send_mail(leave.id, force_send=False)
 
     def action_reset_draft(self):
         self.write({'state': 'draft'})

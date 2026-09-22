@@ -200,4 +200,312 @@
         <field name="binding_type">report</field>
     </record>
 
+
+    <!-- ============================= Exam Result Sheet (class-level) ============================= -->
+    <template id="report_exam_result_sheet_document">
+        <t t-call="web.external_layout" o="doc">
+            <div class="page">
+                <h2 class="text-center">Exam Result Sheet</h2>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <strong>Exam:</strong> <span t-field="doc.name"/><br/>
+                        <strong>Subject:</strong> <span t-field="doc.subject_id.name"/><br/>
+                        <strong>Class:</strong> <span t-field="doc.class_id.display_name"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>Date:</strong> <span t-field="doc.exam_date"/><br/>
+                        <strong>Max Marks:</strong> <span t-field="doc.max_marks"/><br/>
+                        <strong>Pass Marks:</strong> <span t-field="doc.passing_marks"/>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th class="text-end">Marks</th>
+                            <th class="text-end">%</th>
+                            <th>Grade</th>
+                            <th class="text-center">Result</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="doc.result_ids" t-as="r">
+                            <tr t-att-class="'table-danger' if not r.is_passed else ''">
+                                <td t-out="r_index + 1"/>
+                                <td t-field="r.student_id.name"/>
+                                <td class="text-end" t-field="r.marks_obtained"/>
+                                <td class="text-end"><span t-field="r.percentage"/>%</td>
+                                <td t-field="r.grade"/>
+                                <td class="text-center">
+                                    <strong t-if="r.is_passed" style="color:green;">PASS</strong>
+                                    <strong t-else="" style="color:red;">FAIL</strong>
+                                </td>
+                                <td t-field="r.remarks"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-light fw-bold">
+                            <td colspan="2">Total Students: <t t-out="len(doc.result_ids)"/></td>
+                            <td class="text-end" t-out="sum(doc.result_ids.mapped('marks_obtained'))"/>
+                            <td colspan="4">
+                                Passed: <t t-out="len(doc.result_ids.filtered('is_passed'))"/> /
+                                Failed: <t t-out="len(doc.result_ids.filtered(lambda r: not r.is_passed))"/>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="mt-5 pt-5 row">
+                    <div class="col-6 border-top pt-2">Subject Teacher Signature</div>
+                    <div class="col-6 border-top pt-2 text-end">Class Teacher Signature</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_exam_result_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="edu_crm.report_exam_result_sheet_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_exam_result_sheet" model="ir.actions.report">
+        <field name="name">Exam Result Sheet</field>
+        <field name="model">edu.exam</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_exam_result_sheet</field>
+        <field name="report_file">edu_crm.report_exam_result_sheet</field>
+        <field name="print_report_name">'Result Sheet - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_edu_exam"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ============================= Daily Attendance Register ============================= -->
+    <template id="report_attendance_register_document">
+        <t t-call="web.external_layout" o="doc">
+            <div class="page">
+                <h2 class="text-center">Attendance Register</h2>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <strong>Class:</strong> <span t-field="doc.class_id.display_name"/><br/>
+                        <strong>Date:</strong> <span t-field="doc.date"/><br/>
+                        <strong>Teacher:</strong> <span t-field="doc.teacher_id.name"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>Total Students:</strong> <t t-out="len(doc.line_ids)"/><br/>
+                        <strong>Present:</strong>
+                        <t t-out="len(doc.line_ids.filtered(lambda l: l.status == 'present'))"/><br/>
+                        <strong>Absent:</strong>
+                        <t t-out="len(doc.line_ids.filtered(lambda l: l.status == 'absent'))"/>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th>Roll No.</th>
+                            <th class="text-center">Status</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="doc.line_ids.sorted('student_id')" t-as="line">
+                            <tr t-att-class="'table-danger' if line.status == 'absent' else 'table-warning' if line.status == 'late' else ''">
+                                <td t-out="line_index + 1"/>
+                                <td t-field="line.student_id.name"/>
+                                <td t-field="line.student_id.roll_number"/>
+                                <td class="text-center fw-bold">
+                                    <t t-if="line.status == 'present'">P</t>
+                                    <t t-elif="line.status == 'absent'">A</t>
+                                    <t t-elif="line.status == 'late'">L</t>
+                                    <t t-else=""><t t-out="line.status"/></t>
+                                </td>
+                                <td t-field="line.remarks"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div class="mt-5 pt-5 row">
+                    <div class="col-6 border-top pt-2">Class Teacher Signature</div>
+                    <div class="col-6 border-top pt-2 text-end">Principal Signature</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_attendance_register">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="edu_crm.report_attendance_register_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_attendance_register" model="ir.actions.report">
+        <field name="name">Attendance Register</field>
+        <field name="model">edu.attendance</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_attendance_register</field>
+        <field name="report_file">edu_crm.report_attendance_register</field>
+        <field name="print_report_name">'Attendance - %s - %s' % (object.class_id.display_name, object.date)</field>
+        <field name="binding_model_id" ref="model_edu_attendance"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ============================= Student ID Card ============================= -->
+    <template id="report_student_id_card_document">
+        <t t-call="web.external_layout" o="doc">
+            <div class="page">
+                <t t-foreach="docs" t-as="student">
+                    <!-- Wallet-size card: 86mm × 54mm approximated in HTML -->
+                    <div style="display:inline-block; width:86mm; border:1px solid #333;
+                                border-radius:6px; padding:6mm; margin:4mm;
+                                font-family:Arial,sans-serif; vertical-align:top;">
+                        <div style="text-align:center; background:#1a5276; color:white;
+                                    padding:3mm; border-radius:4px; margin-bottom:3mm;">
+                            <strong style="font-size:9pt;" t-field="res_company.name"/>
+                        </div>
+                        <div style="display:flex; gap:4mm; align-items:flex-start;">
+                            <div>
+                                <img t-if="student.image"
+                                     t-att-src="image_data_uri(student.image)"
+                                     style="width:22mm; height:28mm; object-fit:cover;
+                                            border:1px solid #ccc; border-radius:3px;"/>
+                                <div t-else=""
+                                     style="width:22mm; height:28mm; background:#eee;
+                                            display:flex; align-items:center; justify-content:center;
+                                            border:1px solid #ccc; font-size:7pt; color:#999;">
+                                    No Photo
+                                </div>
+                            </div>
+                            <div style="font-size:8pt; flex:1;">
+                                <div style="font-weight:bold; font-size:9pt; margin-bottom:1mm;"
+                                     t-field="student.name"/>
+                                <div>ID: <span t-field="student.student_code"/></div>
+                                <div>Class: <span t-field="student.class_id.display_name"/></div>
+                                <div t-if="student.roll_number">Roll: <span t-field="student.roll_number"/></div>
+                                <div t-if="student.date_of_birth">
+                                    DOB: <span t-field="student.date_of_birth"/>
+                                </div>
+                                <div style="margin-top:2mm; font-style:italic; color:#555; font-size:7pt;"
+                                     t-field="student.academic_year_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_student_id_card">
+        <t t-call="web.html_container">
+            <t t-call="edu_crm.report_student_id_card_document"/>
+        </t>
+    </template>
+
+    <record id="action_report_student_id_card" model="ir.actions.report">
+        <field name="name">Student ID Card</field>
+        <field name="model">edu.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_student_id_card</field>
+        <field name="report_file">edu_crm.report_student_id_card</field>
+        <field name="print_report_name">'ID Card - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_edu_student"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <!-- ============================= Fee Outstanding List ============================= -->
+    <template id="report_fee_outstanding_document">
+        <t t-call="web.external_layout" o="doc">
+            <t t-set="outstanding_fees" t-value="doc.student_ids.mapped('fee_ids').filtered(lambda f: f.balance > 0 and f.state not in ('paid','waived'))"/>
+            <div class="page">
+                <h2 class="text-center">Fee Outstanding Report</h2>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <strong>Class:</strong> <span t-field="doc.display_name"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>Total Outstanding:</strong>
+                        <t t-out="sum(outstanding_fees.mapped('balance'))"/>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-sm" t-if="outstanding_fees">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Fee Type</th>
+                            <th>Fee Ref</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end">Paid</th>
+                            <th class="text-end">Balance</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="outstanding_fees.sorted('student_id')" t-as="fee">
+                            <tr t-att-class="'table-danger' if fee.state == 'overdue' else ''">
+                                <td t-out="fee_index + 1"/>
+                                <td t-field="fee.student_id.name"/>
+                                <td t-field="fee.fee_type"/>
+                                <td t-field="fee.name"/>
+                                <td class="text-end" t-field="fee.net_amount"/>
+                                <td class="text-end" t-field="fee.paid_amount"/>
+                                <td class="text-end fw-bold" t-field="fee.balance"/>
+                                <td t-field="fee.due_date"/>
+                                <td><span t-field="fee.state" class="badge"
+                                          t-attf-style="background-color: {'#dc3545' if fee.state == 'overdue' else '#ffc107' if fee.state == 'partial' else '#6c757d'}"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-light fw-bold">
+                            <td colspan="6" class="text-end">Total Outstanding:</td>
+                            <td class="text-end" t-out="'%.2f' % sum(outstanding_fees.mapped('balance'))"/>
+                            <td colspan="2"/>
+                        </tr>
+                    </tfoot>
+                </table>
+                <p t-else="" class="text-muted text-center mt-3">No outstanding fees for this class.</p>
+
+                <div class="mt-5 pt-5 row">
+                    <div class="col-6 border-top pt-2">Accounts Officer</div>
+                    <div class="col-6 border-top pt-2 text-end">Principal Signature</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_fee_outstanding">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="edu_crm.report_fee_outstanding_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_fee_outstanding" model="ir.actions.report">
+        <field name="name">Fee Outstanding List</field>
+        <field name="model">edu.class</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_crm.report_fee_outstanding</field>
+        <field name="report_file">edu_crm.report_fee_outstanding</field>
+        <field name="print_report_name">'Fee Outstanding - %s' % (object.display_name)</field>
+        <field name="binding_model_id" ref="model_edu_class"/>
+        <field name="binding_type">report</field>
+    </record>
+
 </odoo>
+

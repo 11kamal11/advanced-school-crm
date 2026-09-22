@@ -34,7 +34,8 @@
                     <button name="action_pay" string="Record Payment" type="object"
                             invisible="state in ('paid','waived')" class="oe_highlight"/>
                     <button name="action_waive" string="Waive Fee" type="object"
-                            invisible="state in ('paid','waived')"/>
+                            invisible="state in ('paid','waived')"
+                            groups="edu_crm.group_edu_admin,edu_crm.group_edu_principal"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="pending,partial,paid"/>
                 </header>

@@ -10,6 +10,18 @@ class EduAttendanceWizard(models.TransientModel):
 
     def action_create_attendance(self):
         self.ensure_one()
+        # If a session already exists for this class + date, open it instead of creating a duplicate
+        existing = self.env['edu.attendance'].search(
+            [('class_id', '=', self.class_id.id), ('date', '=', self.date)], limit=1
+        )
+        if existing:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'edu.attendance',
+                'view_mode': 'form',
+                'res_id': existing.id,
+                'target': 'current',
+            }
         attendance = self.env['edu.attendance'].create({
             'class_id': self.class_id.id,
             'date': self.date,

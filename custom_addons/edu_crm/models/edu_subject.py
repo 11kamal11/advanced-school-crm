@@ -22,4 +22,7 @@ class EduSubject(models.Model):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint('unique(code)', 'This subject code already exists.')
+    _code_company_uniq = models.Constraint(
+        'unique(code, company_id)',
+        'A subject with this code already exists in this company.',
+    )

@@ -12,7 +12,7 @@ class EduTeacher(models.Model):
     partner_id = fields.Many2one('res.partner', string='Contact')
     user_id = fields.Many2one('res.users', string='Related User',
                                help='Backend user account this teacher logs in with, used for record-level access.')
-    image = fields.Binary()
+    image = fields.Image(max_width=1024, max_height=1024)
     email = fields.Char(required=True, tracking=True)
     phone = fields.Char()
     gender = fields.Selection([
@@ -27,6 +27,9 @@ class EduTeacher(models.Model):
     date_of_joining = fields.Date(default=fields.Date.context_today)
     subject_ids = fields.Many2many('edu.subject', string='Subjects')
     class_ids = fields.One2many('edu.class', 'class_teacher_id', string='Classes (as Class Teacher)')
+    subject_count = fields.Integer(compute='_compute_counts')
+    class_count = fields.Integer(compute='_compute_counts')
+    leave_count = fields.Integer(compute='_compute_leave_count')
     state = fields.Selection([
         ('active', 'Active'),
         ('on_leave', 'On Leave'),
@@ -35,8 +38,34 @@ class EduTeacher(models.Model):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     active = fields.Boolean(default=True)
 
-    _email_uniq = models.Constraint('unique(email)', 'A teacher with this email already exists.')
+    _email_company_uniq = models.Constraint(
+        'unique(email, company_id)',
+        'A teacher with this email already exists in this company.',
+    )
     _employee_code_uniq = models.Constraint('unique(employee_code)', 'This employee code already exists.')
+
+    @api.depends('subject_ids', 'class_ids')
+    def _compute_counts(self):
+        for rec in self:
+            rec.subject_count = len(rec.subject_ids)
+            rec.class_count = len(rec.class_ids)
+
+    def _compute_leave_count(self):
+        for rec in self:
+            rec.leave_count = self.env['edu.leave.request'].search_count(
+                [('teacher_id', '=', rec.id)]
+            )
+
+    def action_view_teacher_leaves(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Leave Requests',
+            'res_model': 'edu.leave.request',
+            'view_mode': 'list,form',
+            'domain': [('teacher_id', '=', self.id)],
+            'context': {'default_teacher_id': self.id, 'default_applicant_type': 'teacher'},
+        }
 
     @api.model_create_multi
     def create(self, vals_list):

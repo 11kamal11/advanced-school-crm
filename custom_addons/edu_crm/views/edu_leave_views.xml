@@ -103,9 +103,11 @@
                     <button name="action_submit" string="Submit" type="object"
                             invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_approve" string="Approve" type="object"
-                            invisible="state != 'submitted'" class="oe_highlight"/>
-                    <button name="action_reject"     string="Reject"         type="object"
-                            invisible="state != 'submitted'"/>
+                            invisible="state != 'submitted'" class="oe_highlight"
+                            groups="edu_crm.group_edu_frontdesk,edu_crm.group_edu_principal"/>
+                    <button name="action_reject" string="Reject" type="object"
+                            invisible="state != 'submitted'"
+                            groups="edu_crm.group_edu_frontdesk,edu_crm.group_edu_principal"/>
                     <button name="action_reset_draft" string="Reset to Draft" type="object"
                             invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar"

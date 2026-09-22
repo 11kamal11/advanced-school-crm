@@ -40,19 +40,21 @@ class EduDashboard(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
+        company_id = self.env.company.id
+        cid = ('company_id', '=', company_id)
         defaults.update({
             'currency_id': self.env.company.currency_id.id,
-            'student_count': self._safe_count('edu.student', [('state', '=', 'active')]),
-            'teacher_count': self._safe_count('edu.teacher', [('state', '=', 'active')]),
-            'class_count': self._safe_count('edu.class'),
-            'lead_count': self._safe_count('edu.lead', [('state', 'not in', ('converted', 'lost'))]),
-            'applicant_count': self._safe_count('edu.applicant', [('state', 'not in', ('approved', 'rejected'))]),
-            'fee_due_count': self._safe_count('edu.fee', [('state', 'in', ('pending', 'partial', 'overdue'))]),
+            'student_count': self._safe_count('edu.student', [cid, ('state', '=', 'active')]),
+            'teacher_count': self._safe_count('edu.teacher', [cid, ('state', '=', 'active')]),
+            'class_count': self._safe_count('edu.class', [cid]),
+            'lead_count': self._safe_count('edu.lead', [cid, ('state', 'not in', ('converted', 'lost'))]),
+            'applicant_count': self._safe_count('edu.applicant', [cid, ('state', 'not in', ('approved', 'rejected'))]),
+            'fee_due_count': self._safe_count('edu.fee', [cid, ('state', 'in', ('pending', 'partial', 'overdue'))]),
             'fee_due_amount': self._safe_sum(
-                'edu.fee', [('state', 'in', ('pending', 'partial', 'overdue'))], 'balance'),
-            'leave_pending_count': self._safe_count('edu.leave.request', [('state', '=', 'submitted')]),
-            'asset_count': self._safe_count('edu.asset'),
-            'asset_checked_out_count': self._safe_count('edu.asset', [('status', '=', 'assigned')]),
-            'announcement_count': self._safe_count('edu.announcement', [('is_active', '=', True)]),
+                'edu.fee', [cid, ('state', 'in', ('pending', 'partial', 'overdue'))], 'balance'),
+            'leave_pending_count': self._safe_count('edu.leave.request', [cid, ('state', '=', 'submitted')]),
+            'asset_count': self._safe_count('edu.asset', [cid]),
+            'asset_checked_out_count': self._safe_count('edu.asset', [cid, ('status', '=', 'assigned')]),
+            'announcement_count': self._safe_count('edu.announcement', [cid, ('active', '=', True)]),
         })
         return defaults

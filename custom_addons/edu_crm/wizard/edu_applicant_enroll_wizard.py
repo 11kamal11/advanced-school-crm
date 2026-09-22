@@ -55,7 +55,7 @@ class EduApplicantEnrollWizard(models.TransientModel):
             'applicant_id': applicant.id,
             'state': 'active',
         })
-        applicant.write({'student_id': student.id})
+        applicant.write({'student_id': student.id, 'state': 'enrolled'})
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'edu.student',

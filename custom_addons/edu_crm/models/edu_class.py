@@ -18,6 +18,8 @@ class EduClass(models.Model):
     capacity = fields.Integer(default=40)
     student_count = fields.Integer(compute='_compute_student_count', store=True)
     is_full = fields.Boolean(compute='_compute_is_full', store=True)
+    attendance_count = fields.Integer(compute='_compute_attendance_count')
+    exam_count = fields.Integer(compute='_compute_exam_count')
     description = fields.Text()
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     active = fields.Boolean(default=True)
@@ -36,6 +38,40 @@ class EduClass(models.Model):
     def _compute_is_full(self):
         for rec in self:
             rec.is_full = rec.capacity > 0 and rec.student_count >= rec.capacity
+
+    def _compute_attendance_count(self):
+        for rec in self:
+            rec.attendance_count = self.env['edu.attendance'].search_count(
+                [('class_id', '=', rec.id)]
+            )
+
+    def _compute_exam_count(self):
+        for rec in self:
+            rec.exam_count = self.env['edu.exam'].search_count(
+                [('class_id', '=', rec.id)]
+            )
+
+    def action_view_class_attendance(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Attendance',
+            'res_model': 'edu.attendance',
+            'view_mode': 'list,form',
+            'domain': [('class_id', '=', self.id)],
+            'context': {'default_class_id': self.id},
+        }
+
+    def action_view_class_exams(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Exams',
+            'res_model': 'edu.exam',
+            'view_mode': 'list,form',
+            'domain': [('class_id', '=', self.id)],
+            'context': {'default_class_id': self.id},
+        }
 
     def _compute_display_name(self):
         for rec in self:

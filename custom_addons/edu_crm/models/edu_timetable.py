@@ -10,6 +10,7 @@ DAYS = [
 class EduTimetable(models.Model):
     _name = 'edu.timetable'
     _description = 'Timetable Slot'
+    _rec_name = 'subject_id'
     _order = 'day_of_week, start_time'
 
     class_id = fields.Many2one('edu.class', required=True, ondelete='cascade')

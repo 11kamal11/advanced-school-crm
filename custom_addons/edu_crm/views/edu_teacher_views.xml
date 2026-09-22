@@ -76,6 +76,22 @@
                     <field name="state" widget="statusbar" statusbar_visible="active,on_leave"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_teacher_leaves" type="object"
+                                class="oe_stat_button" icon="fa-calendar-times-o">
+                            <field name="leave_count" widget="statinfo" string="Leaves"/>
+                        </button>
+                        <button name="%(action_edu_class)d" type="action"
+                                class="oe_stat_button" icon="fa-users"
+                                context="{'search_default_class_teacher_id': id}">
+                            <field name="class_count" widget="statinfo" string="Classes"/>
+                        </button>
+                        <button name="%(action_edu_subject)d" type="action"
+                                class="oe_stat_button" icon="fa-book"
+                                context="{'search_default_teacher_ids': id}">
+                            <field name="subject_count" widget="statinfo" string="Subjects"/>
+                        </button>
+                    </div>
                     <field name="image" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
                         <label class="o_field_label" for="name"/>

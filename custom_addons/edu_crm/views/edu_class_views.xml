@@ -38,6 +38,21 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_class_attendance" type="object"
+                                class="oe_stat_button" icon="fa-check-square-o">
+                            <field name="attendance_count" widget="statinfo" string="Attendance"/>
+                        </button>
+                        <button name="action_view_class_exams" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="exam_count" widget="statinfo" string="Exams"/>
+                        </button>
+                        <button name="%(action_edu_student)d" type="action"
+                                class="oe_stat_button" icon="fa-users"
+                                context="{'search_default_class_id': id}">
+                            <field name="student_count" widget="statinfo" string="Students"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" placeholder="e.g. Grade 5"/>

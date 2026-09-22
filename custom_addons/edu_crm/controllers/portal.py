@@ -90,7 +90,7 @@ class EduPortal(CustomerPortal):
         if fee.balance <= 0 or fee.state in ('paid', 'waived'):
             return request.redirect(f'/my/children/{student.id}/fees')
 
-        currency_id = request.env.company.currency_id.id
+        currency_id = fee.currency_id.id or request.env.company.currency_id.id
         return request.redirect(
             f'/payment/pay?reference=EDUFEE-{fee.id}&amount={fee.balance}&currency_id={currency_id}'
         )

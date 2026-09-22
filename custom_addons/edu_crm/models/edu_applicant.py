@@ -37,6 +37,7 @@ class EduApplicant(models.Model):
         ('document_verification', 'Document Verification'),
         ('interview', 'Interview'),
         ('approved', 'Approved'),
+        ('enrolled', 'Enrolled'),
         ('rejected', 'Rejected'),
     ], default='submitted', required=True, tracking=True)
     rejection_reason = fields.Text()

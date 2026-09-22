@@ -84,9 +84,11 @@
                     <button name="action_suspend" string="Suspend" type="object"
                             invisible="state in ('suspended','graduated','alumni')"/>
                     <button name="action_graduate" string="Graduate" type="object"
-                            invisible="state in ('graduated','alumni','draft')"/>
+                            invisible="state in ('graduated','alumni','draft')"
+                            groups="edu_crm.group_edu_frontdesk,edu_crm.group_edu_principal"/>
                     <button name="action_alumni" string="Mark Alumni" type="object"
-                            invisible="state == 'alumni'"/>
+                            invisible="state == 'alumni'"
+                            groups="edu_crm.group_edu_frontdesk,edu_crm.group_edu_principal"/>
                     <button name="action_reset_draft" string="Reset to Draft" type="object"
                             invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar"
@@ -241,7 +243,7 @@
     <record id="action_edu_student" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">edu.student</field>
-        <field name="view_mode">list,kanban,form</field>
+        <field name="view_mode">list,kanban,form,activity</field>
         <field name="search_view_id" ref="view_edu_student_search"/>
         <field name="context">{'search_default_active_students': 1}</field>
     </record>

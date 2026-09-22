@@ -68,9 +68,11 @@
                     <button name="action_set_available" string="Mark Available" type="object"
                             invisible="status == 'available'"/>
                     <button name="action_set_retired" string="Retire" type="object"
-                            invisible="status in ('retired', 'assigned')"/>
+                            invisible="status in ('retired', 'assigned')"
+                            groups="edu_crm.group_edu_admin,edu_crm.group_edu_principal"/>
                     <button name="action_set_lost" string="Mark Lost" type="object"
-                            invisible="status in ('lost', 'assigned')"/>
+                            invisible="status in ('lost', 'assigned')"
+                            groups="edu_crm.group_edu_admin,edu_crm.group_edu_principal"/>
                     <field name="status" widget="statusbar" statusbar_visible="available,assigned"/>
                 </header>
                 <sheet>
