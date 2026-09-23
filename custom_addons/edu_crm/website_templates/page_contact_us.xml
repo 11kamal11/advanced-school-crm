@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_contact_us" name="Contact Us Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+/* =========================================================
+   SCHOOL CRM - CONTACT US PAGE
+   ========================================================= */
+
+.edu-contact {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: #ffffff;
+    color: #172033;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.edu-contact * {
+    box-sizing: border-box;
+}
+
+/* =========================
+   COMMON CONTAINER
+   ========================= */
+
+.edu-contact-container {
+    width: 94%;
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+/* =========================
+   HERO
+   ========================= */
+
+.edu-contact-hero {
+    padding: 85px 0 75px;
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(40,100,199,0.15),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f4f8ff 0%,
+            #ffffff 60%,
+            #eef5ff 100%
+        );
+}
+
+.edu-contact-hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.edu-contact-badge {
+    display: inline-block;
+    padding: 9px 17px;
+    border-radius: 30px;
+    background: #e8f1ff;
+    color: #2864c7;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.edu-contact-hero h1 {
+    font-size: 54px;
+    line-height: 1.1;
+    margin: 0 0 20px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.edu-contact-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-contact-hero p {
+    max-width: 720px;
+    margin: 0 auto;
+    color: #687282;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+/* =========================
+   CONTACT SECTION
+   ========================= */
+
+.edu-contact-section {
+    padding: 85px 0;
+    background: #ffffff;
+}
+
+.edu-contact-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 55px;
+    align-items: stretch;
+}
+
+/* =========================
+   LEFT INFORMATION
+   ========================= */
+
+.edu-contact-info {
+    background: #172033;
+    border-radius: 18px;
+    padding: 42px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.edu-contact-info:after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    right: -90px;
+    bottom: -100px;
+    background: rgba(40,100,199,0.25);
+}
+
+.edu-contact-info h2 {
+    font-size: 31px;
+    line-height: 1.25;
+    margin: 0 0 15px;
+}
+
+.edu-contact-info > p {
+    color: #b9c3d2;
+    line-height: 1.7;
+    font-size: 15px;
+    margin: 0 0 35px;
+}
+
+.edu-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.edu-contact-item-icon {
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    border-radius: 10px;
+    background: #26344d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.edu-contact-item-text strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.edu-contact-item-text span {
+    color: #b8c2d1;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================
+   FORM
+   ========================= */
+
+.edu-contact-form-wrapper {
+    background: #ffffff;
+    border: 1px solid #e1e7ef;
+    border-radius: 18px;
+    padding: 42px;
+    box-shadow: 0 15px 45px rgba(30,55,90,0.08);
+}
+
+.edu-contact-form-wrapper h2 {
+    font-size: 29px;
+    margin: 0 0 8px;
+}
+
+.edu-contact-form-wrapper > p {
+    color: #727b8a;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 27px;
+}
+
+.edu-contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.edu-contact-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.edu-contact-field-full {
+    grid-column: 1 / -1;
+}
+
+.edu-contact-field label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 7px;
+    color: #293246;
+}
+
+.edu-contact-field input,
+.edu-contact-field select,
+.edu-contact-field textarea {
+    width: 100%;
+    border: 1px solid #dce3ec;
+    border-radius: 8px;
+    padding: 13px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #172033;
+    background: #ffffff;
+    outline: none;
+}
+
+.edu-contact-field input:focus,
+.edu-contact-field select:focus,
+.edu-contact-field textarea:focus {
+    border-color: #2864c7;
+    box-shadow: 0 0 0 3px rgba(40,100,199,0.08);
+}
+
+.edu-contact-field textarea {
+    min-height: 125px;
+    resize: vertical;
+}
+
+.edu-contact-submit {
+    grid-column: 1 / -1;
+    margin-top: 5px;
+}
+
+.edu-contact-submit a,
+.edu-contact-submit button {
+    display: inline-block;
+    border: 0;
+    border-radius: 8px;
+    padding: 14px 27px;
+    background: #2864c7;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.edu-contact-submit a:hover,
+.edu-contact-submit button:hover {
+    background: #1e4f9f;
+}
+
+/* =========================
+   REASONS SECTION
+   ========================= */
+
+.edu-contact-reasons {
+    background: #f5f8fc;
+    padding: 85px 0;
+}
+
+.edu-contact-heading {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 48px;
+}
+
+.edu-contact-heading span {
+    color: #2864c7;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-contact-heading h2 {
+    font-size: 39px;
+    line-height: 1.2;
+    margin: 12px 0 15px;
+}
+
+.edu-contact-heading p {
+    color: #687282;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.edu-contact-reason-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.edu-contact-reason {
+    background: #ffffff;
+    border: 1px solid #e3e8ef;
+    border-radius: 14px;
+    padding: 30px;
+    transition: 0.25s;
+}
+
+.edu-contact-reason:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(30,55,90,0.08);
+}
+
+.edu-contact-reason-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 11px;
+    background: #e8f1ff;
+    color: #2864c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    margin-bottom: 18px;
+}
+
+.edu-contact-reason h3 {
+    font-size: 18px;
+    margin: 0 0 9px;
+}
+
+.edu-contact-reason p {
+    color: #707988;
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* =========================
+   QUICK HELP
+   ========================= */
+
+.edu-contact-help {
+    padding: 85px 0;
+    background: #ffffff;
+}
+
+.edu-contact-help-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.edu-contact-help-card {
+    border: 1px solid #e1e7ef;
+    border-radius: 13px;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.edu-contact-help-card strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.edu-contact-help-card span {
+    display: block;
+    color: #707988;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================
+   FINAL CTA
+   ========================= */
+
+.edu-contact-cta {
+    padding: 80px 0;
+    background: linear-gradient(
+        135deg,
+        #eef5ff,
+        #f8fbff
+    );
+    text-align: center;
+}
+
+.edu-contact-cta h2 {
+    font-size: 38px;
+    margin: 0 0 14px;
+}
+
+.edu-contact-cta p {
+    max-width: 650px;
+    margin: 0 auto 25px;
+    color: #687282;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.edu-contact-cta-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 8px;
+    background: #2864c7;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 700;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1100px) {
+
+    .edu-contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-contact-reason-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-contact-help-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-contact-hero h1 {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .edu-contact-container {
+        width: 90%;
+    }
+
+    .edu-contact-hero {
+        padding: 60px 0;
+    }
+
+    .edu-contact-hero h1 {
+        font-size: 37px;
+    }
+
+    .edu-contact-hero p {
+        font-size: 16px;
+    }
+
+    .edu-contact-section,
+    .edu-contact-reasons,
+    .edu-contact-help {
+        padding: 60px 0;
+    }
+
+    .edu-contact-info,
+    .edu-contact-form-wrapper {
+        padding: 27px;
+    }
+
+    .edu-contact-form {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-contact-field-full,
+    .edu-contact-submit {
+        grid-column: auto;
+    }
+
+    .edu-contact-reason-grid,
+    .edu-contact-help-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-contact-heading h2,
+    .edu-contact-cta h2 {
+        font-size: 29px;
+    }
+}
+                ]]></style>
+
+
+<div class="edu-contact">
+
+    <!-- =========================
+         HERO
+         ========================= -->
+
+    <section class="edu-contact-hero">
+
+        <div class="edu-contact-container">
+
+            <div class="edu-contact-hero-content">
+
+                <div class="edu-contact-badge">
+                    💬 Contact Our Team
+                </div>
+
+                <h1>
+                    Let's Build a Better
+                    <span>School Management System</span>
+                </h1>
+
+                <p>
+                    Have questions about our school CRM, admissions,
+                    student management, attendance, academics or finance?
+                    Our team is here to help.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT AREA
+         ========================= -->
+
+    <section class="edu-contact-section">
+
+        <div class="edu-contact-container">
+
+            <div class="edu-contact-grid">
+
+                <!-- LEFT -->
+
+                <div class="edu-contact-info">
+
+                    <h2>
+                        We're Here to Help
+                    </h2>
+
+                    <p>
+                        Tell us what your school needs and our team can
+                        help you understand how the education CRM can
+                        support your daily operations.
+                    </p>
+
+
+                    <div class="edu-contact-item">
+
+                        <div class="edu-contact-item-icon">
+                            📧
+                        </div>
+
+                        <div class="edu-contact-item-text">
+                            <strong>Email</strong>
+                            <span>
+                                info@schoolcrm.com
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="edu-contact-item">
+
+                        <div class="edu-contact-item-icon">
+                            📞
+                        </div>
+
+                        <div class="edu-contact-item-text">
+                            <strong>Phone</strong>
+                            <span>
+                                +91 00000 00000
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="edu-contact-item">
+
+                        <div class="edu-contact-item-icon">
+                            📍
+                        </div>
+
+                        <div class="edu-contact-item-text">
+                            <strong>Office</strong>
+                            <span>
+                                Your School CRM Office<br/>
+                                India
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="edu-contact-item">
+
+                        <div class="edu-contact-item-icon">
+                            🕐
+                        </div>
+
+                        <div class="edu-contact-item-text">
+                            <strong>Working Hours</strong>
+                            <span>
+                                Monday – Friday<br/>
+                                9:00 AM – 6:00 PM
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT FORM -->
+
+                <div class="edu-contact-form-wrapper">
+
+                    <h2>
+                        Send Us a Message
+                    </h2>
+
+                    <p>
+                        Complete the form below and our team will get
+                        back to you.
+                    </p>
+
+
+                    <div class="edu-contact-form">
+
+                        <div class="edu-contact-field">
+
+                            <label>
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                placeholder="Enter your name"
+                            />
+
+                        </div>
+
+
+                        <div class="edu-contact-field">
+
+                            <label>
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                            />
+
+                        </div>
+
+
+                        <div class="edu-contact-field">
+
+                            <label>
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                placeholder="Enter your phone number"
+                            />
+
+                        </div>
+
+
+                        <div class="edu-contact-field">
+
+                            <label>
+                                School / Organization
+                            </label>
+
+                            <input
+                                type="text"
+                                placeholder="Enter school name"
+                            />
+
+                        </div>
+
+
+                        <div class="edu-contact-field edu-contact-field-full">
+
+                            <label>
+                                What can we help you with?
+                            </label>
+
+                            <select>
+
+                                <option>
+                                    Select an option
+                                </option>
+
+                                <option>
+                                    Admissions
+                                </option>
+
+                                <option>
+                                    Student Management
+                                </option>
+
+                                <option>
+                                    Attendance Management
+                                </option>
+
+                                <option>
+                                    Academic Management
+                                </option>
+
+                                <option>
+                                    Fees &amp; Finance
+                                </option>
+
+                                <option>
+                                    General Enquiry
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="edu-contact-field edu-contact-field-full">
+
+                            <label>
+                                Message
+                            </label>
+
+                            <textarea
+                                placeholder="Tell us about your requirements...">
+                            </textarea>
+
+                        </div>
+
+
+                        <div class="edu-contact-submit">
+
+                            <a href="/contactus-thank-you">
+                                Send Message →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         WHY CONTACT US
+         ========================= -->
+
+    <section class="edu-contact-reasons">
+
+        <div class="edu-contact-container">
+
+            <div class="edu-contact-heading">
+
+                <span>How We Can Help</span>
+
+                <h2>
+                    Let's Talk About Your School's Needs
+                </h2>
+
+                <p>
+                    Whether you are planning a new system or improving
+                    your existing school processes, we can discuss your
+                    requirements.
+                </p>
+
+            </div>
+
+
+            <div class="edu-contact-reason-grid">
+
+                <div class="edu-contact-reason">
+
+                    <div class="edu-contact-reason-icon">
+                        🎓
+                    </div>
+
+                    <h3>
+                        School Management
+                    </h3>
+
+                    <p>
+                        Discuss how student, academic and administrative
+                        processes can be organized in one system.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-contact-reason">
+
+                    <div class="edu-contact-reason-icon">
+                        ⚙️
+                    </div>
+
+                    <h3>
+                        System Requirements
+                    </h3>
+
+                    <p>
+                        Share your school's requirements and identify
+                        the features needed for your workflow.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-contact-reason">
+
+                    <div class="edu-contact-reason-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        Reporting &amp; Insights
+                    </h3>
+
+                    <p>
+                        Learn how structured school data can support
+                        reporting and daily decision-making.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUICK HELP
+         ========================= -->
+
+    <section class="edu-contact-help">
+
+        <div class="edu-contact-container">
+
+            <div class="edu-contact-heading">
+
+                <span>Quick Information</span>
+
+                <h2>
+                    What Can You Discuss With Us?
+                </h2>
+
+            </div>
+
+
+            <div class="edu-contact-help-grid">
+
+                <div class="edu-contact-help-card">
+
+                    <strong>
+                        Admissions
+                    </strong>
+
+                    <span>
+                        Student enquiry and admission workflows
+                    </span>
+
+                </div>
+
+
+                <div class="edu-contact-help-card">
+
+                    <strong>
+                        Academics
+                    </strong>
+
+                    <span>
+                        Classes, subjects, teachers and examinations
+                    </span>
+
+                </div>
+
+
+                <div class="edu-contact-help-card">
+
+                    <strong>
+                        Attendance
+                    </strong>
+
+                    <span>
+                        Student attendance and daily records
+                    </span>
+
+                </div>
+
+
+                <div class="edu-contact-help-card">
+
+                    <strong>
+                        Finance
+                    </strong>
+
+                    <span>
+                        Fees, payments and financial records
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FINAL CTA
+         ========================= -->
+
+    <section class="edu-contact-cta">
+
+        <div class="edu-contact-container">
+
+            <h2>
+                Have a Question?
+            </h2>
+
+            <p>
+                Send us your requirements and let's discuss how your
+                school can manage its operations more efficiently.
+            </p>
+
+            <a
+                href="mailto:info@schoolcrm.com"
+                class="edu-contact-cta-btn"
+            >
+                Email Our Team
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_contact_us_page" model="website.page">
+        <field name="name">Contact Us</field>
+        <field name="url">/contact-us</field>
+        <field name="view_id" ref="page_contact_us"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>

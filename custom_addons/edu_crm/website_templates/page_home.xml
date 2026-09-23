@@ -1,0 +1,1983 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_home" name="Home Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+
+/* ============================================================
+   SCHOOL CRM HOMEPAGE
+   FULL WIDTH ODOO WEBSITE VERSION
+   ============================================================ */
+
+.edu-home {
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 100vw !important;
+
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+
+    padding: 0 !important;
+    overflow: hidden !important;
+
+    color: #172033;
+    background: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.edu-home *,
+.edu-home *::before,
+.edu-home *::after {
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   ODOO WIDTH OVERRIDES
+   ============================================================ */
+
+.edu-home .container,
+.edu-home .container-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.edu-home .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.edu-home section {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+
+/* ============================================================
+   INNER CONTAINER
+   ============================================================ */
+
+.edu-home-container {
+    width: 94% !important;
+    max-width: 1450px !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+
+.edu-home-hero {
+    width: 100% !important;
+
+    padding: 105px 0 95px !important;
+
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(40, 100, 199, 0.16),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 10% 80%,
+            rgba(40, 100, 199, 0.07),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #f3f8ff 0%,
+            #ffffff 55%,
+            #edf5ff 100%
+        );
+}
+
+.edu-home-hero-grid {
+    display: grid;
+
+    grid-template-columns: 1.05fr 0.95fr;
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+.edu-home-badge {
+    display: inline-block;
+
+    padding: 9px 17px;
+
+    margin-bottom: 20px;
+
+    border-radius: 30px;
+
+    background: #e7f0ff;
+
+    color: #2864c7;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.edu-home-hero h1 {
+    margin: 0 0 22px;
+
+    font-size: 58px;
+
+    line-height: 1.08;
+
+    letter-spacing: -1.8px;
+
+    font-weight: 800;
+
+    color: #172033;
+}
+
+.edu-home-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-home-hero-text {
+    max-width: 680px;
+
+    margin: 0 0 30px;
+
+    color: #687282;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+.edu-home-btn {
+    display: inline-block;
+
+    padding: 15px 29px;
+
+    border-radius: 8px;
+
+    background: #2864c7;
+
+    color: #ffffff !important;
+
+    text-decoration: none !important;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    transition: all 0.25s ease;
+}
+
+.edu-home-btn:hover {
+    background: #1d4f9f;
+
+    transform: translateY(-2px);
+}
+
+.edu-home-btn-light {
+    display: inline-block;
+
+    padding: 14px 28px;
+
+    margin-left: 8px;
+
+    border: 1px solid #d7e0ec;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #172033 !important;
+
+    text-decoration: none !important;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   HERO DASHBOARD
+   ============================================================ */
+
+.edu-home-dashboard {
+    padding: 24px;
+
+    border: 1px solid #dfe7f1;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 25px 65px rgba(30, 55, 90, 0.13);
+}
+
+.edu-home-dashboard-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid #edf0f5;
+}
+
+.edu-home-dashboard-title {
+    font-size: 16px;
+
+    font-weight: 800;
+}
+
+.edu-home-dashboard-status {
+    padding: 6px 10px;
+
+    border-radius: 6px;
+
+    background: #eaf7ef;
+
+    color: #27834a;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.edu-home-dashboard-welcome {
+    padding: 22px 0 18px;
+}
+
+.edu-home-dashboard-welcome h3 {
+    margin: 0 0 6px;
+
+    font-size: 21px;
+}
+
+.edu-home-dashboard-welcome p {
+    margin: 0;
+
+    color: #7a8391;
+
+    font-size: 12px;
+}
+
+.edu-home-kpi-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 13px;
+}
+
+.edu-home-kpi {
+    padding: 18px;
+
+    border-radius: 11px;
+
+    background: #f7f9fc;
+}
+
+.edu-home-kpi small {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #7b8492;
+
+    font-size: 11px;
+}
+
+.edu-home-kpi strong {
+    display: block;
+
+    font-size: 25px;
+
+    color: #172033;
+}
+
+.edu-home-kpi em {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #2864c7;
+
+    font-size: 10px;
+
+    font-style: normal;
+
+    font-weight: 700;
+}
+
+.edu-home-dashboard-bottom {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 18px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background: #eef5ff;
+}
+
+.edu-home-dashboard-bottom span {
+    color: #647083;
+
+    font-size: 11px;
+}
+
+.edu-home-dashboard-bottom strong {
+    color: #2864c7;
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   TRUST / INTRO
+   ============================================================ */
+
+.edu-home-intro {
+    padding: 80px 0 75px;
+
+    background: #ffffff;
+}
+
+.edu-home-intro-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 60px;
+
+    align-items: center;
+}
+
+.edu-home-intro-label {
+    color: #2864c7;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+.edu-home-intro h2 {
+    margin: 13px 0 18px;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+.edu-home-intro p {
+    margin: 0;
+
+    color: #687282;
+
+    font-size: 16px;
+
+    line-height: 1.75;
+}
+
+.edu-home-intro-card {
+    padding: 32px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    background: #f8fafc;
+}
+
+.edu-home-intro-card h3 {
+    margin: 0 0 18px;
+
+    font-size: 20px;
+}
+
+.edu-home-check {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+}
+
+.edu-home-check:last-child {
+    margin-bottom: 0;
+}
+
+.edu-home-check-icon {
+    flex: 0 0 28px;
+
+    width: 28px;
+
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e4f0ff;
+
+    color: #2864c7;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.edu-home-check span {
+    color: #5f6979;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   FEATURES
+   ============================================================ */
+
+.edu-home-features {
+    padding: 90px 0;
+
+    background: #f5f8fc;
+}
+
+.edu-home-heading {
+    max-width: 760px;
+
+    margin: 0 auto 50px;
+
+    text-align: center;
+}
+
+.edu-home-heading-label {
+    color: #2864c7;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+.edu-home-heading h2 {
+    margin: 12px 0 15px;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+.edu-home-heading p {
+    margin: 0;
+
+    color: #687282;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+.edu-home-feature-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+.edu-home-feature {
+    padding: 30px;
+
+    border: 1px solid #e1e7ef;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    transition: all 0.25s ease;
+}
+
+.edu-home-feature:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 16px 35px rgba(30, 55, 90, 0.09);
+}
+
+.edu-home-feature-icon {
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 12px;
+
+    background: #e8f1ff;
+
+    color: #2864c7;
+
+    font-size: 23px;
+}
+
+.edu-home-feature h3 {
+    margin: 0 0 9px;
+
+    font-size: 19px;
+}
+
+.edu-home-feature p {
+    margin: 0;
+
+    color: #707988;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+
+/* ============================================================
+   MANAGEMENT MODULES
+   ============================================================ */
+
+.edu-home-modules {
+    padding: 90px 0;
+
+    background: #ffffff;
+}
+
+.edu-home-module-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.edu-home-module {
+    padding: 25px 20px;
+
+    border: 1px solid #e0e7ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+}
+
+.edu-home-module-number {
+    margin-bottom: 14px;
+
+    color: #2864c7;
+
+    font-size: 25px;
+
+    font-weight: 800;
+}
+
+.edu-home-module h3 {
+    margin: 0 0 8px;
+
+    font-size: 17px;
+}
+
+.edu-home-module p {
+    margin: 0;
+
+    color: #727c8b;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   SCHOOL WORKFLOW
+   ============================================================ */
+
+.edu-home-workflow {
+    padding: 90px 0;
+
+    background: #f5f8fc;
+}
+
+.edu-home-workflow-grid {
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 15px;
+}
+
+.edu-home-step {
+    padding: 25px 15px;
+
+    border: 1px solid #e1e7ef;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+.edu-home-step-number {
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    background: #2864c7;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.edu-home-step h4 {
+    margin: 0 0 8px;
+
+    font-size: 14px;
+}
+
+.edu-home-step p {
+    margin: 0;
+
+    color: #747d8c;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   REPORTING SECTION
+   ============================================================ */
+
+.edu-home-reporting {
+    padding: 90px 0;
+
+    background: #172033;
+
+    color: #ffffff;
+}
+
+.edu-home-reporting-grid {
+    display: grid;
+
+    grid-template-columns: 0.85fr 1.15fr;
+
+    gap: 65px;
+
+    align-items: center;
+}
+
+.edu-home-reporting-text-label {
+    color: #8db9ff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+.edu-home-reporting h2 {
+    margin: 14px 0 18px;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+.edu-home-reporting-text p {
+    margin: 0;
+
+    color: #b9c3d2;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+.edu-home-report-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 14px;
+}
+
+.edu-home-report {
+    padding: 22px;
+
+    border: 1px solid #344056;
+
+    border-radius: 12px;
+
+    background: #202b40;
+}
+
+.edu-home-report strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 15px;
+}
+
+.edu-home-report small {
+    color: #aeb8c8;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   BENEFITS
+   ============================================================ */
+
+.edu-home-benefits {
+    padding: 90px 0;
+
+    background: #ffffff;
+}
+
+.edu-home-benefit-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.edu-home-benefit {
+    padding: 28px 22px;
+
+    border: 1px solid #e1e7ef;
+
+    border-radius: 14px;
+}
+
+.edu-home-benefit-number {
+    margin-bottom: 13px;
+
+    color: #2864c7;
+
+    font-size: 27px;
+
+    font-weight: 800;
+}
+
+.edu-home-benefit h3 {
+    margin: 0 0 9px;
+
+    font-size: 17px;
+}
+
+.edu-home-benefit p {
+    margin: 0;
+
+    color: #707988;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+
+.edu-home-cta {
+    padding: 90px 0;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 15% 50%,
+            rgba(40, 100, 199, 0.10),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #eef5ff,
+            #f8fbff
+        );
+}
+
+.edu-home-cta h2 {
+    margin: 0 0 15px;
+
+    font-size: 42px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+.edu-home-cta p {
+    max-width: 680px;
+
+    margin: 0 auto 28px;
+
+    color: #687282;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   RESPONSIVE - TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .edu-home-hero-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+    .edu-home-intro-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+    .edu-home-feature-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-home-module-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-home-workflow-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .edu-home-benefit-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-home-reporting-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE - MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .edu-home-container {
+        width: 90% !important;
+    }
+
+    .edu-home-hero {
+        padding: 65px 0 60px !important;
+    }
+
+    .edu-home-hero h1 {
+        font-size: 39px;
+
+        letter-spacing: -1px;
+    }
+
+    .edu-home-hero-text {
+        font-size: 16px;
+    }
+
+    .edu-home-btn,
+    .edu-home-btn-light {
+        display: block;
+
+        width: 100%;
+
+        margin: 0 0 12px;
+
+        text-align: center;
+    }
+
+    .edu-home-btn-light {
+        margin-left: 0;
+    }
+
+    .edu-home-feature-grid,
+    .edu-home-module-grid,
+    .edu-home-benefit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-home-workflow-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-home-report-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-home-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-home-heading h2,
+    .edu-home-intro h2,
+    .edu-home-reporting h2,
+    .edu-home-cta h2 {
+        font-size: 30px;
+    }
+
+    .edu-home-features,
+    .edu-home-modules,
+    .edu-home-workflow,
+    .edu-home-reporting,
+    .edu-home-benefits {
+        padding: 65px 0;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 450px) {
+
+    .edu-home-hero h1 {
+        font-size: 34px;
+    }
+
+    .edu-home-dashboard {
+        padding: 18px;
+    }
+
+    .edu-home-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-home-workflow-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+                ]]></style>
+
+
+<!-- ============================================================
+     HOMEPAGE START
+     ============================================================ -->
+
+<div class="edu-home">
+
+
+    <!-- ========================================================
+         HERO
+         ======================================================== -->
+
+    <section class="edu-home-hero">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-hero-grid">
+
+
+                <!-- HERO CONTENT -->
+
+                <div>
+
+                    <div class="edu-home-badge">
+                        🎓 School Management CRM
+                    </div>
+
+                    <h1>
+                        Manage Your School
+                        <span>Smarter &amp; Simpler</span>
+                    </h1>
+
+                    <p class="edu-home-hero-text">
+                        A complete school management solution designed
+                        to organize admissions, students, attendance,
+                        academics, teachers and finance in one
+                        connected platform.
+                    </p>
+
+                    <a
+                        href="/admissions"
+                        class="edu-home-btn"
+                    >
+                        Explore Admissions
+                    </a>
+
+                    <a
+                        href="/features"
+                        class="edu-home-btn-light"
+                    >
+                        Explore Features
+                    </a>
+
+                </div>
+
+
+                <!-- DASHBOARD VISUAL -->
+
+                <div class="edu-home-dashboard">
+
+                    <div class="edu-home-dashboard-header">
+
+                        <div class="edu-home-dashboard-title">
+                            School Dashboard
+                        </div>
+
+                        <div class="edu-home-dashboard-status">
+                            LIVE
+                        </div>
+
+                    </div>
+
+
+                    <div class="edu-home-dashboard-welcome">
+
+                        <h3>
+                            School Overview
+                        </h3>
+
+                        <p>
+                            Academic Year 2026 - 2027
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-home-kpi-grid">
+
+                        <div class="edu-home-kpi">
+
+                            <small>
+                                Total Students
+                            </small>
+
+                            <strong>
+                                1,248
+                            </strong>
+
+                            <em>
+                                Active Students
+                            </em>
+
+                        </div>
+
+
+                        <div class="edu-home-kpi">
+
+                            <small>
+                                Teachers
+                            </small>
+
+                            <strong>
+                                58
+                            </strong>
+
+                            <em>
+                                Teaching Staff
+                            </em>
+
+                        </div>
+
+
+                        <div class="edu-home-kpi">
+
+                            <small>
+                                Attendance
+                            </small>
+
+                            <strong>
+                                94.6%
+                            </strong>
+
+                            <em>
+                                Today's Overview
+                            </em>
+
+                        </div>
+
+
+                        <div class="edu-home-kpi">
+
+                            <small>
+                                Fees Collected
+                            </small>
+
+                            <strong>
+                                ₹9.8L
+                            </strong>
+
+                            <em>
+                                Current Period
+                            </em>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edu-home-dashboard-bottom">
+
+                        <span>
+                            Academic Performance
+                        </span>
+
+                        <strong>
+                            87.4%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         INTRODUCTION
+         ======================================================== -->
+
+    <section class="edu-home-intro">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-intro-grid">
+
+
+                <div>
+
+                    <div class="edu-home-intro-label">
+                        One Connected Platform
+                    </div>
+
+                    <h2>
+                        Everything Your School Needs in One Place
+                    </h2>
+
+                    <p>
+                        School administration involves many moving
+                        parts. Our education CRM brings important
+                        school operations together so administrators
+                        can manage information, processes and records
+                        from a centralized system.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-intro-card">
+
+                    <h3>
+                        Built for Everyday School Operations
+                    </h3>
+
+
+                    <div class="edu-home-check">
+
+                        <div class="edu-home-check-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Centralized student information
+                        </span>
+
+                    </div>
+
+
+                    <div class="edu-home-check">
+
+                        <div class="edu-home-check-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Streamlined admission management
+                        </span>
+
+                    </div>
+
+
+                    <div class="edu-home-check">
+
+                        <div class="edu-home-check-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Attendance and academic tracking
+                        </span>
+
+                    </div>
+
+
+                    <div class="edu-home-check">
+
+                        <div class="edu-home-check-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Teacher and class management
+                        </span>
+
+                    </div>
+
+
+                    <div class="edu-home-check">
+
+                        <div class="edu-home-check-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Fee collection and financial records
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         FEATURES
+         ======================================================== -->
+
+    <section class="edu-home-features">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-heading">
+
+                <div class="edu-home-heading-label">
+                    Core Features
+                </div>
+
+                <h2>
+                    Powerful Tools for Better School Management
+                </h2>
+
+                <p>
+                    Manage your school's most important processes
+                    with structured tools designed around daily
+                    administrative workflows.
+                </p>
+
+            </div>
+
+
+            <div class="edu-home-feature-grid">
+
+
+                <div class="edu-home-feature">
+
+                    <div class="edu-home-feature-icon">
+                        🎓
+                    </div>
+
+                    <h3>
+                        Admissions
+                    </h3>
+
+                    <p>
+                        Manage enquiries, applications, student
+                        admissions and enrollment information from
+                        one organized workflow.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-feature">
+
+                    <div class="edu-home-feature-icon">
+                        👨‍🎓
+                    </div>
+
+                    <h3>
+                        Student Management
+                    </h3>
+
+                    <p>
+                        Maintain student profiles, academic information,
+                        enrollment records and important student details.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-feature">
+
+                    <div class="edu-home-feature-icon">
+                        📅
+                    </div>
+
+                    <h3>
+                        Attendance
+                    </h3>
+
+                    <p>
+                        Record and monitor student attendance while
+                        maintaining organized daily attendance records.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-feature">
+
+                    <div class="edu-home-feature-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        Academics
+                    </h3>
+
+                    <p>
+                        Organize classes, sections, subjects, teachers,
+                        timetables, examinations and academic results.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-feature">
+
+                    <div class="edu-home-feature-icon">
+                        💳
+                    </div>
+
+                    <h3>
+                        Fees &amp; Finance
+                    </h3>
+
+                    <p>
+                        Manage fee structures, payment records,
+                        outstanding fees and financial reporting.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-feature">
+
+                    <div class="edu-home-feature-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        Reports &amp; Insights
+                    </h3>
+
+                    <p>
+                        Use organized information and reports to
+                        understand school operations and performance.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         MANAGEMENT MODULES
+         ======================================================== -->
+
+    <section class="edu-home-modules">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-heading">
+
+                <div class="edu-home-heading-label">
+                    School Management
+                </div>
+
+                <h2>
+                    Connect Every Part of Your School
+                </h2>
+
+                <p>
+                    Keep important school processes connected through
+                    a centralized management environment.
+                </p>
+
+            </div>
+
+
+            <div class="edu-home-module-grid">
+
+
+                <div class="edu-home-module">
+
+                    <div class="edu-home-module-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Students
+                    </h3>
+
+                    <p>
+                        Profiles, enrollment, academic information
+                        and student records.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-module">
+
+                    <div class="edu-home-module-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Teachers
+                    </h3>
+
+                    <p>
+                        Teacher profiles, subjects, classes and
+                        academic responsibilities.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-module">
+
+                    <div class="edu-home-module-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Academics
+                    </h3>
+
+                    <p>
+                        Classes, subjects, schedules, examinations
+                        and results.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-module">
+
+                    <div class="edu-home-module-number">
+                        04
+                    </div>
+
+                    <h3>
+                        Finance
+                    </h3>
+
+                    <p>
+                        Fee structures, collections, payments and
+                        outstanding balances.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         WORKFLOW
+         ======================================================== -->
+
+    <section class="edu-home-workflow">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-heading">
+
+                <div class="edu-home-heading-label">
+                    Simple Workflow
+                </div>
+
+                <h2>
+                    From Admission to Academic Management
+                </h2>
+
+                <p>
+                    Keep your school's daily operations organized
+                    through a connected workflow.
+                </p>
+
+            </div>
+
+
+            <div class="edu-home-workflow-grid">
+
+
+                <div class="edu-home-step">
+
+                    <div class="edu-home-step-number">
+                        01
+                    </div>
+
+                    <h4>
+                        Enquiry
+                    </h4>
+
+                    <p>
+                        Capture prospective student information.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-step">
+
+                    <div class="edu-home-step-number">
+                        02
+                    </div>
+
+                    <h4>
+                        Admission
+                    </h4>
+
+                    <p>
+                        Process applications and enrollment.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-step">
+
+                    <div class="edu-home-step-number">
+                        03
+                    </div>
+
+                    <h4>
+                        Student
+                    </h4>
+
+                    <p>
+                        Maintain complete student records.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-step">
+
+                    <div class="edu-home-step-number">
+                        04
+                    </div>
+
+                    <h4>
+                        Academics
+                    </h4>
+
+                    <p>
+                        Manage classes and academic activities.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-step">
+
+                    <div class="edu-home-step-number">
+                        05
+                    </div>
+
+                    <h4>
+                        Results
+                    </h4>
+
+                    <p>
+                        Track academic performance and reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         REPORTING
+         ======================================================== -->
+
+    <section class="edu-home-reporting">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-reporting-grid">
+
+
+                <div class="edu-home-reporting-text">
+
+                    <div class="edu-home-reporting-text-label">
+                        Centralized Information
+                    </div>
+
+                    <h2>
+                        Turn School Records Into Useful Information
+                    </h2>
+
+                    <p>
+                        Keep student, teacher, academic, attendance
+                        and financial information organized so school
+                        administrators can access the records they need.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-report-grid">
+
+
+                    <div class="edu-home-report">
+
+                        <strong>
+                            Student Records
+                        </strong>
+
+                        <small>
+                            Centralized student profiles and enrollment
+                            information.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edu-home-report">
+
+                        <strong>
+                            Attendance Records
+                        </strong>
+
+                        <small>
+                            Organized daily attendance information
+                            for students.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edu-home-report">
+
+                        <strong>
+                            Academic Records
+                        </strong>
+
+                        <small>
+                            Classes, subjects, teachers and academic
+                            information.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edu-home-report">
+
+                        <strong>
+                            Examination Records
+                        </strong>
+
+                        <small>
+                            Assessments, marks and student results.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edu-home-report">
+
+                        <strong>
+                            Financial Records
+                        </strong>
+
+                        <small>
+                            Fee structures, payments and outstanding
+                            balances.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edu-home-report">
+
+                        <strong>
+                            Management Reports
+                        </strong>
+
+                        <small>
+                            Organized information for administrative
+                            review.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         BENEFITS
+         ======================================================== -->
+
+    <section class="edu-home-benefits">
+
+        <div class="edu-home-container">
+
+            <div class="edu-home-heading">
+
+                <div class="edu-home-heading-label">
+                    Why School CRM
+                </div>
+
+                <h2>
+                    Designed Around School Operations
+                </h2>
+
+                <p>
+                    Bring important administrative processes together
+                    in one structured environment.
+                </p>
+
+            </div>
+
+
+            <div class="edu-home-benefit-grid">
+
+
+                <div class="edu-home-benefit">
+
+                    <div class="edu-home-benefit-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Centralized Data
+                    </h3>
+
+                    <p>
+                        Keep important school information organized
+                        in one place.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-benefit">
+
+                    <div class="edu-home-benefit-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Connected Workflows
+                    </h3>
+
+                    <p>
+                        Connect admissions, students, academics and
+                        finance processes.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-benefit">
+
+                    <div class="edu-home-benefit-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Better Visibility
+                    </h3>
+
+                    <p>
+                        Access organized information for everyday
+                        administrative activities.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-home-benefit">
+
+                    <div class="edu-home-benefit-number">
+                        04
+                    </div>
+
+                    <h3>
+                        Scalable Management
+                    </h3>
+
+                    <p>
+                        Build a structured foundation for growing
+                        school operations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         FINAL CTA
+         ======================================================== -->
+
+    <section class="edu-home-cta">
+
+        <div class="edu-home-container">
+
+            <h2>
+                Ready to Simplify School Management?
+            </h2>
+
+            <p>
+                Explore how a connected education CRM can help
+                organize your school's daily operations.
+            </p>
+
+            <a
+                href="/contact-us"
+                class="edu-home-btn"
+            >
+                Contact Our Team
+            </a>
+
+        </div>
+
+    </section>
+
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_home_page" model="website.page">
+        <field name="name">Home</field>
+        <field name="url">/home</field>
+        <field name="view_id" ref="page_home"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>

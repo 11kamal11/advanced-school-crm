@@ -1,0 +1,1306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_attendance_management" name="Attendance Management Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+/* =========================================================
+   SCHOOL EDUCATION CRM - ATTENDANCE MANAGEMENT
+   ========================================================= */
+
+.edu-attendance {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 0 !important;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172033;
+    background: #ffffff;
+}
+
+.edu-attendance *,
+.edu-attendance *::before,
+.edu-attendance *::after {
+    box-sizing: border-box;
+}
+
+.edu-att-container {
+    width: 94% !important;
+    max-width: 1450px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.edu-att-hero {
+    min-height: 560px;
+    width: 100%;
+    padding: 90px 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(40,100,199,.12), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(40,100,199,.10), transparent 30%),
+        linear-gradient(135deg, #eef5ff, #ffffff);
+}
+
+.edu-att-hero-inner {
+    max-width: 1050px;
+    margin: auto;
+}
+
+.edu-att-badge {
+    display: inline-block;
+    background: #e5efff;
+    color: #2864c7;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.edu-att-hero h1 {
+    font-size: clamp(42px, 5vw, 68px) !important;
+    line-height: 1.1 !important;
+    margin: 0 0 25px !important;
+    font-weight: 700 !important;
+    color: #172033;
+}
+
+.edu-att-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-att-hero p {
+    max-width: 850px;
+    margin: auto !important;
+    color: #657184;
+    font-size: 20px !important;
+    line-height: 1.7 !important;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+   ========================================================= */
+
+.edu-att-section {
+    width: 100%;
+    padding: 90px 20px !important;
+}
+
+.edu-att-light {
+    background: #f7f9fc;
+}
+
+.edu-att-heading {
+    max-width: 850px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.edu-att-heading h2 {
+    font-size: clamp(30px, 3vw, 42px) !important;
+    line-height: 1.2;
+    margin: 0 0 18px !important;
+    color: #172033;
+    font-weight: 700 !important;
+}
+
+.edu-att-heading p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+}
+
+
+/* =========================================================
+   ATTENDANCE FEATURES
+   ========================================================= */
+
+.edu-att-feature-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 28px !important;
+}
+
+.edu-att-card {
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 18px;
+    padding: 35px !important;
+    min-height: 290px;
+    box-shadow: 0 5px 18px rgba(25,45,80,.04);
+    transition: all .25s ease;
+}
+
+.edu-att-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(25,45,80,.10);
+}
+
+.edu-att-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #eaf1ff;
+    font-size: 29px;
+    margin-bottom: 22px;
+}
+
+.edu-att-card h3 {
+    margin: 0 0 13px !important;
+    font-size: 21px !important;
+    color: #172033;
+}
+
+.edu-att-card p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+}
+
+.edu-att-card ul {
+    margin: 18px 0 0 !important;
+    padding-left: 20px !important;
+    color: #687385;
+    font-size: 14px !important;
+    line-height: 1.8 !important;
+}
+
+
+/* =========================================================
+   ATTENDANCE DASHBOARD
+   ========================================================= */
+
+.edu-att-dashboard {
+    display: grid !important;
+    grid-template-columns: 1fr 1.15fr !important;
+    gap: 60px !important;
+    align-items: center;
+}
+
+.edu-att-dashboard-content h2 {
+    font-size: clamp(32px, 3vw, 44px) !important;
+    line-height: 1.2;
+    margin: 0 0 20px !important;
+    color: #172033;
+}
+
+.edu-att-dashboard-content h2 span {
+    color: #2864c7;
+}
+
+.edu-att-dashboard-content > p {
+    color: #687385;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+    margin: 0 0 25px !important;
+}
+
+.edu-att-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.edu-att-list li {
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #edf0f5;
+    color: #4e5b6f;
+    font-size: 15px !important;
+}
+
+.edu-att-list li::before {
+    content: "✓";
+    color: #2864c7;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+
+/* DASHBOARD VISUAL */
+
+.edu-att-dashboard-box {
+    background: linear-gradient(145deg, #eef5ff, #f8fbff);
+    border: 1px solid #dfe8f7;
+    border-radius: 24px;
+    padding: 30px !important;
+}
+
+.edu-att-dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 20px !important;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px rgba(25,45,80,.05);
+}
+
+.edu-att-dashboard-top h3 {
+    margin: 0 0 5px !important;
+    font-size: 20px !important;
+}
+
+.edu-att-dashboard-top p {
+    margin: 0 !important;
+    color: #8993a3;
+    font-size: 13px !important;
+}
+
+.edu-att-percent {
+    font-size: 30px;
+    font-weight: 700;
+    color: #2864c7;
+}
+
+.edu-att-bars {
+    margin-top: 20px;
+}
+
+.edu-att-bar-row {
+    margin-bottom: 20px;
+}
+
+.edu-att-bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #687385;
+}
+
+.edu-att-bar {
+    height: 10px;
+    background: #e3eaf5;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.edu-att-bar-fill {
+    height: 100%;
+    background: #2864c7;
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   DAILY WORKFLOW
+   ========================================================= */
+
+.edu-att-workflow {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+.edu-att-workflow-card {
+    text-align: center;
+    padding: 32px 20px !important;
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 17px;
+}
+
+.edu-att-step {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #2864c7;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.edu-att-workflow-card h3 {
+    margin: 0 0 10px !important;
+    font-size: 19px !important;
+}
+
+.edu-att-workflow-card p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+
+/* =========================================================
+   REPORTING
+   ========================================================= */
+
+.edu-att-report {
+    background: linear-gradient(135deg, #172033, #243451);
+    border-radius: 24px;
+    padding: 65px !important;
+    color: #ffffff;
+}
+
+.edu-att-report h2 {
+    color: #ffffff;
+    margin: 0 0 15px !important;
+    font-size: clamp(30px, 3vw, 42px) !important;
+}
+
+.edu-att-report > p {
+    color: #c6cedb;
+    max-width: 800px;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+    margin: 0 !important;
+}
+
+.edu-att-report-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    margin-top: 40px;
+}
+
+.edu-att-report-card {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 15px;
+    padding: 28px !important;
+}
+
+.edu-att-report-card .icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.edu-att-report-card h4 {
+    margin: 0 0 8px !important;
+    color: #ffffff;
+    font-size: 17px !important;
+}
+
+.edu-att-report-card p {
+    margin: 0 !important;
+    color: #b9c3d2;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+}
+
+
+/* =========================================================
+   BENEFITS
+   ========================================================= */
+
+.edu-att-benefits {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+.edu-att-benefit {
+    text-align: center;
+    padding: 35px 25px !important;
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 17px;
+}
+
+.edu-att-benefit .icon {
+    font-size: 32px;
+    margin-bottom: 17px;
+}
+
+.edu-att-benefit h3 {
+    margin: 0 0 10px !important;
+    font-size: 19px !important;
+}
+
+.edu-att-benefit p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.edu-att-cta {
+    width: 100%;
+    padding: 90px 20px !important;
+    background: linear-gradient(135deg, #2864c7, #1e56ad);
+    text-align: center;
+}
+
+.edu-att-cta h2 {
+    color: #ffffff;
+    font-size: clamp(30px, 3vw, 44px) !important;
+    margin: 0 0 18px !important;
+}
+
+.edu-att-cta p {
+    max-width: 720px;
+    margin: 0 auto 30px !important;
+    color: #e6efff;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+.edu-att-button {
+    display: inline-block !important;
+    padding: 15px 30px !important;
+    background: #ffffff !important;
+    color: #2864c7 !important;
+    text-decoration: none !important;
+    border-radius: 9px;
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .edu-att-feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .edu-att-dashboard {
+        grid-template-columns: 1fr !important;
+    }
+
+    .edu-att-workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .edu-att-report-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .edu-att-benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .edu-attendance {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .edu-att-container {
+        width: 100% !important;
+        padding: 0 16px !important;
+    }
+
+    .edu-att-hero {
+        min-height: 480px;
+        padding: 70px 18px;
+    }
+
+    .edu-att-hero h1 {
+        font-size: 38px !important;
+    }
+
+    .edu-att-hero p {
+        font-size: 17px !important;
+    }
+
+    .edu-att-section {
+        padding: 65px 16px !important;
+    }
+
+    .edu-att-feature-grid,
+    .edu-att-dashboard,
+    .edu-att-workflow,
+    .edu-att-report-grid,
+    .edu-att-benefits {
+        grid-template-columns: 1fr !important;
+    }
+
+    .edu-att-report {
+        padding: 35px 25px !important;
+        border-radius: 18px;
+    }
+
+    .edu-att-dashboard-top {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+}
+                ]]></style>
+
+
+<div class="edu-attendance">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="edu-att-hero">
+
+        <div class="edu-att-hero-inner">
+
+            <div class="edu-att-badge">
+                📅 Smart Attendance Management
+            </div>
+
+            <h1>
+                Track Attendance
+                <span>Simply &amp; Accurately</span>
+            </h1>
+
+            <p>
+                Manage daily attendance, monitor student presence,
+                review attendance history and generate useful reports
+                from one centralized school management system.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FEATURES
+    ====================================================== -->
+
+    <section class="edu-att-section">
+
+        <div class="edu-att-heading">
+
+            <h2>
+                Complete Attendance Management
+            </h2>
+
+            <p>
+                Keep attendance information organized for students,
+                classes and academic periods.
+            </p>
+
+        </div>
+
+
+        <div class="edu-att-container">
+
+            <div class="edu-att-feature-grid">
+
+
+                <div class="edu-att-card">
+
+                    <div class="edu-att-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        Daily Attendance
+                    </h3>
+
+                    <p>
+                        Record student attendance for each school day
+                        and maintain an organized attendance history.
+                    </p>
+
+                    <ul>
+                        <li>Daily attendance records</li>
+                        <li>Present and absent status</li>
+                        <li>Class-wise tracking</li>
+                        <li>Attendance history</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-att-card">
+
+                    <div class="edu-att-icon">
+                        👨‍🎓
+                    </div>
+
+                    <h3>
+                        Student Attendance
+                    </h3>
+
+                    <p>
+                        View individual student attendance information
+                        and understand attendance patterns over time.
+                    </p>
+
+                    <ul>
+                        <li>Student attendance history</li>
+                        <li>Attendance percentage</li>
+                        <li>Present days</li>
+                        <li>Absent days</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-att-card">
+
+                    <div class="edu-att-icon">
+                        🏫
+                    </div>
+
+                    <h3>
+                        Class Attendance
+                    </h3>
+
+                    <p>
+                        Monitor attendance across classes and maintain
+                        a clear view of classroom attendance.
+                    </p>
+
+                    <ul>
+                        <li>Class-wise attendance</li>
+                        <li>Daily class records</li>
+                        <li>Attendance overview</li>
+                        <li>Student comparison</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-att-card">
+
+                    <div class="edu-att-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        Attendance Reports
+                    </h3>
+
+                    <p>
+                        Generate attendance information that helps
+                        administration review student attendance.
+                    </p>
+
+                    <ul>
+                        <li>Daily reports</li>
+                        <li>Student reports</li>
+                        <li>Class reports</li>
+                        <li>Attendance summaries</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-att-card">
+
+                    <div class="edu-att-icon">
+                        📈
+                    </div>
+
+                    <h3>
+                        Attendance Analytics
+                    </h3>
+
+                    <p>
+                        Get a quick overview of attendance levels
+                        through simple dashboards and indicators.
+                    </p>
+
+                    <ul>
+                        <li>Attendance percentage</li>
+                        <li>Present trends</li>
+                        <li>Absence trends</li>
+                        <li>Class overview</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-att-card">
+
+                    <div class="edu-att-icon">
+                        🔔
+                    </div>
+
+                    <h3>
+                        Attendance Monitoring
+                    </h3>
+
+                    <p>
+                        Keep attendance information visible so school
+                        staff can identify attendance-related concerns.
+                    </p>
+
+                    <ul>
+                        <li>Attendance monitoring</li>
+                        <li>Student history</li>
+                        <li>Class monitoring</li>
+                        <li>Record visibility</li>
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+
+    <section class="edu-att-section edu-att-light">
+
+        <div class="edu-att-container">
+
+            <div class="edu-att-dashboard">
+
+
+                <div class="edu-att-dashboard-content">
+
+                    <h2>
+                        See Attendance
+                        <span>At a Glance</span>
+                    </h2>
+
+                    <p>
+                        Get a quick overview of attendance information
+                        without going through individual records.
+                    </p>
+
+                    <ul class="edu-att-list">
+
+                        <li>
+                            Monitor overall attendance percentage
+                        </li>
+
+                        <li>
+                            Review class attendance
+                        </li>
+
+                        <li>
+                            Track present and absent students
+                        </li>
+
+                        <li>
+                            Review attendance trends
+                        </li>
+
+                        <li>
+                            Access attendance history
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-att-dashboard-box">
+
+                    <div class="edu-att-dashboard-top">
+
+                        <div>
+
+                            <h3>
+                                Attendance Overview
+                            </h3>
+
+                            <p>
+                                Current Academic Period
+                            </p>
+
+                        </div>
+
+                        <div class="edu-att-percent">
+                            92%
+                        </div>
+
+                    </div>
+
+
+                    <div class="edu-att-bars">
+
+
+                        <div class="edu-att-bar-row">
+
+                            <div class="edu-att-bar-label">
+
+                                <span>
+                                    Grade 10
+                                </span>
+
+                                <span>
+                                    95%
+                                </span>
+
+                            </div>
+
+                            <div class="edu-att-bar">
+                                <div
+                                    class="edu-att-bar-fill"
+                                    style="width:95%;">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="edu-att-bar-row">
+
+                            <div class="edu-att-bar-label">
+
+                                <span>
+                                    Grade 9
+                                </span>
+
+                                <span>
+                                    91%
+                                </span>
+
+                            </div>
+
+                            <div class="edu-att-bar">
+                                <div
+                                    class="edu-att-bar-fill"
+                                    style="width:91%;">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="edu-att-bar-row">
+
+                            <div class="edu-att-bar-label">
+
+                                <span>
+                                    Grade 8
+                                </span>
+
+                                <span>
+                                    94%
+                                </span>
+
+                            </div>
+
+                            <div class="edu-att-bar">
+                                <div
+                                    class="edu-att-bar-fill"
+                                    style="width:94%;">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="edu-att-bar-row">
+
+                            <div class="edu-att-bar-label">
+
+                                <span>
+                                    Grade 7
+                                </span>
+
+                                <span>
+                                    88%
+                                </span>
+
+                            </div>
+
+                            <div class="edu-att-bar">
+                                <div
+                                    class="edu-att-bar-fill"
+                                    style="width:88%;">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DAILY WORKFLOW
+    ====================================================== -->
+
+    <section class="edu-att-section">
+
+        <div class="edu-att-heading">
+
+            <h2>
+                A Simple Daily Attendance Workflow
+            </h2>
+
+            <p>
+                Keep the daily attendance process structured
+                from recording to reporting.
+            </p>
+
+        </div>
+
+
+        <div class="edu-att-container">
+
+            <div class="edu-att-workflow">
+
+
+                <div class="edu-att-workflow-card">
+
+                    <div class="edu-att-step">
+                        01
+                    </div>
+
+                    <h3>
+                        Select Class
+                    </h3>
+
+                    <p>
+                        Choose the class or academic group
+                        for which attendance is required.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-att-workflow-card">
+
+                    <div class="edu-att-step">
+                        02
+                    </div>
+
+                    <h3>
+                        Mark Attendance
+                    </h3>
+
+                    <p>
+                        Record present or absent status
+                        for each student.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-att-workflow-card">
+
+                    <div class="edu-att-step">
+                        03
+                    </div>
+
+                    <h3>
+                        Save Records
+                    </h3>
+
+                    <p>
+                        Maintain the attendance information
+                        as part of the student's history.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-att-workflow-card">
+
+                    <div class="edu-att-step">
+                        04
+                    </div>
+
+                    <h3>
+                        Review Reports
+                    </h3>
+
+                    <p>
+                        Review attendance information through
+                        reports and summaries.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         REPORTS
+    ====================================================== -->
+
+    <section class="edu-att-section edu-att-light">
+
+        <div class="edu-att-container">
+
+            <div class="edu-att-report">
+
+                <h2>
+                    Attendance Reports &amp; Insights
+                </h2>
+
+                <p>
+                    Turn attendance records into useful information
+                    for school administration and academic monitoring.
+                </p>
+
+
+                <div class="edu-att-report-grid">
+
+
+                    <div class="edu-att-report-card">
+
+                        <div class="icon">
+                            👨‍🎓
+                        </div>
+
+                        <h4>
+                            Student Report
+                        </h4>
+
+                        <p>
+                            Review attendance information
+                            for individual students.
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-att-report-card">
+
+                        <div class="icon">
+                            🏫
+                        </div>
+
+                        <h4>
+                            Class Report
+                        </h4>
+
+                        <p>
+                            Review attendance information
+                            across a class.
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-att-report-card">
+
+                        <div class="icon">
+                            📅
+                        </div>
+
+                        <h4>
+                            Daily Report
+                        </h4>
+
+                        <p>
+                            View attendance records for
+                            a particular day.
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-att-report-card">
+
+                        <div class="icon">
+                            📈
+                        </div>
+
+                        <h4>
+                            Attendance Summary
+                        </h4>
+
+                        <p>
+                            Review overall attendance
+                            percentages and trends.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BENEFITS
+    ====================================================== -->
+
+    <section class="edu-att-section">
+
+        <div class="edu-att-heading">
+
+            <h2>
+                Better Attendance Management
+            </h2>
+
+            <p>
+                Keep your school's attendance process organized,
+                visible and easy to manage.
+            </p>
+
+        </div>
+
+
+        <div class="edu-att-container">
+
+            <div class="edu-att-benefits">
+
+
+                <div class="edu-att-benefit">
+
+                    <div class="icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        Save Time
+                    </h3>
+
+                    <p>
+                        Keep attendance information organized
+                        in a centralized system.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-att-benefit">
+
+                    <div class="icon">
+                        🎯
+                    </div>
+
+                    <h3>
+                        Better Accuracy
+                    </h3>
+
+                    <p>
+                        Maintain structured attendance records
+                        for students and classes.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-att-benefit">
+
+                    <div class="icon">
+                        👀
+                    </div>
+
+                    <h3>
+                        Clear Visibility
+                    </h3>
+
+                    <p>
+                        Quickly review attendance information
+                        and student history.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-att-benefit">
+
+                    <div class="icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        Useful Reports
+                    </h3>
+
+                    <p>
+                        Turn attendance records into useful
+                        summaries and reports.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="edu-att-cta">
+
+        <div class="edu-att-container">
+
+            <h2>
+                Make Attendance Management Simple
+            </h2>
+
+            <p>
+                Track students, classes and attendance records
+                through one centralized education management platform.
+            </p>
+
+            <a
+                href="/contact-us"
+                class="edu-att-button">
+                Contact Us
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_attendance_management_page" model="website.page">
+        <field name="name">Attendance Management</field>
+        <field name="url">/attendance-management</field>
+        <field name="view_id" ref="page_attendance_management"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>

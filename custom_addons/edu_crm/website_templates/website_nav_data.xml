@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Point "/" at the new custom homepage without touching the
+         reserved website.homepage view (avoids multi-website COW
+         conflicts on ir.ui.view).
+
+         Done via a direct method call (not a <record> field write):
+         `website.default_website` was originally created by the
+         `website` module inside a noupdate="1" block, so a plain
+         <record> field update here would be silently skipped by
+         Odoo's loader on every module *upgrade* (-u) — only a fresh
+         *install* (-i) would apply it. A <function> call is not
+         subject to that guard, so this stays correct on both.
+         ============================================================ -->
+    <function model="website" name="write"
+              eval="[[ref('website.default_website')], {'homepage_url': '/home'}]"/>
+
+    <!-- ============================================================
+         Top-menu entries for the School CRM site, matching the
+         agreed sitemap. Scoped to website.default_website only —
+         the secondary demo website is left untouched.
+         ============================================================ -->
+    <record id="menu_home" model="website.menu">
+        <field name="name">Home</field>
+        <field name="url">/</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="menu_admissions" model="website.menu">
+        <field name="name">Admissions</field>
+        <field name="url">/admissions</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="menu_features" model="website.menu">
+        <field name="name">Features</field>
+        <field name="url">/features</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="menu_students" model="website.menu">
+        <field name="name">Students</field>
+        <field name="url">#</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="menu_student_management" model="website.menu">
+        <field name="name">Student Management</field>
+        <field name="url">/student-management</field>
+        <field name="parent_id" ref="menu_students"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="menu_attendance_management" model="website.menu">
+        <field name="name">Attendance Management</field>
+        <field name="url">/attendance-management</field>
+        <field name="parent_id" ref="menu_students"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="menu_academics" model="website.menu">
+        <field name="name">Academics</field>
+        <field name="url">#</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="menu_academic_management" model="website.menu">
+        <field name="name">Academic Management</field>
+        <field name="url">/academic-management</field>
+        <field name="parent_id" ref="menu_academics"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="menu_teacher_management" model="website.menu">
+        <field name="name">Teacher Management</field>
+        <field name="url">/teacher-management</field>
+        <field name="parent_id" ref="menu_academics"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="menu_examination_results" model="website.menu">
+        <field name="name">Examination &amp; Results</field>
+        <field name="url">/examination-results</field>
+        <field name="parent_id" ref="menu_academics"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="menu_finance" model="website.menu">
+        <field name="name">Finance</field>
+        <field name="url">/fees-finance</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="menu_contact_us" model="website.menu">
+        <field name="name">Contact Us</field>
+        <field name="url">/contact-us</field>
+        <field name="parent_id" search="[('website_id', '=', ref('website.default_website')), ('parent_id', '=', False)]"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="sequence">70</field>
+    </record>
+
+</odoo>

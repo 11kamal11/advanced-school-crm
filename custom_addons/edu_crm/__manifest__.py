@@ -21,12 +21,12 @@
         'data/edu_cron_data.xml',
 
         'views/edu_academic_year_views.xml',
-        'views/edu_class_views.xml',
         'views/edu_subject_views.xml',
         'views/edu_program_views.xml',
-        'views/edu_teacher_views.xml',
         'views/edu_guardian_views.xml',
         'views/edu_student_views.xml',
+        'views/edu_class_views.xml',
+        'views/edu_teacher_views.xml',
         'views/edu_attendance_views.xml',
         'views/edu_exam_views.xml',
         'views/edu_fee_views.xml',
@@ -46,6 +46,18 @@
         'views/edu_asset_views.xml',
         'views/edu_dashboard_views.xml',
         'views/menu_views.xml',
+
+        'website_templates/page_home.xml',
+        'website_templates/page_admissions.xml',
+        'website_templates/page_features.xml',
+        'website_templates/page_student_management.xml',
+        'website_templates/page_attendance_management.xml',
+        'website_templates/page_academic_management.xml',
+        'website_templates/page_teacher_management.xml',
+        'website_templates/page_examination_results.xml',
+        'website_templates/page_fees_finance.xml',
+        'website_templates/page_contact_us.xml',
+        'website_templates/website_nav_data.xml',
 
         'portal_templates/portal_templates.xml',
 

@@ -1,0 +1,1252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_fees_finance" name="Fees and Finance Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+/* =========================================================
+   SCHOOL EDUCATION CRM - FEES & FINANCE
+   ========================================================= */
+
+.edu-fees {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 0 !important;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172033;
+    background: #fff;
+}
+
+.edu-fees *,
+.edu-fees *::before,
+.edu-fees *::after {
+    box-sizing: border-box;
+}
+
+.edu-fees-container {
+    width: 94% !important;
+    max-width: 1450px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.edu-fees-hero {
+    min-height: 560px;
+    padding: 90px 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(40,100,199,.12), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(40,100,199,.10), transparent 30%),
+        linear-gradient(135deg, #eef5ff, #ffffff);
+}
+
+.edu-fees-hero-inner {
+    max-width: 1050px;
+    margin: auto;
+}
+
+.edu-fees-badge {
+    display: inline-block;
+    background: #e5efff;
+    color: #2864c7;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.edu-fees-hero h1 {
+    font-size: clamp(42px, 5vw, 68px) !important;
+    line-height: 1.1 !important;
+    margin: 0 0 25px !important;
+    font-weight: 700 !important;
+    color: #172033;
+}
+
+.edu-fees-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-fees-hero p {
+    max-width: 850px;
+    margin: auto !important;
+    color: #657184;
+    font-size: 20px !important;
+    line-height: 1.7 !important;
+}
+
+/* =========================================================
+   GENERAL
+   ========================================================= */
+
+.edu-fees-section {
+    width: 100%;
+    padding: 90px 20px !important;
+}
+
+.edu-fees-light {
+    background: #f7f9fc;
+}
+
+.edu-fees-heading {
+    max-width: 850px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.edu-fees-heading h2 {
+    font-size: clamp(30px, 3vw, 42px) !important;
+    line-height: 1.2;
+    margin: 0 0 18px !important;
+    color: #172033;
+    font-weight: 700 !important;
+}
+
+.edu-fees-heading p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+}
+
+/* =========================================================
+   FEATURES
+   ========================================================= */
+
+.edu-fees-feature-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 28px !important;
+}
+
+.edu-fees-card {
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 18px;
+    padding: 35px !important;
+    min-height: 290px;
+    box-shadow: 0 5px 18px rgba(25,45,80,.04);
+    transition: all .25s ease;
+}
+
+.edu-fees-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(25,45,80,.10);
+}
+
+.edu-fees-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #eaf1ff;
+    font-size: 29px;
+    margin-bottom: 22px;
+}
+
+.edu-fees-card h3 {
+    margin: 0 0 13px !important;
+    font-size: 21px !important;
+    color: #172033;
+}
+
+.edu-fees-card p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+}
+
+.edu-fees-card ul {
+    margin: 18px 0 0 !important;
+    padding-left: 20px !important;
+    color: #687385;
+    font-size: 14px !important;
+    line-height: 1.8 !important;
+}
+
+/* =========================================================
+   FINANCE DASHBOARD
+   ========================================================= */
+
+.edu-fees-dashboard {
+    display: grid !important;
+    grid-template-columns: 1fr 1.15fr !important;
+    gap: 60px !important;
+    align-items: center;
+}
+
+.edu-fees-dashboard-content h2 {
+    font-size: clamp(32px, 3vw, 44px) !important;
+    line-height: 1.2;
+    margin: 0 0 20px !important;
+    color: #172033;
+}
+
+.edu-fees-dashboard-content h2 span {
+    color: #2864c7;
+}
+
+.edu-fees-dashboard-content > p {
+    color: #687385;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+    margin: 0 0 25px !important;
+}
+
+.edu-fees-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.edu-fees-list li {
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #edf0f5;
+    color: #4e5b6f;
+    font-size: 15px !important;
+}
+
+.edu-fees-list li::before {
+    content: "✓";
+    color: #2864c7;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+/* DASHBOARD BOX */
+
+.edu-fees-dashboard-box {
+    background: linear-gradient(145deg, #eef5ff, #f8fbff);
+    border: 1px solid #dfe8f7;
+    border-radius: 24px;
+    padding: 30px !important;
+}
+
+.edu-fees-kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 15px !important;
+}
+
+.edu-fees-kpi {
+    background: #fff;
+    padding: 24px !important;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px rgba(25,45,80,.05);
+}
+
+.edu-fees-kpi span {
+    display: block;
+    color: #8993a3;
+    font-size: 12px !important;
+    margin-bottom: 9px;
+}
+
+.edu-fees-kpi strong {
+    font-size: 25px !important;
+    color: #172033;
+}
+
+.edu-fees-progress {
+    margin-top: 20px;
+    background: #fff;
+    padding: 22px !important;
+    border-radius: 15px;
+}
+
+.edu-fees-progress-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #687385;
+}
+
+.edu-fees-progress-bar {
+    height: 11px;
+    background: #e3eaf5;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.edu-fees-progress-fill {
+    width: 78%;
+    height: 100%;
+    background: #2864c7;
+    border-radius: 20px;
+}
+
+/* =========================================================
+   PAYMENT WORKFLOW
+   ========================================================= */
+
+.edu-fees-workflow {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+.edu-fees-workflow-card {
+    text-align: center;
+    padding: 32px 20px !important;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 17px;
+}
+
+.edu-fees-step {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #2864c7;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.edu-fees-workflow-card h3 {
+    margin: 0 0 10px !important;
+    font-size: 19px !important;
+}
+
+.edu-fees-workflow-card p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+/* =========================================================
+   FINANCIAL RECORDS
+   ========================================================= */
+
+.edu-fees-record {
+    background: linear-gradient(135deg, #172033, #243451);
+    border-radius: 24px;
+    padding: 65px !important;
+    color: #fff;
+}
+
+.edu-fees-record h2 {
+    color: #fff;
+    margin: 0 0 15px !important;
+    font-size: clamp(30px, 3vw, 42px) !important;
+}
+
+.edu-fees-record > p {
+    color: #c6cedb;
+    max-width: 800px;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+    margin: 0 !important;
+}
+
+.edu-fees-record-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    margin-top: 40px;
+}
+
+.edu-fees-record-card {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 15px;
+    padding: 28px !important;
+}
+
+.edu-fees-record-card .icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.edu-fees-record-card h4 {
+    margin: 0 0 8px !important;
+    color: #fff;
+    font-size: 17px !important;
+}
+
+.edu-fees-record-card p {
+    margin: 0 !important;
+    color: #b9c3d2;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+}
+
+/* =========================================================
+   BENEFITS
+   ========================================================= */
+
+.edu-fees-benefits {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+.edu-fees-benefit {
+    text-align: center;
+    padding: 35px 25px !important;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 17px;
+}
+
+.edu-fees-benefit .icon {
+    font-size: 32px;
+    margin-bottom: 17px;
+}
+
+.edu-fees-benefit h3 {
+    margin: 0 0 10px !important;
+    font-size: 19px !important;
+}
+
+.edu-fees-benefit p {
+    margin: 0 !important;
+    color: #687385;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.edu-fees-cta {
+    width: 100%;
+    padding: 90px 20px !important;
+    background: linear-gradient(135deg, #2864c7, #1e56ad);
+    text-align: center;
+}
+
+.edu-fees-cta h2 {
+    color: #fff;
+    font-size: clamp(30px, 3vw, 44px) !important;
+    margin: 0 0 18px !important;
+}
+
+.edu-fees-cta p {
+    max-width: 720px;
+    margin: 0 auto 30px !important;
+    color: #e6efff;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+.edu-fees-button {
+    display: inline-block !important;
+    padding: 15px 30px !important;
+    background: #fff !important;
+    color: #2864c7 !important;
+    text-decoration: none !important;
+    border-radius: 9px;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .edu-fees-feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .edu-fees-dashboard {
+        grid-template-columns: 1fr !important;
+    }
+
+    .edu-fees-workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .edu-fees-record-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .edu-fees-benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .edu-fees {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .edu-fees-container {
+        width: 100% !important;
+        padding: 0 16px !important;
+    }
+
+    .edu-fees-hero {
+        min-height: 480px;
+        padding: 70px 18px;
+    }
+
+    .edu-fees-hero h1 {
+        font-size: 38px !important;
+    }
+
+    .edu-fees-hero p {
+        font-size: 17px !important;
+    }
+
+    .edu-fees-section {
+        padding: 65px 16px !important;
+    }
+
+    .edu-fees-feature-grid,
+    .edu-fees-dashboard,
+    .edu-fees-workflow,
+    .edu-fees-record-grid,
+    .edu-fees-benefits {
+        grid-template-columns: 1fr !important;
+    }
+
+    .edu-fees-kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .edu-fees-record {
+        padding: 35px 25px !important;
+        border-radius: 18px;
+    }
+}
+                ]]></style>
+
+
+<div class="edu-fees">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="edu-fees-hero">
+
+        <div class="edu-fees-hero-inner">
+
+            <div class="edu-fees-badge">
+                💰 Fees &amp; Finance Management
+            </div>
+
+            <h1>
+                Simplify Your
+                <span>School Finances</span>
+            </h1>
+
+            <p>
+                Manage fee structures, student payments, outstanding
+                balances and financial records through one centralized
+                education management system.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FEATURES
+    ====================================================== -->
+
+    <section class="edu-fees-section">
+
+        <div class="edu-fees-heading">
+
+            <h2>
+                Complete Fee Management
+            </h2>
+
+            <p>
+                Organize the complete student fee lifecycle,
+                from creating fee structures to recording payments
+                and monitoring outstanding amounts.
+            </p>
+
+        </div>
+
+
+        <div class="edu-fees-container">
+
+            <div class="edu-fees-feature-grid">
+
+
+                <div class="edu-fees-card">
+
+                    <div class="edu-fees-icon">
+                        🧾
+                    </div>
+
+                    <h3>
+                        Fee Structure
+                    </h3>
+
+                    <p>
+                        Define and organize fee structures according
+                        to classes, courses or academic periods.
+                    </p>
+
+                    <ul>
+                        <li>Course-wise fees</li>
+                        <li>Class-wise fees</li>
+                        <li>Academic year fees</li>
+                        <li>Fee categories</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-fees-card">
+
+                    <div class="edu-fees-icon">
+                        💳
+                    </div>
+
+                    <h3>
+                        Payment Collection
+                    </h3>
+
+                    <p>
+                        Record student payments and maintain a
+                        clear history of financial transactions.
+                    </p>
+
+                    <ul>
+                        <li>Payment records</li>
+                        <li>Payment dates</li>
+                        <li>Payment references</li>
+                        <li>Transaction history</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-fees-card">
+
+                    <div class="edu-fees-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Outstanding Fees
+                    </h3>
+
+                    <p>
+                        Monitor unpaid or partially paid fees
+                        across students and classes.
+                    </p>
+
+                    <ul>
+                        <li>Outstanding balances</li>
+                        <li>Pending payments</li>
+                        <li>Student-wise dues</li>
+                        <li>Fee status</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-fees-card">
+
+                    <div class="edu-fees-icon">
+                        📜
+                    </div>
+
+                    <h3>
+                        Payment History
+                    </h3>
+
+                    <p>
+                        Keep a structured record of previous
+                        student payments.
+                    </p>
+
+                    <ul>
+                        <li>Historical payments</li>
+                        <li>Payment references</li>
+                        <li>Student history</li>
+                        <li>Financial records</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-fees-card">
+
+                    <div class="edu-fees-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        Financial Reports
+                    </h3>
+
+                    <p>
+                        Review financial information through
+                        organized reports and summaries.
+                    </p>
+
+                    <ul>
+                        <li>Collection reports</li>
+                        <li>Outstanding reports</li>
+                        <li>Student-wise reports</li>
+                        <li>Fee summaries</li>
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-fees-card">
+
+                    <div class="edu-fees-icon">
+                        👨‍👩‍👦
+                    </div>
+
+                    <h3>
+                        Parent Payment View
+                    </h3>
+
+                    <p>
+                        Provide parents and guardians with clear
+                        visibility into student fee information.
+                    </p>
+
+                    <ul>
+                        <li>Fee details</li>
+                        <li>Payment information</li>
+                        <li>Outstanding amount</li>
+                        <li>Payment history</li>
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+
+    <section class="edu-fees-section edu-fees-light">
+
+        <div class="edu-fees-container">
+
+            <div class="edu-fees-dashboard">
+
+
+                <div class="edu-fees-dashboard-content">
+
+                    <h2>
+                        Get a Clear View of
+                        <span>School Finances</span>
+                    </h2>
+
+                    <p>
+                        Monitor important financial information
+                        from a centralized dashboard and quickly
+                        understand the current fee position.
+                    </p>
+
+                    <ul class="edu-fees-list">
+
+                        <li>
+                            Monitor total fee collections
+                        </li>
+
+                        <li>
+                            Track outstanding student fees
+                        </li>
+
+                        <li>
+                            Review pending payments
+                        </li>
+
+                        <li>
+                            Monitor collection progress
+                        </li>
+
+                        <li>
+                            Review student payment history
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="edu-fees-dashboard-box">
+
+                    <div class="edu-fees-kpi-grid">
+
+
+                        <div class="edu-fees-kpi">
+
+                            <span>
+                                Total Fees
+                            </span>
+
+                            <strong>
+                                ₹12.5L
+                            </strong>
+
+                        </div>
+
+
+                        <div class="edu-fees-kpi">
+
+                            <span>
+                                Collected
+                            </span>
+
+                            <strong>
+                                ₹9.8L
+                            </strong>
+
+                        </div>
+
+
+                        <div class="edu-fees-kpi">
+
+                            <span>
+                                Outstanding
+                            </span>
+
+                            <strong>
+                                ₹2.7L
+                            </strong>
+
+                        </div>
+
+
+                        <div class="edu-fees-kpi">
+
+                            <span>
+                                Students Paid
+                            </span>
+
+                            <strong>
+                                78%
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="edu-fees-progress">
+
+                        <div class="edu-fees-progress-title">
+
+                            <span>
+                                Fee Collection Progress
+                            </span>
+
+                            <strong>
+                                78%
+                            </strong>
+
+                        </div>
+
+                        <div class="edu-fees-progress-bar">
+
+                            <div class="edu-fees-progress-fill">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PAYMENT WORKFLOW
+    ====================================================== -->
+
+    <section class="edu-fees-section">
+
+        <div class="edu-fees-heading">
+
+            <h2>
+                Simple Fee Collection Workflow
+            </h2>
+
+            <p>
+                Keep the financial process organized from fee
+                creation through payment confirmation.
+            </p>
+
+        </div>
+
+
+        <div class="edu-fees-container">
+
+            <div class="edu-fees-workflow">
+
+
+                <div class="edu-fees-workflow-card">
+
+                    <div class="edu-fees-step">
+                        01
+                    </div>
+
+                    <h3>
+                        Create Fee
+                    </h3>
+
+                    <p>
+                        Define the applicable fee structure
+                        for students or classes.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-fees-workflow-card">
+
+                    <div class="edu-fees-step">
+                        02
+                    </div>
+
+                    <h3>
+                        Assign Fee
+                    </h3>
+
+                    <p>
+                        Connect the applicable fee information
+                        with student records.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-fees-workflow-card">
+
+                    <div class="edu-fees-step">
+                        03
+                    </div>
+
+                    <h3>
+                        Record Payment
+                    </h3>
+
+                    <p>
+                        Record payment information when
+                        the student completes the payment.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-fees-workflow-card">
+
+                    <div class="edu-fees-step">
+                        04
+                    </div>
+
+                    <h3>
+                        Generate Report
+                    </h3>
+
+                    <p>
+                        Review collection and outstanding
+                        information through reports.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         RECORDS
+    ====================================================== -->
+
+    <section class="edu-fees-section edu-fees-light">
+
+        <div class="edu-fees-container">
+
+            <div class="edu-fees-record">
+
+                <h2>
+                    Keep Every Financial Record Organized
+                </h2>
+
+                <p>
+                    Connect student information with fee and payment
+                    records to create a centralized financial view.
+                </p>
+
+
+                <div class="edu-fees-record-grid">
+
+
+                    <div class="edu-fees-record-card">
+
+                        <div class="icon">
+                            🧾
+                        </div>
+
+                        <h4>
+                            Fee Records
+                        </h4>
+
+                        <p>
+                            Maintain structured records of
+                            applicable student fees.
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-fees-record-card">
+
+                        <div class="icon">
+                            💳
+                        </div>
+
+                        <h4>
+                            Payment Records
+                        </h4>
+
+                        <p>
+                            Track payments and maintain
+                            transaction information.
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-fees-record-card">
+
+                        <div class="icon">
+                            ⏰
+                        </div>
+
+                        <h4>
+                            Outstanding Records
+                        </h4>
+
+                        <p>
+                            Monitor pending and outstanding
+                            fee amounts.
+                        </p>
+
+                    </div>
+
+
+                    <div class="edu-fees-record-card">
+
+                        <div class="icon">
+                            📊
+                        </div>
+
+                        <h4>
+                            Financial Reports
+                        </h4>
+
+                        <p>
+                            Review collection and fee
+                            information through reports.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BENEFITS
+    ====================================================== -->
+
+    <section class="edu-fees-section">
+
+        <div class="edu-fees-heading">
+
+            <h2>
+                Better Financial Visibility
+            </h2>
+
+            <p>
+                Give school administrators a structured way
+                to manage student fees and financial records.
+            </p>
+
+        </div>
+
+
+        <div class="edu-fees-container">
+
+            <div class="edu-fees-benefits">
+
+
+                <div class="edu-fees-benefit">
+
+                    <div class="icon">
+                        💰
+                    </div>
+
+                    <h3>
+                        Better Collection
+                    </h3>
+
+                    <p>
+                        Keep track of fee collections and
+                        payment information.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-fees-benefit">
+
+                    <div class="icon">
+                        🔎
+                    </div>
+
+                    <h3>
+                        Easy Tracking
+                    </h3>
+
+                    <p>
+                        Quickly review paid and outstanding
+                        student fees.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-fees-benefit">
+
+                    <div class="icon">
+                        📁
+                    </div>
+
+                    <h3>
+                        Organized Records
+                    </h3>
+
+                    <p>
+                        Keep financial records connected
+                        with student information.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-fees-benefit">
+
+                    <div class="icon">
+                        📈
+                    </div>
+
+                    <h3>
+                        Clear Reports
+                    </h3>
+
+                    <p>
+                        Get useful summaries of school
+                        fee and payment information.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="edu-fees-cta">
+
+        <div class="edu-fees-container">
+
+            <h2>
+                Simplify Your School's Fee Management
+            </h2>
+
+            <p>
+                Manage fee structures, payments, outstanding amounts
+                and financial records through one centralized platform.
+            </p>
+
+            <a
+                href="/contact-us"
+                class="edu-fees-button">
+                Contact Us
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_fees_finance_page" model="website.page">
+        <field name="name">Fees and Finance</field>
+        <field name="url">/fees-finance</field>
+        <field name="view_id" ref="page_fees_finance"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>

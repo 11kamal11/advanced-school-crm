@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_admissions" name="Admissions Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+/* =========================================================
+   SCHOOL CRM - ADMISSIONS
+   ========================================================= */
+
+.edu-admissions {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: #ffffff;
+    color: #172033;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.edu-admissions * {
+    box-sizing: border-box;
+}
+
+.edu-admissions-container {
+    width: 94%;
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+/* HERO */
+
+.edu-admissions-hero {
+    padding: 95px 0 90px;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(40,100,199,0.16), transparent 30%),
+        linear-gradient(135deg, #f5f9ff 0%, #ffffff 60%, #eef5ff 100%);
+}
+
+.edu-admissions-hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.edu-admissions-badge {
+    display: inline-block;
+    padding: 9px 17px;
+    border-radius: 30px;
+    background: #e8f1ff;
+    color: #2864c7;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 22px;
+}
+
+.edu-admissions-hero h1 {
+    font-size: 55px;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin: 0 0 22px;
+    font-weight: 800;
+}
+
+.edu-admissions-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-admissions-hero p {
+    max-width: 670px;
+    color: #687282;
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0 0 30px;
+}
+
+.edu-admissions-btn {
+    display: inline-block;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: #2864c7;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 700;
+    transition: 0.25s;
+}
+
+.edu-admissions-btn:hover {
+    background: #1e4f9f;
+    transform: translateY(-2px);
+}
+
+.edu-admissions-btn-light {
+    display: inline-block;
+    padding: 14px 27px;
+    margin-left: 8px;
+    border-radius: 8px;
+    border: 1px solid #d8e0ec;
+    background: #ffffff;
+    color: #172033 !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* HERO STATS CARD */
+
+.edu-admissions-stats {
+    background: #ffffff;
+    border: 1px solid #e0e7f0;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 55px rgba(30,55,90,0.12);
+}
+
+.edu-admissions-stats-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.edu-admissions-stats-title {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.edu-admissions-stats-year {
+    font-size: 12px;
+    background: #edf5ff;
+    color: #2864c7;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.edu-admissions-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+    margin-top: 20px;
+}
+
+.edu-admissions-stat {
+    background: #f7f9fc;
+    border-radius: 11px;
+    padding: 17px;
+}
+
+.edu-admissions-stat small {
+    display: block;
+    color: #7a8391;
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.edu-admissions-stat strong {
+    display: block;
+    font-size: 25px;
+    color: #172033;
+}
+
+.edu-admissions-funnel {
+    margin-top: 22px;
+}
+
+.edu-admissions-funnel-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.edu-admissions-funnel-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 13px;
+    color: #4e5b6f;
+}
+
+.edu-admissions-funnel-row:last-child {
+    border-bottom: none;
+}
+
+.edu-admissions-funnel-row strong {
+    color: #2864c7;
+}
+
+/* SECTION COMMON */
+
+.edu-admissions-section {
+    padding: 90px 0;
+}
+
+.edu-admissions-light {
+    background: #f5f8fc;
+}
+
+.edu-admissions-heading {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 50px;
+}
+
+.edu-admissions-heading span {
+    color: #2864c7;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-admissions-heading h2 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 12px 0 16px;
+    font-weight: 800;
+}
+
+.edu-admissions-heading p {
+    color: #687282;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* FEATURE CARDS */
+
+.edu-admissions-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.edu-admissions-feature-card {
+    background: #ffffff;
+    border: 1px solid #e7ecf3;
+    border-radius: 15px;
+    padding: 30px;
+    transition: 0.25s;
+}
+
+.edu-admissions-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 35px rgba(30,55,90,0.09);
+}
+
+.edu-admissions-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #e8f1ff;
+    color: #2864c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+.edu-admissions-feature-card h3 {
+    font-size: 19px;
+    margin: 0 0 10px;
+}
+
+.edu-admissions-feature-card p {
+    color: #6b7483;
+    line-height: 1.65;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* WORKFLOW */
+
+.edu-admissions-workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+}
+
+.edu-admissions-step {
+    background: #ffffff;
+    border: 1px solid #e3e8ef;
+    border-radius: 13px;
+    padding: 23px 16px;
+    text-align: center;
+}
+
+.edu-admissions-step-number {
+    width: 39px;
+    height: 39px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #2864c7;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.edu-admissions-step h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.edu-admissions-step p {
+    margin: 0;
+    color: #737c8a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* RECORDS - DARK */
+
+.edu-admissions-records {
+    background: #172033;
+    color: #ffffff;
+    padding: 90px 0;
+}
+
+.edu-admissions-records-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.edu-admissions-records-text span {
+    color: #8db9ff;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-admissions-records-text h2 {
+    font-size: 39px;
+    line-height: 1.2;
+    margin: 15px 0 18px;
+}
+
+.edu-admissions-records-text p {
+    color: #b9c2d1;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.edu-admissions-record-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.edu-admissions-record {
+    background: #202b40;
+    border: 1px solid #344056;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.edu-admissions-record strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+.edu-admissions-record small {
+    color: #aeb8c8;
+    line-height: 1.5;
+}
+
+/* BENEFITS */
+
+.edu-admissions-benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.edu-admissions-benefit {
+    padding: 28px 22px;
+    border: 1px solid #e4e9f0;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.edu-admissions-benefit-number {
+    color: #2864c7;
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+.edu-admissions-benefit h3 {
+    font-size: 17px;
+    margin: 0 0 9px;
+}
+
+.edu-admissions-benefit p {
+    color: #707988;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* CTA */
+
+.edu-admissions-cta {
+    background: linear-gradient(135deg, #eef5ff, #f8fbff);
+    padding: 85px 0;
+    text-align: center;
+}
+
+.edu-admissions-cta h2 {
+    font-size: 40px;
+    margin: 0 0 15px;
+    font-weight: 800;
+}
+
+.edu-admissions-cta p {
+    color: #687282;
+    font-size: 17px;
+    max-width: 650px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+
+    .edu-admissions-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .edu-admissions-hero h1 {
+        font-size: 46px;
+    }
+
+    .edu-admissions-feature-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-admissions-workflow-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .edu-admissions-benefit-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-admissions-records-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .edu-admissions-container {
+        width: 90%;
+    }
+
+    .edu-admissions-hero {
+        padding: 65px 0;
+    }
+
+    .edu-admissions-hero h1 {
+        font-size: 36px;
+    }
+
+    .edu-admissions-hero p {
+        font-size: 16px;
+    }
+
+    .edu-admissions-btn,
+    .edu-admissions-btn-light {
+        display: block;
+        text-align: center;
+        margin: 0 0 12px;
+    }
+
+    .edu-admissions-btn-light {
+        margin-left: 0;
+    }
+
+    .edu-admissions-feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-admissions-workflow-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-admissions-benefit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-admissions-record-list {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-admissions-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-admissions-heading h2,
+    .edu-admissions-records-text h2,
+    .edu-admissions-cta h2 {
+        font-size: 30px;
+    }
+
+    .edu-admissions-section,
+    .edu-admissions-records {
+        padding: 65px 0;
+    }
+}
+                ]]></style>
+
+
+<div class="edu-admissions">
+
+    <!-- HERO -->
+    <section class="edu-admissions-hero">
+        <div class="edu-admissions-container">
+
+            <div class="edu-admissions-hero-grid">
+
+                <div>
+                    <div class="edu-admissions-badge">
+                        📝 Admissions
+                    </div>
+
+                    <h1>
+                        Simplify Admissions
+                        <span>From Inquiry to Enrollment</span>
+                    </h1>
+
+                    <p>
+                        Manage every step of the admissions journey —
+                        inquiries, applications, document review,
+                        interviews and enrollment — in one organized
+                        workflow.
+                    </p>
+
+                    <a href="/contact-us" class="edu-admissions-btn">
+                        Start an Inquiry
+                    </a>
+
+                    <a href="/student-management" class="edu-admissions-btn-light">
+                        Student Management
+                    </a>
+                </div>
+
+
+                <!-- STATS VISUAL -->
+                <div class="edu-admissions-stats">
+
+                    <div class="edu-admissions-stats-top">
+                        <div class="edu-admissions-stats-title">
+                            Admissions Overview
+                        </div>
+
+                        <div class="edu-admissions-stats-year">
+                            2026 – 2027
+                        </div>
+                    </div>
+
+                    <div class="edu-admissions-stats-grid">
+
+                        <div class="edu-admissions-stat">
+                            <small>Inquiries</small>
+                            <strong>312</strong>
+                        </div>
+
+                        <div class="edu-admissions-stat">
+                            <small>Applications</small>
+                            <strong>198</strong>
+                        </div>
+
+                        <div class="edu-admissions-stat">
+                            <small>Admitted</small>
+                            <strong>142</strong>
+                        </div>
+
+                        <div class="edu-admissions-stat">
+                            <small>Acceptance Rate</small>
+                            <strong>72%</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="edu-admissions-funnel">
+
+                        <div class="edu-admissions-funnel-title">
+                            Admissions Funnel
+                        </div>
+
+                        <div class="edu-admissions-funnel-row">
+                            <span>Inquiry Received</span>
+                            <strong>312</strong>
+                        </div>
+
+                        <div class="edu-admissions-funnel-row">
+                            <span>Application Submitted</span>
+                            <strong>198</strong>
+                        </div>
+
+                        <div class="edu-admissions-funnel-row">
+                            <span>Interview Scheduled</span>
+                            <strong>165</strong>
+                        </div>
+
+                        <div class="edu-admissions-funnel-row">
+                            <span>Admitted &amp; Enrolled</span>
+                            <strong>142</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="edu-admissions-section">
+
+        <div class="edu-admissions-container">
+
+            <div class="edu-admissions-heading">
+
+                <span>Admissions Tools</span>
+
+                <h2>
+                    Everything You Need to Manage Admissions
+                </h2>
+
+                <p>
+                    Keep the entire admissions pipeline organized,
+                    from the first inquiry through final enrollment.
+                </p>
+
+            </div>
+
+
+            <div class="edu-admissions-feature-grid">
+
+                <div class="edu-admissions-feature-card">
+                    <div class="edu-admissions-icon">💬</div>
+
+                    <h3>Inquiry Management</h3>
+
+                    <p>
+                        Capture and organize inquiries from prospective
+                        students and their families.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-feature-card">
+                    <div class="edu-admissions-icon">📄</div>
+
+                    <h3>Application Review</h3>
+
+                    <p>
+                        Review submitted applications and track their
+                        status through the admissions pipeline.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-feature-card">
+                    <div class="edu-admissions-icon">📎</div>
+
+                    <h3>Document Verification</h3>
+
+                    <p>
+                        Collect and verify supporting documents needed
+                        to complete an application.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-feature-card">
+                    <div class="edu-admissions-icon">🗓️</div>
+
+                    <h3>Interview Scheduling</h3>
+
+                    <p>
+                        Organize interviews and assessments as part of
+                        the admissions process.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-feature-card">
+                    <div class="edu-admissions-icon">✅</div>
+
+                    <h3>Admission Decisions</h3>
+
+                    <p>
+                        Track admission decisions and communicate
+                        outcomes to applicants.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-feature-card">
+                    <div class="edu-admissions-icon">🎓</div>
+
+                    <h3>Enrollment &amp; Fees</h3>
+
+                    <p>
+                        Convert admitted applicants into enrolled
+                        students and record enrollment fees.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKFLOW -->
+    <section class="edu-admissions-section edu-admissions-light">
+
+        <div class="edu-admissions-container">
+
+            <div class="edu-admissions-heading">
+
+                <span>Admissions Workflow</span>
+
+                <h2>
+                    A Clear Path From Inquiry to Enrollment
+                </h2>
+
+                <p>
+                    Keep every stage of the admissions process connected
+                    and easy to follow.
+                </p>
+
+            </div>
+
+
+            <div class="edu-admissions-workflow-grid">
+
+                <div class="edu-admissions-step">
+                    <div class="edu-admissions-step-number">01</div>
+                    <h4>Inquiry</h4>
+                    <p>Capture prospective student information.</p>
+                </div>
+
+                <div class="edu-admissions-step">
+                    <div class="edu-admissions-step-number">02</div>
+                    <h4>Application</h4>
+                    <p>Receive and review the application.</p>
+                </div>
+
+                <div class="edu-admissions-step">
+                    <div class="edu-admissions-step-number">03</div>
+                    <h4>Documents</h4>
+                    <p>Collect and verify required documents.</p>
+                </div>
+
+                <div class="edu-admissions-step">
+                    <div class="edu-admissions-step-number">04</div>
+                    <h4>Interview</h4>
+                    <p>Schedule an interview or assessment.</p>
+                </div>
+
+                <div class="edu-admissions-step">
+                    <div class="edu-admissions-step-number">05</div>
+                    <h4>Decision</h4>
+                    <p>Record and communicate the outcome.</p>
+                </div>
+
+                <div class="edu-admissions-step">
+                    <div class="edu-admissions-step-number">06</div>
+                    <h4>Enrollment</h4>
+                    <p>Enroll the student and assign a class.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECORDS -->
+    <section class="edu-admissions-records">
+
+        <div class="edu-admissions-container">
+
+            <div class="edu-admissions-records-grid">
+
+                <div class="edu-admissions-records-text">
+
+                    <span>Centralized Admissions Records</span>
+
+                    <h2>
+                        Keep Every Application Organized
+                    </h2>
+
+                    <p>
+                        Store inquiry, application, document and interview
+                        information in one structured environment so the
+                        front desk and admissions team always know where
+                        each applicant stands.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-admissions-record-list">
+
+                    <div class="edu-admissions-record">
+                        <strong>Inquiry Records</strong>
+                        <small>
+                            Maintain a history of every inquiry received.
+                        </small>
+                    </div>
+
+                    <div class="edu-admissions-record">
+                        <strong>Application Records</strong>
+                        <small>
+                            Track application status and required steps.
+                        </small>
+                    </div>
+
+                    <div class="edu-admissions-record">
+                        <strong>Document Records</strong>
+                        <small>
+                            Keep submitted documents organized and verified.
+                        </small>
+                    </div>
+
+                    <div class="edu-admissions-record">
+                        <strong>Interview Records</strong>
+                        <small>
+                            Track interview schedules and outcomes.
+                        </small>
+                    </div>
+
+                    <div class="edu-admissions-record">
+                        <strong>Decision Records</strong>
+                        <small>
+                            Maintain a clear history of admission decisions.
+                        </small>
+                    </div>
+
+                    <div class="edu-admissions-record">
+                        <strong>Enrollment Records</strong>
+                        <small>
+                            Connect admitted applicants to student records.
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BENEFITS -->
+    <section class="edu-admissions-section">
+
+        <div class="edu-admissions-container">
+
+            <div class="edu-admissions-heading">
+
+                <span>Why It Matters</span>
+
+                <h2>
+                    Make Admissions Simpler for Everyone
+                </h2>
+
+                <p>
+                    Give your admissions team a structured way to manage
+                    applicants throughout the year.
+                </p>
+
+            </div>
+
+
+            <div class="edu-admissions-benefit-grid">
+
+                <div class="edu-admissions-benefit">
+                    <div class="edu-admissions-benefit-number">01</div>
+
+                    <h3>Faster Processing</h3>
+
+                    <p>
+                        Move applicants through the pipeline without
+                        losing track of any step.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-benefit">
+                    <div class="edu-admissions-benefit-number">02</div>
+
+                    <h3>Better Communication</h3>
+
+                    <p>
+                        Keep families informed about the status of their
+                        application.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-benefit">
+                    <div class="edu-admissions-benefit-number">03</div>
+
+                    <h3>Organized Documents</h3>
+
+                    <p>
+                        Keep required documents collected, verified and
+                        accessible.
+                    </p>
+                </div>
+
+
+                <div class="edu-admissions-benefit">
+                    <div class="edu-admissions-benefit-number">04</div>
+
+                    <h3>Connected Enrollment</h3>
+
+                    <p>
+                        Move admitted applicants directly into student
+                        and class records.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="edu-admissions-cta">
+
+        <div class="edu-admissions-container">
+
+            <h2>
+                Ready to Start the Admissions Process?
+            </h2>
+
+            <p>
+                Reach out to our team and let's discuss how your school
+                can manage admissions from inquiry to enrollment.
+            </p>
+
+            <a href="/contact-us" class="edu-admissions-btn">
+                Contact Us
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_admissions_page" model="website.page">
+        <field name="name">Admissions</field>
+        <field name="url">/admissions</field>
+        <field name="view_id" ref="page_admissions"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>

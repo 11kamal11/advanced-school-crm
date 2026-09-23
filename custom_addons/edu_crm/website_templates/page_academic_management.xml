@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_academic_management" name="Academic Management Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+/* =========================
+   ACADEMIC MANAGEMENT PAGE
+   ========================= */
+
+.edu-academic {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: #ffffff;
+    color: #172033;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.edu-academic * {
+    box-sizing: border-box;
+}
+
+.edu-academic-container {
+    width: 94%;
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+/* =========================
+   HERO
+   ========================= */
+
+.edu-academic-hero {
+    background:
+        radial-gradient(circle at 85% 20%, rgba(40,100,199,0.16), transparent 30%),
+        linear-gradient(135deg, #f5f9ff 0%, #ffffff 60%, #eef5ff 100%);
+    padding: 95px 0 90px;
+}
+
+.edu-academic-hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.edu-academic-badge {
+    display: inline-block;
+    padding: 9px 17px;
+    border-radius: 30px;
+    background: #e8f1ff;
+    color: #2864c7;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 22px;
+}
+
+.edu-academic-hero h1 {
+    font-size: 56px;
+    line-height: 1.08;
+    margin: 0 0 24px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.edu-academic-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-academic-hero p {
+    font-size: 19px;
+    line-height: 1.7;
+    color: #5f6878;
+    max-width: 680px;
+    margin: 0 0 32px;
+}
+
+.edu-academic-btn {
+    display: inline-block;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: #2864c7;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: 0.25s;
+}
+
+.edu-academic-btn:hover {
+    background: #1e4f9f;
+    transform: translateY(-2px);
+}
+
+.edu-academic-btn-light {
+    display: inline-block;
+    padding: 14px 27px;
+    border-radius: 8px;
+    border: 1px solid #d8e0ec;
+    background: #ffffff;
+    color: #172033 !important;
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* =========================
+   ACADEMIC DASHBOARD CARD
+   ========================= */
+
+.edu-academic-dashboard {
+    background: #ffffff;
+    border: 1px solid #e0e7f0;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 20px 55px rgba(30,55,90,0.12);
+}
+
+.edu-academic-dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.edu-academic-dashboard-title {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.edu-academic-year {
+    font-size: 12px;
+    background: #edf5ff;
+    color: #2864c7;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.edu-academic-kpis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.edu-academic-kpi {
+    background: #f7f9fc;
+    border-radius: 12px;
+    padding: 17px;
+}
+
+.edu-academic-kpi small {
+    color: #747d8d;
+    font-size: 12px;
+}
+
+.edu-academic-kpi strong {
+    display: block;
+    font-size: 27px;
+    margin-top: 7px;
+    color: #172033;
+}
+
+.edu-academic-performance {
+    margin-top: 22px;
+}
+
+.edu-academic-performance-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.edu-academic-bar {
+    margin-bottom: 13px;
+}
+
+.edu-academic-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+    color: #5f6878;
+}
+
+.edu-academic-bar-track {
+    height: 8px;
+    background: #e8edf4;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.edu-academic-bar-fill {
+    height: 100%;
+    background: #2864c7;
+    border-radius: 10px;
+}
+
+/* =========================
+   SECTION COMMON
+   ========================= */
+
+.edu-academic-section {
+    padding: 90px 0;
+}
+
+.edu-academic-heading {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 50px;
+}
+
+.edu-academic-heading span {
+    color: #2864c7;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-academic-heading h2 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 12px 0 16px;
+    font-weight: 800;
+}
+
+.edu-academic-heading p {
+    color: #687282;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* =========================
+   FEATURE CARDS
+   ========================= */
+
+.edu-academic-features {
+    background: #ffffff;
+}
+
+.edu-academic-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.edu-academic-feature-card {
+    background: #f8fafc;
+    border: 1px solid #e7ecf3;
+    border-radius: 15px;
+    padding: 30px;
+    transition: 0.25s;
+}
+
+.edu-academic-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 35px rgba(30,55,90,0.09);
+    background: #ffffff;
+}
+
+.edu-academic-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #e8f1ff;
+    color: #2864c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+.edu-academic-feature-card h3 {
+    font-size: 19px;
+    margin: 0 0 10px;
+}
+
+.edu-academic-feature-card p {
+    color: #6b7483;
+    line-height: 1.65;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* =========================
+   WORKFLOW
+   ========================= */
+
+.edu-academic-workflow {
+    background: #f5f8fc;
+}
+
+.edu-academic-workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+}
+
+.edu-academic-step {
+    background: #ffffff;
+    border: 1px solid #e3e8ef;
+    border-radius: 13px;
+    padding: 23px 16px;
+    text-align: center;
+}
+
+.edu-academic-step-number {
+    width: 39px;
+    height: 39px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #2864c7;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.edu-academic-step h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.edu-academic-step p {
+    margin: 0;
+    color: #737c8a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* =========================
+   RECORDS SECTION
+   ========================= */
+
+.edu-academic-records {
+    background: #172033;
+    color: #ffffff;
+    padding: 90px 0;
+}
+
+.edu-academic-records-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.edu-academic-records-text span {
+    color: #8db9ff;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-academic-records-text h2 {
+    font-size: 39px;
+    line-height: 1.2;
+    margin: 15px 0 18px;
+}
+
+.edu-academic-records-text p {
+    color: #b9c2d1;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.edu-academic-record-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.edu-academic-record {
+    background: #202b40;
+    border: 1px solid #344056;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.edu-academic-record strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+.edu-academic-record small {
+    color: #aeb8c8;
+    line-height: 1.5;
+}
+
+/* =========================
+   BENEFITS
+   ========================= */
+
+.edu-academic-benefits {
+    background: #ffffff;
+}
+
+.edu-academic-benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.edu-academic-benefit {
+    padding: 28px 22px;
+    border: 1px solid #e4e9f0;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.edu-academic-benefit-number {
+    color: #2864c7;
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+.edu-academic-benefit h3 {
+    font-size: 17px;
+    margin: 0 0 9px;
+}
+
+.edu-academic-benefit p {
+    color: #707988;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* =========================
+   CTA
+   ========================= */
+
+.edu-academic-cta {
+    background: linear-gradient(135deg, #eef5ff, #f8fbff);
+    padding: 85px 0;
+    text-align: center;
+}
+
+.edu-academic-cta h2 {
+    font-size: 40px;
+    margin: 0 0 15px;
+    font-weight: 800;
+}
+
+.edu-academic-cta p {
+    color: #687282;
+    font-size: 17px;
+    max-width: 650px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1100px) {
+
+    .edu-academic-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .edu-academic-hero h1 {
+        font-size: 48px;
+    }
+
+    .edu-academic-feature-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-academic-workflow-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .edu-academic-benefit-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-academic-records-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .edu-academic-container {
+        width: 90%;
+    }
+
+    .edu-academic-hero {
+        padding: 65px 0;
+    }
+
+    .edu-academic-hero h1 {
+        font-size: 38px;
+    }
+
+    .edu-academic-hero p {
+        font-size: 16px;
+    }
+
+    .edu-academic-btn,
+    .edu-academic-btn-light {
+        display: block;
+        text-align: center;
+        margin: 0 0 12px;
+    }
+
+    .edu-academic-feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-academic-workflow-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-academic-benefit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-academic-record-list {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-academic-heading h2,
+    .edu-academic-records-text h2,
+    .edu-academic-cta h2 {
+        font-size: 30px;
+    }
+
+    .edu-academic-section,
+    .edu-academic-records {
+        padding: 65px 0;
+    }
+}
+                ]]></style>
+
+
+<div class="edu-academic">
+
+    <!-- HERO -->
+    <section class="edu-academic-hero">
+        <div class="edu-academic-container">
+
+            <div class="edu-academic-hero-grid">
+
+                <div>
+                    <div class="edu-academic-badge">
+                        🎓 Academic Management
+                    </div>
+
+                    <h1>
+                        Manage Every Part of the
+                        <span>Academic Journey</span>
+                    </h1>
+
+                    <p>
+                        Organize classes, subjects, teachers, timetables,
+                        examinations and student results from one connected
+                        academic management system.
+                    </p>
+
+                    <a href="/contact-us" class="edu-academic-btn">
+                        Get Started
+                    </a>
+
+                    <a href="/features" class="edu-academic-btn-light">
+                        Explore Features
+                    </a>
+                </div>
+
+
+                <!-- DASHBOARD VISUAL -->
+                <div class="edu-academic-dashboard">
+
+                    <div class="edu-academic-dashboard-top">
+                        <div class="edu-academic-dashboard-title">
+                            Academic Overview
+                        </div>
+
+                        <div class="edu-academic-year">
+                            2026 – 2027
+                        </div>
+                    </div>
+
+                    <div class="edu-academic-kpis">
+
+                        <div class="edu-academic-kpi">
+                            <small>Active Classes</small>
+                            <strong>24</strong>
+                        </div>
+
+                        <div class="edu-academic-kpi">
+                            <small>Subjects</small>
+                            <strong>86</strong>
+                        </div>
+
+                        <div class="edu-academic-kpi">
+                            <small>Teachers</small>
+                            <strong>58</strong>
+                        </div>
+
+                        <div class="edu-academic-kpi">
+                            <small>Students</small>
+                            <strong>1,248</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="edu-academic-performance">
+
+                        <div class="edu-academic-performance-title">
+                            Subject Performance
+                        </div>
+
+                        <div class="edu-academic-bar">
+                            <div class="edu-academic-bar-label">
+                                <span>Mathematics</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="edu-academic-bar-track">
+                                <div class="edu-academic-bar-fill"
+                                     style="width:88%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="edu-academic-bar">
+                            <div class="edu-academic-bar-label">
+                                <span>Science</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="edu-academic-bar-track">
+                                <div class="edu-academic-bar-fill"
+                                     style="width:82%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="edu-academic-bar">
+                            <div class="edu-academic-bar-label">
+                                <span>English</span>
+                                <span>91%</span>
+                            </div>
+                            <div class="edu-academic-bar-track">
+                                <div class="edu-academic-bar-fill"
+                                     style="width:91%;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="edu-academic-section edu-academic-features">
+
+        <div class="edu-academic-container">
+
+            <div class="edu-academic-heading">
+
+                <span>Academic Tools</span>
+
+                <h2>
+                    Everything You Need to Manage Academics
+                </h2>
+
+                <p>
+                    Keep academic information organized and make it easier
+                    for administrators and teachers to manage daily
+                    academic activities.
+                </p>
+
+            </div>
+
+
+            <div class="edu-academic-feature-grid">
+
+                <div class="edu-academic-feature-card">
+                    <div class="edu-academic-icon">🏫</div>
+
+                    <h3>Classes &amp; Sections</h3>
+
+                    <p>
+                        Create academic classes and sections while keeping
+                        student and teacher assignments organized.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-feature-card">
+                    <div class="edu-academic-icon">📚</div>
+
+                    <h3>Subjects &amp; Courses</h3>
+
+                    <p>
+                        Manage subjects, courses and academic structures
+                        for different classes and academic years.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-feature-card">
+                    <div class="edu-academic-icon">👨‍🏫</div>
+
+                    <h3>Teacher Management</h3>
+
+                    <p>
+                        Assign teachers to classes and subjects and keep
+                        academic responsibilities clearly organized.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-feature-card">
+                    <div class="edu-academic-icon">🗓️</div>
+
+                    <h3>Timetable &amp; Scheduling</h3>
+
+                    <p>
+                        Organize class schedules and make daily academic
+                        planning easier for teachers and students.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-feature-card">
+                    <div class="edu-academic-icon">📝</div>
+
+                    <h3>Exams &amp; Assessments</h3>
+
+                    <p>
+                        Manage examinations, assessments, marks and
+                        evaluation records in a structured workflow.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-feature-card">
+                    <div class="edu-academic-icon">📊</div>
+
+                    <h3>Grades &amp; Results</h3>
+
+                    <p>
+                        Record grades and results while providing a clear
+                        view of student academic performance.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKFLOW -->
+    <section class="edu-academic-section edu-academic-workflow">
+
+        <div class="edu-academic-container">
+
+            <div class="edu-academic-heading">
+
+                <span>Academic Workflow</span>
+
+                <h2>
+                    From Academic Setup to Results
+                </h2>
+
+                <p>
+                    Build a consistent academic workflow that keeps every
+                    stage connected.
+                </p>
+
+            </div>
+
+
+            <div class="edu-academic-workflow-grid">
+
+                <div class="edu-academic-step">
+                    <div class="edu-academic-step-number">01</div>
+                    <h4>Academic Year</h4>
+                    <p>Set up the academic year and structure.</p>
+                </div>
+
+                <div class="edu-academic-step">
+                    <div class="edu-academic-step-number">02</div>
+                    <h4>Classes &amp; Subjects</h4>
+                    <p>Create classes, sections and subjects.</p>
+                </div>
+
+                <div class="edu-academic-step">
+                    <div class="edu-academic-step-number">03</div>
+                    <h4>Teachers</h4>
+                    <p>Assign teachers and responsibilities.</p>
+                </div>
+
+                <div class="edu-academic-step">
+                    <div class="edu-academic-step-number">04</div>
+                    <h4>Timetable</h4>
+                    <p>Organize the academic schedule.</p>
+                </div>
+
+                <div class="edu-academic-step">
+                    <div class="edu-academic-step-number">05</div>
+                    <h4>Examinations</h4>
+                    <p>Conduct assessments and record marks.</p>
+                </div>
+
+                <div class="edu-academic-step">
+                    <div class="edu-academic-step-number">06</div>
+                    <h4>Results</h4>
+                    <p>Publish grades and review performance.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECORDS -->
+    <section class="edu-academic-records">
+
+        <div class="edu-academic-container">
+
+            <div class="edu-academic-records-grid">
+
+                <div class="edu-academic-records-text">
+
+                    <span>Centralized Academic Records</span>
+
+                    <h2>
+                        Keep Academic Information Connected
+                    </h2>
+
+                    <p>
+                        Store important academic information in one
+                        structured environment. Administrators can
+                        quickly access classes, subjects, teacher
+                        assignments, schedules and examination records.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-academic-record-list">
+
+                    <div class="edu-academic-record">
+                        <strong>Class Records</strong>
+                        <small>
+                            Maintain class, section and student academic
+                            information.
+                        </small>
+                    </div>
+
+                    <div class="edu-academic-record">
+                        <strong>Subject Records</strong>
+                        <small>
+                            Keep subjects and course structures organized.
+                        </small>
+                    </div>
+
+                    <div class="edu-academic-record">
+                        <strong>Teacher Assignments</strong>
+                        <small>
+                            Track which teachers are responsible for each
+                            class and subject.
+                        </small>
+                    </div>
+
+                    <div class="edu-academic-record">
+                        <strong>Timetable Records</strong>
+                        <small>
+                            Keep schedules accessible and structured.
+                        </small>
+                    </div>
+
+                    <div class="edu-academic-record">
+                        <strong>Examination Records</strong>
+                        <small>
+                            Maintain assessment and examination information.
+                        </small>
+                    </div>
+
+                    <div class="edu-academic-record">
+                        <strong>Student Results</strong>
+                        <small>
+                            Review marks, grades and academic progress.
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BENEFITS -->
+    <section class="edu-academic-section edu-academic-benefits">
+
+        <div class="edu-academic-container">
+
+            <div class="edu-academic-heading">
+
+                <span>Why Academic Management</span>
+
+                <h2>
+                    Make Academic Administration Simpler
+                </h2>
+
+                <p>
+                    Give your school a structured way to manage academic
+                    information throughout the year.
+                </p>
+
+            </div>
+
+
+            <div class="edu-academic-benefit-grid">
+
+                <div class="edu-academic-benefit">
+                    <div class="edu-academic-benefit-number">01</div>
+
+                    <h3>Better Organization</h3>
+
+                    <p>
+                        Keep classes, subjects, teachers and schedules
+                        organized in one system.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-benefit">
+                    <div class="edu-academic-benefit-number">02</div>
+
+                    <h3>Faster Access</h3>
+
+                    <p>
+                        Find important academic records without searching
+                        through multiple systems.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-benefit">
+                    <div class="edu-academic-benefit-number">03</div>
+
+                    <h3>Clear Reporting</h3>
+
+                    <p>
+                        Review academic information and student results
+                        through structured records.
+                    </p>
+                </div>
+
+
+                <div class="edu-academic-benefit">
+                    <div class="edu-academic-benefit-number">04</div>
+
+                    <h3>Connected Workflow</h3>
+
+                    <p>
+                        Connect academic setup, scheduling, examinations
+                        and results into one workflow.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="edu-academic-cta">
+
+        <div class="edu-academic-container">
+
+            <h2>
+                Build a More Organized Academic System
+            </h2>
+
+            <p>
+                Bring classes, subjects, teachers, schedules and academic
+                records together with your school CRM.
+            </p>
+
+            <a href="/contact-us" class="edu-academic-btn">
+                Contact Us
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_academic_management_page" model="website.page">
+        <field name="name">Academic Management</field>
+        <field name="url">/academic-management</field>
+        <field name="view_id" ref="page_academic_management"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>

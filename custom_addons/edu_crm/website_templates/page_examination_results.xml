@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_examination_results" name="Examination and Results Page Content">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <style><![CDATA[
+/* =========================================================
+   SCHOOL CRM - EXAMINATION & RESULTS
+   ========================================================= */
+
+.edu-exam {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: #ffffff;
+    color: #172033;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.edu-exam * {
+    box-sizing: border-box;
+}
+
+.edu-exam-container {
+    width: 94%;
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+/* HERO */
+
+.edu-exam-hero {
+    padding: 90px 0;
+    background:
+        radial-gradient(circle at 82% 18%, rgba(40,100,199,0.15), transparent 30%),
+        linear-gradient(135deg, #f4f8ff 0%, #ffffff 60%, #eef5ff 100%);
+}
+
+.edu-exam-hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 65px;
+    align-items: center;
+}
+
+.edu-exam-badge {
+    display: inline-block;
+    padding: 9px 17px;
+    border-radius: 30px;
+    background: #e8f1ff;
+    color: #2864c7;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.edu-exam-hero h1 {
+    font-size: 55px;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin: 0 0 22px;
+    font-weight: 800;
+}
+
+.edu-exam-hero h1 span {
+    color: #2864c7;
+}
+
+.edu-exam-hero p {
+    max-width: 670px;
+    color: #687282;
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0 0 30px;
+}
+
+.edu-exam-btn {
+    display: inline-block;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: #2864c7;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 700;
+    transition: 0.25s;
+}
+
+.edu-exam-btn:hover {
+    background: #1e4f9f;
+    transform: translateY(-2px);
+}
+
+.edu-exam-btn-light {
+    display: inline-block;
+    padding: 14px 27px;
+    margin-left: 8px;
+    border-radius: 8px;
+    border: 1px solid #d8e0ec;
+    background: #ffffff;
+    color: #172033 !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* RESULTS VISUAL */
+
+.edu-exam-results-card {
+    background: #ffffff;
+    border: 1px solid #e0e7f0;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 55px rgba(30,55,90,0.12);
+}
+
+.edu-exam-results-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.edu-exam-results-title {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.edu-exam-term {
+    font-size: 12px;
+    background: #edf5ff;
+    color: #2864c7;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.edu-exam-kpis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+    margin-top: 20px;
+}
+
+.edu-exam-kpi {
+    background: #f7f9fc;
+    border-radius: 11px;
+    padding: 17px;
+}
+
+.edu-exam-kpi small {
+    display: block;
+    color: #7a8391;
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.edu-exam-kpi strong {
+    display: block;
+    font-size: 25px;
+    color: #172033;
+}
+
+.edu-exam-subjects {
+    margin-top: 22px;
+}
+
+.edu-exam-subjects-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.edu-exam-bar {
+    margin-bottom: 13px;
+}
+
+.edu-exam-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+    color: #5f6878;
+}
+
+.edu-exam-bar-track {
+    height: 8px;
+    background: #e8edf4;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.edu-exam-bar-fill {
+    height: 100%;
+    background: #2864c7;
+    border-radius: 10px;
+}
+
+/* SECTION COMMON */
+
+.edu-exam-section {
+    padding: 90px 0;
+}
+
+.edu-exam-light {
+    background: #f5f8fc;
+}
+
+.edu-exam-heading {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 50px;
+}
+
+.edu-exam-heading span {
+    color: #2864c7;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-exam-heading h2 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 12px 0 15px;
+    font-weight: 800;
+}
+
+.edu-exam-heading p {
+    color: #687282;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* FEATURE CARDS */
+
+.edu-exam-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.edu-exam-feature {
+    padding: 30px;
+    background: #f8fafc;
+    border: 1px solid #e4e9f0;
+    border-radius: 15px;
+    transition: 0.25s;
+}
+
+.edu-exam-feature:hover {
+    transform: translateY(-5px);
+    background: #ffffff;
+    box-shadow: 0 14px 35px rgba(30,55,90,0.09);
+}
+
+.edu-exam-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #e8f1ff;
+    color: #2864c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 19px;
+}
+
+.edu-exam-feature h3 {
+    margin: 0 0 9px;
+    font-size: 19px;
+}
+
+.edu-exam-feature p {
+    margin: 0;
+    color: #707988;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+/* WORKFLOW */
+
+.edu-exam-workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.edu-exam-step {
+    text-align: center;
+    border: 1px solid #e1e7ef;
+    border-radius: 13px;
+    padding: 25px 15px;
+    background: #ffffff;
+}
+
+.edu-exam-step-number {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: #2864c7;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.edu-exam-step h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.edu-exam-step p {
+    margin: 0;
+    color: #737c8a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* RECORDS - DARK */
+
+.edu-exam-records {
+    background: #172033;
+    color: #ffffff;
+    padding: 90px 0;
+}
+
+.edu-exam-records-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 65px;
+    align-items: center;
+}
+
+.edu-exam-records-text span {
+    color: #8db9ff;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edu-exam-records-text h2 {
+    font-size: 39px;
+    line-height: 1.2;
+    margin: 14px 0 18px;
+}
+
+.edu-exam-records-text p {
+    color: #b9c3d2;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.edu-exam-record-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.edu-exam-record {
+    padding: 21px;
+    border-radius: 12px;
+    background: #202b40;
+    border: 1px solid #344056;
+}
+
+.edu-exam-record strong {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 15px;
+}
+
+.edu-exam-record small {
+    color: #aeb8c8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* BENEFITS */
+
+.edu-exam-benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.edu-exam-benefit {
+    border: 1px solid #e1e7ef;
+    border-radius: 14px;
+    padding: 28px 22px;
+}
+
+.edu-exam-benefit-number {
+    color: #2864c7;
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+.edu-exam-benefit h3 {
+    margin: 0 0 9px;
+    font-size: 17px;
+}
+
+.edu-exam-benefit p {
+    margin: 0;
+    color: #707988;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* CTA */
+
+.edu-exam-cta {
+    padding: 85px 0;
+    text-align: center;
+    background: linear-gradient(135deg, #eef5ff, #f8fbff);
+}
+
+.edu-exam-cta h2 {
+    font-size: 40px;
+    margin: 0 0 15px;
+    font-weight: 800;
+}
+
+.edu-exam-cta p {
+    max-width: 650px;
+    margin: 0 auto 27px;
+    color: #687282;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+
+    .edu-exam-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .edu-exam-feature-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-exam-workflow-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .edu-exam-benefit-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-exam-records-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .edu-exam-container {
+        width: 90%;
+    }
+
+    .edu-exam-hero {
+        padding: 65px 0;
+    }
+
+    .edu-exam-hero h1 {
+        font-size: 38px;
+    }
+
+    .edu-exam-hero p {
+        font-size: 16px;
+    }
+
+    .edu-exam-btn,
+    .edu-exam-btn-light {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0 0 12px;
+    }
+
+    .edu-exam-btn-light {
+        margin-left: 0;
+    }
+
+    .edu-exam-feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-exam-workflow-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-exam-benefit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-exam-record-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-exam-kpis {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-exam-heading h2,
+    .edu-exam-records-text h2,
+    .edu-exam-cta h2 {
+        font-size: 30px;
+    }
+
+    .edu-exam-section,
+    .edu-exam-records {
+        padding: 65px 0;
+    }
+}
+                ]]></style>
+
+
+<div class="edu-exam">
+
+    <!-- HERO -->
+    <section class="edu-exam-hero">
+        <div class="edu-exam-container">
+
+            <div class="edu-exam-hero-grid">
+
+                <div>
+                    <div class="edu-exam-badge">
+                        📋 Examination &amp; Results
+                    </div>
+
+                    <h1>
+                        Manage Exams
+                        <span>From Schedule to Results</span>
+                    </h1>
+
+                    <p>
+                        Organize examinations, record marks, generate
+                        report cards and publish results through one
+                        connected examination management system.
+                    </p>
+
+                    <a href="/academic-management" class="edu-exam-btn">
+                        Academic Management
+                    </a>
+
+                    <a href="/teacher-management" class="edu-exam-btn-light">
+                        Teacher Management
+                    </a>
+                </div>
+
+
+                <!-- RESULTS VISUAL -->
+                <div class="edu-exam-results-card">
+
+                    <div class="edu-exam-results-top">
+                        <div class="edu-exam-results-title">
+                            Examination Overview
+                        </div>
+
+                        <div class="edu-exam-term">
+                            Term 1 · 2026
+                        </div>
+                    </div>
+
+                    <div class="edu-exam-kpis">
+
+                        <div class="edu-exam-kpi">
+                            <small>Exams Conducted</small>
+                            <strong>36</strong>
+                        </div>
+
+                        <div class="edu-exam-kpi">
+                            <small>Average Score</small>
+                            <strong>78%</strong>
+                        </div>
+
+                        <div class="edu-exam-kpi">
+                            <small>Pass Rate</small>
+                            <strong>94%</strong>
+                        </div>
+
+                        <div class="edu-exam-kpi">
+                            <small>Results Published</small>
+                            <strong>32</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="edu-exam-subjects">
+
+                        <div class="edu-exam-subjects-title">
+                            Subject-wise Average
+                        </div>
+
+                        <div class="edu-exam-bar">
+                            <div class="edu-exam-bar-label">
+                                <span>Mathematics</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="edu-exam-bar-track">
+                                <div class="edu-exam-bar-fill" style="width:82%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="edu-exam-bar">
+                            <div class="edu-exam-bar-label">
+                                <span>Science</span>
+                                <span>76%</span>
+                            </div>
+                            <div class="edu-exam-bar-track">
+                                <div class="edu-exam-bar-fill" style="width:76%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="edu-exam-bar">
+                            <div class="edu-exam-bar-label">
+                                <span>English</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="edu-exam-bar-track">
+                                <div class="edu-exam-bar-fill" style="width:85%;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="edu-exam-section">
+
+        <div class="edu-exam-container">
+
+            <div class="edu-exam-heading">
+
+                <span>Examination Tools</span>
+
+                <h2>
+                    Everything You Need to Manage Exams
+                </h2>
+
+                <p>
+                    Keep examinations organized from scheduling through
+                    result publication.
+                </p>
+
+            </div>
+
+
+            <div class="edu-exam-feature-grid">
+
+                <div class="edu-exam-feature">
+                    <div class="edu-exam-icon">🗓️</div>
+
+                    <h3>Exam Scheduling</h3>
+
+                    <p>
+                        Plan examination dates, subjects and classes
+                        in one organized schedule.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-feature">
+                    <div class="edu-exam-icon">📝</div>
+
+                    <h3>Marks Entry</h3>
+
+                    <p>
+                        Record marks for each student, subject and
+                        examination in a structured way.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-feature">
+                    <div class="edu-exam-icon">🏅</div>
+
+                    <h3>Grading</h3>
+
+                    <p>
+                        Apply grading rules and calculate results
+                        consistently across classes.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-feature">
+                    <div class="edu-exam-icon">📄</div>
+
+                    <h3>Report Cards</h3>
+
+                    <p>
+                        Generate report cards that summarize student
+                        performance for each term.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-feature">
+                    <div class="edu-exam-icon">📢</div>
+
+                    <h3>Result Publishing</h3>
+
+                    <p>
+                        Publish results so students and guardians can
+                        review academic performance.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-feature">
+                    <div class="edu-exam-icon">📊</div>
+
+                    <h3>Performance Analytics</h3>
+
+                    <p>
+                        Review class and subject performance through
+                        organized analytics.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKFLOW -->
+    <section class="edu-exam-section edu-exam-light">
+
+        <div class="edu-exam-container">
+
+            <div class="edu-exam-heading">
+
+                <span>Examination Workflow</span>
+
+                <h2>
+                    From Exam Setup to Published Results
+                </h2>
+
+                <p>
+                    Keep the examination process consistent from
+                    scheduling through result publication.
+                </p>
+
+            </div>
+
+
+            <div class="edu-exam-workflow-grid">
+
+                <div class="edu-exam-step">
+                    <div class="edu-exam-step-number">01</div>
+                    <h4>Schedule Exam</h4>
+                    <p>Plan the examination timetable.</p>
+                </div>
+
+                <div class="edu-exam-step">
+                    <div class="edu-exam-step-number">02</div>
+                    <h4>Conduct Exam</h4>
+                    <p>Administer the examination.</p>
+                </div>
+
+                <div class="edu-exam-step">
+                    <div class="edu-exam-step-number">03</div>
+                    <h4>Enter Marks</h4>
+                    <p>Record marks for each student.</p>
+                </div>
+
+                <div class="edu-exam-step">
+                    <div class="edu-exam-step-number">04</div>
+                    <h4>Generate Reports</h4>
+                    <p>Create report cards and summaries.</p>
+                </div>
+
+                <div class="edu-exam-step">
+                    <div class="edu-exam-step-number">05</div>
+                    <h4>Publish Results</h4>
+                    <p>Share results with students and guardians.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECORDS -->
+    <section class="edu-exam-records">
+
+        <div class="edu-exam-container">
+
+            <div class="edu-exam-records-grid">
+
+                <div class="edu-exam-records-text">
+
+                    <span>Centralized Examination Records</span>
+
+                    <h2>
+                        Keep Every Result Connected
+                    </h2>
+
+                    <p>
+                        Store examination, marks and result information
+                        in one structured environment connected to
+                        student and academic records.
+                    </p>
+
+                </div>
+
+
+                <div class="edu-exam-record-grid">
+
+                    <div class="edu-exam-record">
+                        <strong>Exam Records</strong>
+                        <small>
+                            Maintain examination schedules and details.
+                        </small>
+                    </div>
+
+                    <div class="edu-exam-record">
+                        <strong>Marks Records</strong>
+                        <small>
+                            Keep recorded marks organized by subject.
+                        </small>
+                    </div>
+
+                    <div class="edu-exam-record">
+                        <strong>Grade Records</strong>
+                        <small>
+                            Track grades calculated from exam marks.
+                        </small>
+                    </div>
+
+                    <div class="edu-exam-record">
+                        <strong>Report Cards</strong>
+                        <small>
+                            Store generated report cards by term.
+                        </small>
+                    </div>
+
+                    <div class="edu-exam-record">
+                        <strong>Result Records</strong>
+                        <small>
+                            Keep a history of published results.
+                        </small>
+                    </div>
+
+                    <div class="edu-exam-record">
+                        <strong>Performance Records</strong>
+                        <small>
+                            Review academic performance over time.
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BENEFITS -->
+    <section class="edu-exam-section">
+
+        <div class="edu-exam-container">
+
+            <div class="edu-exam-heading">
+
+                <span>Why It Matters</span>
+
+                <h2>
+                    Make Examinations Easier to Manage
+                </h2>
+
+                <p>
+                    Give teachers and administrators a structured way
+                    to manage exams and publish results.
+                </p>
+
+            </div>
+
+
+            <div class="edu-exam-benefit-grid">
+
+                <div class="edu-exam-benefit">
+                    <div class="edu-exam-benefit-number">01</div>
+
+                    <h3>Consistent Grading</h3>
+
+                    <p>
+                        Apply the same grading rules across classes
+                        and subjects.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-benefit">
+                    <div class="edu-exam-benefit-number">02</div>
+
+                    <h3>Faster Reporting</h3>
+
+                    <p>
+                        Generate report cards without manual
+                        calculation.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-benefit">
+                    <div class="edu-exam-benefit-number">03</div>
+
+                    <h3>Clear Results</h3>
+
+                    <p>
+                        Publish results that students and guardians
+                        can easily review.
+                    </p>
+                </div>
+
+
+                <div class="edu-exam-benefit">
+                    <div class="edu-exam-benefit-number">04</div>
+
+                    <h3>Better Insights</h3>
+
+                    <p>
+                        Understand academic performance through
+                        organized analytics.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="edu-exam-cta">
+
+        <div class="edu-exam-container">
+
+            <h2>
+                Make Exam Management Simpler
+            </h2>
+
+            <p>
+                Bring exam scheduling, marks entry, report cards and
+                result publishing together in one connected system.
+            </p>
+
+            <a href="/contact-us" class="edu-exam-btn">
+                Contact Us
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_examination_results_page" model="website.page">
+        <field name="name">Examination and Results</field>
+        <field name="url">/examination-results</field>
+        <field name="view_id" ref="page_examination_results"/>
+        <field name="website_id" ref="website.default_website"/>
+        <field name="is_published">True</field>
+        <field name="website_indexed">True</field>
+    </record>
+
+</odoo>
