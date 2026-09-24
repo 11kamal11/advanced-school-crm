@@ -1,8 +1,8 @@
 {
     'name': 'Advanced School CRM',
-    'version': '1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'School management with an admissions CRM pipeline, public website and parent/student portal',
+    'summary': 'Enterprise school management suite: admissions CRM, academics, attendance, fees, exams, assets, public website and parent/student portal',
     'author': 'Kamal Pant',
     'depends': ['base', 'mail', 'portal', 'website', 'utm', 'payment'],
     'application': True,

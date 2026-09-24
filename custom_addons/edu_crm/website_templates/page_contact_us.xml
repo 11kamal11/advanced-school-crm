@@ -274,6 +274,26 @@
     background: #1e4f9f;
 }
 
+.edu-contact-alert {
+    grid-column: 1 / -1;
+    border-radius: 8px;
+    padding: 13px 16px;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.edu-contact-alert-success {
+    background: #e6f6ec;
+    color: #1b7a3d;
+    border: 1px solid #bfe6cd;
+}
+
+.edu-contact-alert-error {
+    background: #fdecec;
+    color: #b3261e;
+    border: 1px solid #f3c6c4;
+}
+
 /* =========================
    REASONS SECTION
    ========================= */
@@ -640,7 +660,24 @@
                     </p>
 
 
-                    <div class="edu-contact-form">
+                    <form id="edu-contact-form-anchor" class="edu-contact-form"
+                          action="/contact-us/submit" method="post">
+
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                        <t t-if="request.params.get('form_success')">
+                            <div class="edu-contact-alert edu-contact-alert-success">
+                                Thank you! Your message has been received —
+                                our admissions team will get back to you shortly.
+                            </div>
+                        </t>
+
+                        <t t-if="request.params.get('form_error')">
+                            <div class="edu-contact-alert edu-contact-alert-error">
+                                Please fill in at least your name and email
+                                address before sending your message.
+                            </div>
+                        </t>
 
                         <div class="edu-contact-field">
 
@@ -650,6 +687,8 @@
 
                             <input
                                 type="text"
+                                name="contact_name"
+                                required="required"
                                 placeholder="Enter your name"
                             />
 
@@ -664,6 +703,8 @@
 
                             <input
                                 type="email"
+                                name="email"
+                                required="required"
                                 placeholder="Enter your email"
                             />
 
@@ -678,6 +719,7 @@
 
                             <input
                                 type="tel"
+                                name="phone"
                                 placeholder="Enter your phone number"
                             />
 
@@ -692,6 +734,7 @@
 
                             <input
                                 type="text"
+                                name="school_name"
                                 placeholder="Enter school name"
                             />
 
@@ -704,33 +747,33 @@
                                 What can we help you with?
                             </label>
 
-                            <select>
+                            <select name="topic">
 
-                                <option>
+                                <option value="">
                                     Select an option
                                 </option>
 
-                                <option>
+                                <option value="Admissions">
                                     Admissions
                                 </option>
 
-                                <option>
+                                <option value="Student Management">
                                     Student Management
                                 </option>
 
-                                <option>
+                                <option value="Attendance Management">
                                     Attendance Management
                                 </option>
 
-                                <option>
+                                <option value="Academic Management">
                                     Academic Management
                                 </option>
 
-                                <option>
+                                <option value="Fees &amp; Finance">
                                     Fees &amp; Finance
                                 </option>
 
-                                <option>
+                                <option value="General Enquiry">
                                     General Enquiry
                                 </option>
 
@@ -746,6 +789,7 @@
                             </label>
 
                             <textarea
+                                name="message"
                                 placeholder="Tell us about your requirements...">
                             </textarea>
 
@@ -754,13 +798,13 @@
 
                         <div class="edu-contact-submit">
 
-                            <a href="/contactus-thank-you">
+                            <button type="submit">
                                 Send Message →
-                            </a>
+                            </button>
 
                         </div>
 
-                    </div>
+                    </form>
 
                 </div>
 

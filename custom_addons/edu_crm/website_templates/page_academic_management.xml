@@ -588,6 +588,12 @@
 
 
                 <!-- DASHBOARD VISUAL -->
+                <t t-set="edu_class_count" t-value="request.env['edu.class'].sudo().search_count([])"/>
+                <t t-set="edu_subject_count" t-value="request.env['edu.subject'].sudo().search_count([])"/>
+                <t t-set="edu_teacher_count" t-value="request.env['edu.teacher'].sudo().search_count([])"/>
+                <t t-set="edu_student_count" t-value="request.env['edu.student'].sudo().search_count([])"/>
+                <t t-set="edu_current_academic_year"
+                   t-value="request.env['edu.academic.year'].sudo().search([], order='date_start desc', limit=1)"/>
                 <div class="edu-academic-dashboard">
 
                     <div class="edu-academic-dashboard-top">
@@ -596,7 +602,7 @@
                         </div>
 
                         <div class="edu-academic-year">
-                            2026 – 2027
+                            <t t-esc="edu_current_academic_year.name or '—'"/>
                         </div>
                     </div>
 
@@ -604,22 +610,22 @@
 
                         <div class="edu-academic-kpi">
                             <small>Active Classes</small>
-                            <strong>24</strong>
+                            <strong><t t-esc="edu_class_count"/></strong>
                         </div>
 
                         <div class="edu-academic-kpi">
                             <small>Subjects</small>
-                            <strong>86</strong>
+                            <strong><t t-esc="edu_subject_count"/></strong>
                         </div>
 
                         <div class="edu-academic-kpi">
                             <small>Teachers</small>
-                            <strong>58</strong>
+                            <strong><t t-esc="edu_teacher_count"/></strong>
                         </div>
 
                         <div class="edu-academic-kpi">
                             <small>Students</small>
-                            <strong>1,248</strong>
+                            <strong><t t-esc="edu_student_count"/></strong>
                         </div>
 
                     </div>

@@ -530,6 +530,19 @@
 
 <div class="edu-admissions">
 
+    <!-- LIVE ADMISSIONS STATS (computed from real edu.lead / edu.applicant records) -->
+    <t t-set="edu_lead_count"
+       t-value="request.env['edu.lead'].sudo().with_context(active_test=False).search_count([])"/>
+    <t t-set="edu_applicant_count" t-value="request.env['edu.applicant'].sudo().search_count([])"/>
+    <t t-set="edu_interview_count"
+       t-value="request.env['edu.applicant'].sudo().search_count([('state', 'in', ['interview', 'approved', 'enrolled'])])"/>
+    <t t-set="edu_admitted_count"
+       t-value="request.env['edu.applicant'].sudo().search_count([('state', '=', 'enrolled')])"/>
+    <t t-set="edu_acceptance_rate"
+       t-value="round((edu_admitted_count * 100.0 / edu_applicant_count)) if edu_applicant_count else 0"/>
+    <t t-set="edu_current_academic_year"
+       t-value="request.env['edu.academic.year'].sudo().search([], order='date_start desc', limit=1)"/>
+
     <!-- HERO -->
     <section class="edu-admissions-hero">
         <div class="edu-admissions-container">
@@ -572,7 +585,7 @@
                         </div>
 
                         <div class="edu-admissions-stats-year">
-                            2026 – 2027
+                            <t t-esc="edu_current_academic_year.name or '—'"/>
                         </div>
                     </div>
 
@@ -580,22 +593,22 @@
 
                         <div class="edu-admissions-stat">
                             <small>Inquiries</small>
-                            <strong>312</strong>
+                            <strong><t t-esc="edu_lead_count"/></strong>
                         </div>
 
                         <div class="edu-admissions-stat">
                             <small>Applications</small>
-                            <strong>198</strong>
+                            <strong><t t-esc="edu_applicant_count"/></strong>
                         </div>
 
                         <div class="edu-admissions-stat">
                             <small>Admitted</small>
-                            <strong>142</strong>
+                            <strong><t t-esc="edu_admitted_count"/></strong>
                         </div>
 
                         <div class="edu-admissions-stat">
                             <small>Acceptance Rate</small>
-                            <strong>72%</strong>
+                            <strong><t t-esc="edu_acceptance_rate"/>%</strong>
                         </div>
 
                     </div>
@@ -608,22 +621,22 @@
 
                         <div class="edu-admissions-funnel-row">
                             <span>Inquiry Received</span>
-                            <strong>312</strong>
+                            <strong><t t-esc="edu_lead_count"/></strong>
                         </div>
 
                         <div class="edu-admissions-funnel-row">
                             <span>Application Submitted</span>
-                            <strong>198</strong>
+                            <strong><t t-esc="edu_applicant_count"/></strong>
                         </div>
 
                         <div class="edu-admissions-funnel-row">
                             <span>Interview Scheduled</span>
-                            <strong>165</strong>
+                            <strong><t t-esc="edu_interview_count"/></strong>
                         </div>
 
                         <div class="edu-admissions-funnel-row">
                             <span>Admitted &amp; Enrolled</span>
-                            <strong>142</strong>
+                            <strong><t t-esc="edu_admitted_count"/></strong>
                         </div>
 
                     </div>

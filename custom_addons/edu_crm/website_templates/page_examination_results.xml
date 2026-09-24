@@ -568,6 +568,16 @@
 
 
                 <!-- RESULTS VISUAL -->
+                <t t-set="edu_exam_conducted_count"
+                   t-value="request.env['edu.exam'].sudo().search_count([('state', '=', 'completed')])"/>
+                <t t-set="edu_exam_results" t-value="request.env['edu.exam.result'].sudo().search([])"/>
+                <t t-set="edu_results_count" t-value="len(edu_exam_results)"/>
+                <t t-set="edu_average_score"
+                   t-value="round(sum(edu_exam_results.mapped('percentage')) / edu_results_count) if edu_results_count else 0"/>
+                <t t-set="edu_pass_rate"
+                   t-value="round(len(edu_exam_results.filtered('is_passed')) * 100.0 / edu_results_count) if edu_results_count else 0"/>
+                <t t-set="edu_current_academic_year"
+                   t-value="request.env['edu.academic.year'].sudo().search([], order='date_start desc', limit=1)"/>
                 <div class="edu-exam-results-card">
 
                     <div class="edu-exam-results-top">
@@ -576,7 +586,7 @@
                         </div>
 
                         <div class="edu-exam-term">
-                            Term 1 · 2026
+                            <t t-esc="edu_current_academic_year.name or '—'"/>
                         </div>
                     </div>
 
@@ -584,22 +594,22 @@
 
                         <div class="edu-exam-kpi">
                             <small>Exams Conducted</small>
-                            <strong>36</strong>
+                            <strong><t t-esc="edu_exam_conducted_count"/></strong>
                         </div>
 
                         <div class="edu-exam-kpi">
                             <small>Average Score</small>
-                            <strong>78%</strong>
+                            <strong><t t-esc="edu_average_score"/>%</strong>
                         </div>
 
                         <div class="edu-exam-kpi">
                             <small>Pass Rate</small>
-                            <strong>94%</strong>
+                            <strong><t t-esc="edu_pass_rate"/>%</strong>
                         </div>
 
                         <div class="edu-exam-kpi">
                             <small>Results Published</small>
-                            <strong>32</strong>
+                            <strong><t t-esc="edu_results_count"/></strong>
                         </div>
 
                     </div>
